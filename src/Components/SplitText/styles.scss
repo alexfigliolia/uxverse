@@ -1,0 +1,5 @@
+@use "Styles/Variables";
+
+.split-text {
+  @include Variables.center;
+}

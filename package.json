@@ -1,0 +1,44 @@
+{
+  "name": "visitor",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "postbuild": "next-sitemap",
+    "start": "next start",
+    "lint": "tsx ci/commands/Lint.ts",
+    "test": "tsx ci/commands/Test.ts",
+    "create-package": "tsx devtools/create-package/CLI.ts"
+  },
+  "dependencies": {
+    "@figliolia/classnames": "^1.0.1",
+    "@figliolia/page-switch": "^1.0.8",
+    "@serwist/next": "^9.0.14",
+    "gsap": "^3.13.0",
+    "next": "15.3.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@figliolia/child-process": "^1.0.4",
+    "@gltf-transform/cli": "^4.1.3",
+    "@next/bundle-analyzer": "^15.3.2",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.3.2",
+    "eslint-config-prettier": "^10.1.3",
+    "eslint-plugin-prettier": "^5.4.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "next-sitemap": "^4.2.3",
+    "prettier": "^3.5.3",
+    "sass": "^1.87.0",
+    "serwist": "^9.0.14",
+    "tsx": "^4.19.4",
+    "typescript": "^5"
+  }
+}

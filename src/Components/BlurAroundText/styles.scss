@@ -1,0 +1,11 @@
+.blur-around-text {
+  background-color: rgba(#fff, 0);
+  backdrop-filter: blur(2.5px);
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  width: fit-content;
+  @media (min-width: 670px) {
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+  }
+}

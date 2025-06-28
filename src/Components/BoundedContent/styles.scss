@@ -1,0 +1,13 @@
+@use "Styles/Variables";
+
+.bounded-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  @include Variables.center;
+  &>div {
+    width: 90%;
+    max-width: 1200px;
+  }
+}
