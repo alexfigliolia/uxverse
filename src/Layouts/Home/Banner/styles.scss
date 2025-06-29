@@ -1,13 +1,7 @@
 @use "Styles/Variables";
 
-.home-banner {
-  @include Variables.center;
+.inset-fullscreen-container.home-banner {
   &>div {
-    width: calc(100% - 5vh);
-    height: calc(100% - 5vh);
-    border-radius: calc(100vh / 60);
-    position: relative;
-    overflow: hidden;
     @media (prefers-reduced-motion: no-preference) {
       translate: 100% 0%;
       clip-path: inset(40% 40% round 1em);
@@ -16,19 +10,11 @@
         translate: 0% 100%;
       }
     }
-  }
-  &__content {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: 2;
-    @include Variables.center;
-    background: radial-gradient(#e664dd7d, transparent, transparent);
-    &>div > div {
-      @include Variables.center;
-      flex-direction: column;
+    &>.image-rotator {
+      @media (prefers-reduced-motion: no-preference) {
+        scale: 1.25;
+        animation: scale-down 1s 0.8s forwards ease-out;
+      }
     }
   }
   & h1,
@@ -59,22 +45,19 @@
           display: block;
           opacity: 0;
           translate: 0% 50%;
-          animation: slide-up 0.75s calc(1.5s + ((var(--length) - var(--index)) * 30ms)) forwards ease-out;
+          animation: slide-up calc(500ms + ((var(--length) - var(--index)) * 20ms)) calc(1.5s + ((var(--length) - var(--index)) * 30ms)) forwards ease-out;
         }
       }
     }
   }
   & .liquid-glass-button {
-    font-size: clamp(1.25em, 3vw, 1.75em);
+    font-size: clamp(1.25em, 3vw, 1.65em);
     margin-top: 0.5em;
     box-shadow: 0em 0.05em 0.2em rgba(#000, 0.5), 0em 0em 0.05em rgba(#000, 0.85);
     @media (prefers-reduced-motion: no-preference) {
       opacity: 0;
       scale: 0.5;
       animation: scale 0.5s 2s forwards ease-out;
-      &:hover {
-        --background: #c600bc;
-      }
     }
   }
   & p {
@@ -151,5 +134,14 @@
   }
   to {
     scale: 1.1;
+  }
+}
+
+@keyframes scale-down {
+  0% {
+    scale: 1.25;
+  }
+  to {
+    scale: 1;
   }
 }

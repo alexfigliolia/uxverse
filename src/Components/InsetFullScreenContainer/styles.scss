@@ -1,0 +1,26 @@
+@use "Styles/Variables";
+
+.inset-fullscreen-container {
+  @include Variables.center;
+  &>div {
+    width: calc(100% - 5vh);
+    height: calc(100% - 5vh);
+    border-radius: calc(100vh / 60);
+    position: relative;
+    overflow: hidden;
+  }
+  &__content {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 2;
+    @include Variables.center;
+    background: radial-gradient(#e664dd7d, transparent, transparent);
+    &>div > div {
+      @include Variables.center;
+      flex-direction: column;
+    }
+  }
+}

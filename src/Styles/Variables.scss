@@ -1,5 +1,15 @@
+/* THEME */
+$black-text: #1f1f1f;
+$gray-text: #727272;
+
 @mixin center {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@mixin clipText {
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

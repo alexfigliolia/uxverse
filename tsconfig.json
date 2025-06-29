@@ -34,6 +34,9 @@
       "Hooks/*": [
         "./Hooks/*"
       ],
+      "Icons/*": [
+        "./Icons/*"
+      ],
       "Layouts/*": [
         "./Layouts/*"
       ],
