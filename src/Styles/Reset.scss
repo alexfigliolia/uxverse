@@ -10,6 +10,7 @@
  */
 
 html {
+  background-color: #f8f8f8;
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
   -webkit-tap-highlight-color: transparent;
@@ -37,6 +38,7 @@ body {
 
 main {
   display: block;
+  width: 100%;
 }
 
 /**
@@ -203,9 +205,13 @@ button,
 [type="button"],
 [type="reset"],
 [type="submit"] {
+  padding: 0;
   cursor: pointer;
   -webkit-appearance: button;
   appearance: button;
+  background-color: transparent;
+  border-radius: none;
+  border: none;
 }
 
 /**
@@ -356,4 +362,8 @@ template {
 
 [hidden] {
   display: none;
+}
+
+figure {
+  margin: 0;
 }

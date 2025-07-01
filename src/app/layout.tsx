@@ -6,14 +6,18 @@ import "Styles/Reset.scss";
 const londrinaShadow = Lexend({
   variable: "--font-lexend",
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["300", "400", "500", "700"],
 });
 
 export default function RootLayout({ children }: OptionalChildren) {
   return (
     <html lang="en">
-      <body className={classnames(londrinaShadow.variable)}>
-        <main>{children}</main>
+      <body
+        className={classnames(
+          londrinaShadow.variable,
+          londrinaShadow.className,
+        )}>
+        {children}
       </body>
     </html>
   );

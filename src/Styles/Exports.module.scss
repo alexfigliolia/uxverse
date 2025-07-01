@@ -1,0 +1,8 @@
+@use "Styles/Variables";
+
+:export {
+  blackText: Variables.$black-text;
+  grayText: Variables.$gray-text;
+  red: Variables.$red;
+  orange: Variables.$orange;
+}

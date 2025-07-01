@@ -12,7 +12,10 @@ export const SafariAwareText = <T extends TextTag = "h1">({
   ...rest
 }: TextProps<T>) => {
   const { isSafari, isMobile } = useIsSafari();
-  const classes = useClassNames(className, { isSafari, isMobile });
+  const classes = useClassNames("reduced-letter-spacing", className, {
+    isSafari,
+    isMobile,
+  });
   return (
     // @ts-ignore
     <Tag className={classes} {...rest}>

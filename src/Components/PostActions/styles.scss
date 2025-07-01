@@ -1,0 +1,85 @@
+@use "Styles/Variables";
+
+.post-actions {
+  display: flex;
+  gap: 1.5em;
+  color: Variables.$gray-text;
+  &>.reaction-button {
+    color: inherit;
+    @include Variables.center;
+    gap: 0.35em;
+    &>div {
+      position: relative;
+      &[class$='likes'] {
+        width: 1.5em;
+        height: 1.5em;
+        translate: 0 -0.1em;
+        &>svg {
+          fill: Variables.$gray-text-secondary;
+          &:last-of-type {
+            fill: url(#themeGradient);
+          }
+        }
+      }
+      &[class$='comments'] {
+        width: 1.65em;
+        height: 1.65em;
+        margin-right: 0.15em;
+        &>svg {
+          stroke: Variables.$gray-text-secondary;
+          &:last-of-type {
+            stroke: transparent;
+            fill: url(#themeGradient);
+          }
+        }
+      }
+      &>svg {
+        height: 100%;
+        width: 100%;
+        position: relative;
+        z-index: 1;
+        transition: opacity 0.5s;
+        background-color: #fff;
+        &:last-of-type {
+          top: 0;
+          left: 0;
+          z-index: 0;
+          position: absolute;
+          opacity: 0;
+        }
+      }
+    }
+    &>span {
+      font-size: 0.85em;
+      font-weight: 300;
+      &>strong {
+        font-weight: 700;
+        color: Variables.$black-text-secondary;
+      }
+    }
+  }
+  &>.share-button {
+    margin-left: auto;
+    &>svg {
+      width: 1.6em;
+      height: 1.6em;
+      stroke: Variables.$gray-text-secondary;
+    }
+  }
+  &.liked > button > div[class$='likes'] > svg {
+    &:first-of-type {
+      opacity: 0;
+    }
+    &:last-of-type {
+      opacity: 1;
+    }
+  }
+  &.commented > button > div[class$='comments'] > svg {
+    &:first-of-type {
+      opacity: 0;
+    }
+    &:last-of-type {
+      opacity: 1;
+    }
+  }
+}

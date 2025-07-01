@@ -1,0 +1,5 @@
+@use "Styles/Variables";
+
+.reduced-letter-spacing {
+  @include Variables.reducedLetterSpacing;
+}

@@ -1,6 +1,13 @@
 /* THEME */
 $black-text: #1f1f1f;
+$black-text-secondary: #363434;
 $gray-text: #727272;
+$gray-text-secondary: #bbbbbb;
+$red: #fd1868;
+$orange: #fd7f18;
+
+/* DIMENSIONS */
+$nav-height: 60px;
 
 @mixin center {
   display: flex;
@@ -12,4 +19,12 @@ $gray-text: #727272;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+@mixin reducedLetterSpacing {
+  letter-spacing: -0.035em;
+}
+
+@mixin themeGradient($direction: to bottom) {
+  background-image: linear-gradient($direction, $orange, $red);
 }

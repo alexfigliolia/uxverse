@@ -1,13 +1,22 @@
 import { HTMLAttributes } from "react";
 
-export type DivOrSection = "div" | "section";
+export type ContainerElement = "div" | "section" | "main";
 
-export type DivOrSectionProps<T extends DivOrSection = "section"> =
+export type ContainerElementProps<T extends ContainerElement = "section"> =
   HTMLAttributes<HTMLElementTagNameMap[T]> & {
     Tag?: T;
   };
 
-export type TextTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span";
+export type TextTag =
+  | "h1"
+  | "h2"
+  | "h3"
+  | "h4"
+  | "h5"
+  | "h6"
+  | "p"
+  | "span"
+  | "strong";
 
 export type TextProps<T extends TextTag = "h1"> = HTMLAttributes<
   HTMLElementTagNameMap[T]

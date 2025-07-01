@@ -1,0 +1,12 @@
+@use "Styles/Variables";
+
+.feed-content {
+  &>div {
+    padding-top: 2em;
+    padding-bottom: 2em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
+}
+

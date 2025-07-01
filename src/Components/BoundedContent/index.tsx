@@ -1,14 +1,14 @@
 import { classnames } from "@figliolia/classnames";
-import { DivOrSection, DivOrSectionProps } from "Types/DOM";
+import { ContainerElement, ContainerElementProps } from "Types/DOM";
 import "./styles.scss";
 
-export const BoundedContent = <T extends DivOrSection = "div">({
+export const BoundedContent = <T extends ContainerElement = "div">({
   children,
   className,
   // @ts-ignore
   Tag = "div",
   ...rest
-}: DivOrSectionProps<T>) => {
+}: ContainerElementProps<T>) => {
   return (
     // @ts-ignore
     <Tag className={classnames("bounded-content", className)} {...rest}>

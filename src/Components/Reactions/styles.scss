@@ -1,0 +1,33 @@
+@use "Styles/Variables";
+
+.reactions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5em;
+  &>div {
+    font-size: 0.8em;
+    @include Variables.center;
+    &>span {
+      margin: 0 -0.15em;
+      border-radius: 50%;
+      line-height: 1;
+      font-size: 1.35em;
+      background-color: #fff;
+    }
+  }
+  &>span {
+    font-size: 0.75em;
+    font-weight: 300;
+    color: Variables.$gray-text;
+    &>strong {
+      font-weight: 700;
+    }
+  }
+  &.mobile-safari {
+    gap: 0.35em;
+    &> div > span {
+      font-size: 1em;
+    }
+  }
+}
