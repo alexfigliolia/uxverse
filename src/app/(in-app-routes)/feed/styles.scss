@@ -2,11 +2,24 @@
 
 .feed-content {
   &>div {
-    padding-top: 2em;
+    padding-top: calc(1em + 120px);
     padding-bottom: 2em;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 1em;
+    @media (min-width: 670px) {
+      padding-top: calc(1.5em + 120px);
+    }
+    &>.post {
+      width: 100%;
+      @media (min-width: 670px) {
+        width: calc(50% - 0.5em);
+      }
+      @media (min-width: 1300px) {
+        width: calc(33.3333% - 0.66666em);
+      }
+    }
   }
 }
 

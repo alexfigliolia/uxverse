@@ -1,0 +1,44 @@
+@use "Styles/Variables";
+
+.feed-header {
+  width: 100%;
+  top: 0;
+  left: 50%;
+  translate: -50%;
+  position: fixed;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  transition: box-shadow 0.5s;
+  @media (min-width: 1400px) {
+    max-width: 1200px;
+    border-bottom-left-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
+  }
+  &>.active-people {
+    padding-left: 5%;
+    padding-bottom: 1em;
+    max-height: 4.5em;
+    border-bottom: 1px solid Variables.$light-gray;
+    @media (min-width: 1400px) {
+      padding-left: 0.75em;
+    }
+    &>.avatar {
+      width: 3em;
+      height: 3em;
+    }
+  }
+  &.enabled > .active-people {
+    transition: all 0.5s;
+  }
+  &.compress {
+    box-shadow: 0em 0.1em 0.4em rgba(#000, 0.2);
+    &>.active-people {
+      max-height: 0px;
+      opacity: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+}

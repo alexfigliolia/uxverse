@@ -1,0 +1,46 @@
+@use "Styles/Variables";
+
+.feed-tabs {
+  width: 90%;
+  max-width: 500px;
+  margin: 0 auto;
+  @include Variables.center;
+  position: relative;
+  &>button {
+    width: 50%;
+    padding: 0.75em;
+    font-weight: 400;
+    &>span {
+      @include Variables.clipText;
+    }
+    &:first-of-type > span {
+      @include Variables.themeGradient(to bottom);
+    }
+    &:last-of-type > span {
+      background-image: linear-gradient(to right, Variables.$black-text-secondary, Variables.$black-text-secondary);
+    }
+  }
+  &>.underline {
+    bottom: -3px;
+    left: 0;
+    width: 50%;
+    height: 4px;
+    @include Variables.themeGradient(to right);
+    position: absolute;
+    border-radius: 1.5px;
+    transition: translate 0.7s cubic-bezier(0.83, 0, 0.17, 1);
+  }
+  &.location {
+    &>.underline {
+      translate: 100%;
+    }
+    &>button {
+      &:first-of-type > span {
+        background-image: linear-gradient(to bottom, Variables.$black-text-secondary, Variables.$black-text-secondary);
+      }
+      &:last-of-type > span {
+        @include Variables.themeGradient(to bottom);
+      }
+    }
+  }
+}

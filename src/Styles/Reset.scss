@@ -207,6 +207,7 @@ button,
 [type="submit"] {
   padding: 0;
   cursor: pointer;
+  color: Variables.$black-text;
   -webkit-appearance: button;
   appearance: button;
   background-color: transparent;
