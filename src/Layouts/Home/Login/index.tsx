@@ -1,5 +1,6 @@
 "use client";
-import { useId } from "react";
+import { useRouter } from "next/navigation";
+import { useCallback, useId } from "react";
 import { BottomSheet } from "@figliolia/bottom-sheet";
 import { Suspended } from "HOCs/Suspended";
 import { useSearchParamToggle } from "Hooks/useSearchParamToggle";
@@ -12,7 +13,13 @@ export const LOGIN_QUERY_PARAM = "login";
 
 export const Login = Suspended((_: Propless) => {
   const titleID = useId();
+  const router = useRouter();
   const { open, toggle } = useSearchParamToggle(LOGIN_QUERY_PARAM);
+
+  const toFeed = useCallback(() => {
+    router.push("/feed");
+  }, [router]);
+
   return (
     <BottomSheet
       dim
@@ -24,10 +31,10 @@ export const Login = Suspended((_: Propless) => {
       <h2 id={titleID}>Login</h2>
       <p>Join your community</p>
       <div className="actions">
-        <button aria-label="Login with Apple">
+        <button onClick={toFeed} aria-label="Login with Apple">
           Apple <AppleIcon />
         </button>
-        <button aria-label="Login with Google">
+        <button onClick={toFeed} aria-label="Login with Google">
           Google <GoogleIcon />
         </button>
       </div>
