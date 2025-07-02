@@ -2,6 +2,7 @@
 
 .profile-page {
   width: 100%;
+  max-width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   &__banner {
@@ -11,12 +12,8 @@
     background-size: cover;
     z-index: 1;
     position: relative;
-    @media (min-width: 670px) {
-      height: 300px;
-    }
   }
   &__content {
-    margin: -3em auto 0;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -38,8 +35,7 @@
         width: 10em;
         height: 10em;
         padding: 3px;
-        margin: -4em auto 0 auto;
-        transition: all 0.5s;
+        margin: -5em auto 0 auto;
       }
       &-bio {
         width: 100%;
@@ -50,12 +46,16 @@
         gap: 1em;
         &>.profile-bio {
           border-bottom: 1px solid Variables.$light-gray;
+          & p {
+            max-height: var(--max-height);
+          }
         }
         &>.profile-stats {
           justify-content: space-between;
           width: 90%;
           max-width: 500px;
           margin: 0 auto;
+          max-height: 38px;
         }
       }
     }
@@ -71,10 +71,40 @@
       }
     }
   }
-  &.compress {
-    & .avatar {
-       scale: 0.5;
-       translate: -100% 20%;
+  &.ready {
+    & .profile-page__content-header {
+      & .avatar,
+      & .profile-bio__user,
+      & .profile-stats,
+      & .profile-bio p, 
+      & .profile-tabs > button {
+        transition: all 0.5s;
+      }
     }
+    &.compress .profile-page__content-header {
+      & .avatar {
+        scale: 0.4;
+        margin-top: -6em;
+        translate: calc(-1 * (min(45vw, 350px) - (10em * 0.2))) 4em;
+      }
+      & .profile-bio__user {
+        font-size: 0.8em;
+      }
+      & .profile-stats {
+        opacity: 0;
+        max-height: 0px;
+        margin-top: -1.5em;
+      }
+      & .profile-bio p {
+        opacity: 0;
+        max-height: 0px;
+        margin: 0;
+      } 
+      & .profile-tabs > button {
+        padding: 0.25em 0.5em;
+        margin-top: -0.35em;
+        scale: 0.9;
+      }
+    } 
   }
 }

@@ -31,10 +31,11 @@ const TABS: ProfileTab[] = [
 ];
 
 export default function Profile(_: Propless) {
+  const [ready, setReady] = useState(false);
   const [compress, setCompress] = useState(false);
 
   const onScroll = useCallback(() => {
-    if (window.scrollY >= 10) {
+    if (window.scrollY >= 100) {
       setCompress(true);
     } else {
       setCompress(false);
@@ -42,6 +43,7 @@ export default function Profile(_: Propless) {
   }, []);
 
   useEffect(() => {
+    setReady(true);
     onScroll();
     window.addEventListener("scroll", onScroll);
     return () => {
@@ -49,7 +51,7 @@ export default function Profile(_: Propless) {
     };
   }, [onScroll]);
 
-  const classes = useClassNames("profile-page", { compress });
+  const classes = useClassNames("profile-page", { ready, compress });
 
   return (
     <TabsContextProvider options={TABS}>
