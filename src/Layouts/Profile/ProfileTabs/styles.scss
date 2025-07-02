@@ -1,0 +1,37 @@
+@use "Styles/Variables";
+
+.tabs.profile-tabs {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 400px;
+  &>button {
+    padding: 0.5em;
+    @include Variables.center;
+    &[aria-selected='true'] > div > svg {
+      &:first-of-type {
+        opacity: 0;
+      }
+      &:last-of-type {
+        opacity: 1;
+      }
+    }
+    &>div {
+      position: relative;
+      &>svg {
+        width: 2em;
+        height: 2em;
+        transition: opacity 0.3s;
+        &:first-of-type {
+          stroke: Variables.$gray-text-secondary;
+        }
+        &:last-of-type {
+          opacity: 0;
+          top: 0;
+          left: 0;
+          position: absolute;
+          fill: url(#themeGradient);
+        }
+      }
+    }
+  }
+}

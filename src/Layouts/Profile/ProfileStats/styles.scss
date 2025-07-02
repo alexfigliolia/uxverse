@@ -1,0 +1,26 @@
+@use "Styles/Variables";
+
+.profile-stats {
+  width: 100%;
+  @include Variables.center;
+  gap: 1em;
+  @include Variables.systemFont;
+  &>div {
+    @include Variables.center;
+    flex-direction: column;
+    gap: 0.25em;
+    &>span {
+      &:first-of-type {
+        font-size: 1.2em;
+        font-weight: 700;
+        color: Variables.$black-text-secondary;
+      }
+      &:last-of-type {
+        font-size: 0.65em;
+        font-weight: 500;
+        text-transform: uppercase;
+        color: Variables.$gray-text-secondary;
+      }
+    }
+  }
+}

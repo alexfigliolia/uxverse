@@ -43,6 +43,9 @@
       "Styles/*": [
         "./Styles/*"
       ],
+      "Tools/*": [
+        "./Tools/*"
+      ],
       "Types/*": [
         "./Types/*"
       ]

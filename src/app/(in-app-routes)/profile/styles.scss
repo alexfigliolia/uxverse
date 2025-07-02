@@ -1,0 +1,56 @@
+@use "Styles/Variables";
+
+.profile-banner-image {
+  width: 100%;
+  height: 200px;
+  background: url('/place-1.jpg') no-repeat center;
+  background-size: cover;
+  max-width: 1200px;
+  z-index: 1;
+  position: relative;
+  margin: 0 auto;
+  clip-path: polygon(0 0, 100% 0%, 100% 90%, 0% 100%);
+  @media (min-width: 670px) {
+    height: 300px;
+  }
+}
+
+.profile-content {
+  margin: -3em auto 0;
+  width: 100%;
+  min-height: 100vh;
+  max-width: 1200px;
+  color: Variables.$black-text;
+  & .profile-content__header {
+    background-color: #fff;
+    display: flex;
+    gap: 1.5em;
+    flex-direction: column;
+    padding: 0 5%;
+    &>.avatar {
+      width: 10em;
+      height: 10em;
+      z-index: 2;
+      padding: 3px;
+      position: relative;
+      margin: -4em auto 0 auto;
+    }
+    &>.profile-content__user-info {
+      width: 100%;
+      max-width: 700px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+      &>.profile-bio {
+        border-bottom: 1px solid Variables.$light-gray;
+      }
+      &>.profile-stats {
+        justify-content: space-between;
+        width: 90%;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+    }
+  }
+}

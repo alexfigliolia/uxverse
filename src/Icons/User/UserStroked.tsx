@@ -13,7 +13,7 @@ export const UserStroked = ({
       xmlns="http://www.w3.org/2000/svg"
       className={classnames("user-stroked", className)}
       {...rest}>
-      <circle cx="12" cy="6" r="4" stroke="#1C274C" strokeWidth="1.5" />
+      <circle cx="12" cy="6" r="4" strokeWidth="1.5" />
       <ellipse cx="12" cy="17" rx="7" ry="4" strokeWidth="1.5" />
       {children}
     </svg>

@@ -1,23 +1,24 @@
-import { Fragment } from "react";
-import { BoundedContent } from "Components/BoundedContent";
-import { Header, Post } from "Layouts/Feed";
+import { Feed as FeedContent, Header } from "Layouts/Feed";
+import { TabsContextProvider } from "Components/Tabs/TabsContext";
 import { Propless } from "Types/React";
 import "./styles.scss";
 
+const TABS = [
+  {
+    label: "Feed",
+    value: "feed",
+  },
+  {
+    value: "location",
+    label: "My Location",
+  },
+];
+
 export default function Feed(_: Propless) {
   return (
-    <Fragment>
+    <TabsContextProvider options={TABS}>
       <Header />
-      <BoundedContent Tag="section" className="feed-content">
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-        <Post />
-      </BoundedContent>
-    </Fragment>
+      <FeedContent />
+    </TabsContextProvider>
   );
 }
