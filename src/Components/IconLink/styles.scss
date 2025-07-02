@@ -19,6 +19,8 @@
     text-transform: uppercase;
     background-image: linear-gradient(to bottom right, Variables.$gray-text, Variables.$gray-text);
     @include Variables.clipText;
+    @include Variables.systemFont;
+    font-weight: 500;
   }
   &>div {
     position: relative;

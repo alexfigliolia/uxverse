@@ -1,5 +1,5 @@
 @use "Styles/Variables";
 
 .visitor-app {
-  padding-bottom: Variables.$nav-height;
+  padding-bottom: calc(Variables.$nav-height + 2em);
 }

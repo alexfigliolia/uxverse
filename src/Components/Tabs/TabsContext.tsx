@@ -62,7 +62,7 @@ type ExtractValues<T extends Tab[]> = {
 export interface ITabsContext<T extends Tab = Tab> {
   options: T[];
   panelID: string;
-  activeTab: string;
+  activeTab: T["value"];
   ariaLabel: string;
   toTabID: Callback<[string], string>;
   setActiveTab: Dispatch<SetStateAction<string>>;

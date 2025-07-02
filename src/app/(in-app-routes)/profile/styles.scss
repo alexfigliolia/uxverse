@@ -20,6 +20,9 @@
   width: 100%;
   min-height: 100vh;
   max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
   color: Variables.$black-text;
   & .profile-content__header {
     background-color: #fff;
@@ -27,6 +30,8 @@
     gap: 1.5em;
     flex-direction: column;
     padding: 0 5%;
+    border-bottom-left-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
     &>.avatar {
       width: 10em;
       height: 10em;
@@ -51,6 +56,17 @@
         max-width: 500px;
         margin: 0 auto;
       }
+    }
+  }
+  & .profile-post-list,
+  & .profile-grid {
+    width: 90%;
+    margin: 0 auto;
+    @media (min-width: 670px) {
+      width: 95%;
+    }
+    @media (min-width: 1200px) {
+      width: 100%;
     }
   }
 }

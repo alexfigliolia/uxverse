@@ -3,11 +3,17 @@ import { Avatar } from "Components/Avatar";
 import { TabsContextProvider } from "Components/Tabs/TabsContext";
 import { GridFilled, GridStroked } from "Icons/Grid";
 import { PostFilled, PostStroked } from "Icons/Post";
-import { ProfileBio, ProfileStats, ProfileTabs } from "Layouts/Profile";
+import {
+  ProfileBio,
+  ProfileFeed,
+  ProfileStats,
+  ProfileTab,
+  ProfileTabs,
+} from "Layouts/Profile";
 import { Propless } from "Types/React";
 import "./styles.scss";
 
-const TABS = [
+const TABS: ProfileTab[] = [
   {
     value: "grid",
     label: "grid",
@@ -40,6 +46,7 @@ export default function Profile(_: Propless) {
             <ProfileTabs />
           </div>
         </div>
+        <ProfileFeed />
       </div>
     </TabsContextProvider>
   );
