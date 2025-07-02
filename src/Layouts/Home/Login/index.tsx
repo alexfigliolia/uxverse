@@ -1,6 +1,7 @@
 "use client";
 import { useId } from "react";
 import { BottomSheet } from "@figliolia/bottom-sheet";
+import { Suspended } from "HOCs/Suspended";
 import { useSearchParamToggle } from "Hooks/useSearchParamToggle";
 import { AppleIcon } from "Icons/AppleIcon";
 import { GoogleIcon } from "Icons/Google";
@@ -9,7 +10,7 @@ import "./styles.scss";
 
 export const LOGIN_QUERY_PARAM = "login";
 
-export const Login = (_: Propless) => {
+export const Login = Suspended((_: Propless) => {
   const titleID = useId();
   const { open, toggle } = useSearchParamToggle(LOGIN_QUERY_PARAM);
   return (
@@ -32,4 +33,4 @@ export const Login = (_: Propless) => {
       </div>
     </BottomSheet>
   );
-};
+});
