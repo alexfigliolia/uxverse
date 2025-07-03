@@ -3,7 +3,7 @@
 .profile-page {
   width: 100%;
   max-width: 100%;
-  max-width: 1200px;
+  max-width: Variables.$max-content-width;
   margin: 0 auto;
   &__banner {
     width: 100%;
@@ -67,7 +67,7 @@
       @media (min-width: 670px) {
         width: 95%;
       }
-      @media (min-width: 1200px) {
+      @media (min-width: Variables.$max-content-width) {
         width: 100%;
       }
     }

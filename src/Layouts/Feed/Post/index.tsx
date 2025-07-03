@@ -1,6 +1,6 @@
-import { Avatar } from "Components/Avatar";
 import { FullBleedImage } from "Components/FullBleedImage";
 import { PostActions } from "Components/PostActions";
+import { PostHeading } from "Components/PostHeading";
 import { Reactions } from "Components/Reactions";
 import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
 import { Propless } from "Types/React";
@@ -9,15 +9,7 @@ import "./styles.scss";
 export const Post = (_: Propless) => {
   return (
     <article className="post">
-      <div className="post-heading">
-        <Avatar />
-        <div className="meta">
-          <ReducedLetterSpacing Tag="span">
-            Erica Figliolia
-          </ReducedLetterSpacing>
-          <span>24 minutes ago</span>
-        </div>
-      </div>
+      <PostHeading />
       <figure>
         <FullBleedImage src="/place-1.jpg" alt="user-image" />
       </figure>

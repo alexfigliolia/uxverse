@@ -1,0 +1,69 @@
+@use "Styles/Variables";
+
+.explore-result {
+  width: 100%;
+  position: relative;
+  background-color: #fff;
+  border-radius: 0.5em;
+  padding: 0.75em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75em;
+  &>figure {
+    width: 100%;
+    height: 150px;
+    position: relative;
+    border-radius: inherit;
+    overflow: hidden;
+    &::after {
+      content: '';
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      background-image: linear-gradient(to bottom, transparent, transparent, rgba(#000, 0.5));
+    }
+    &>figcaption {
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      z-index: 2;
+      color: #fff;
+      position: absolute;
+      padding: 0.5em 0.75em;
+      display: flex;
+      gap: 0.15em;
+      flex-direction: column;
+      &>h3,
+      &>span {
+        text-shadow: 0em 0em 0.3em rgba(#000, 1), 0em 0em 0.3em rgba(#000, 1), 0em 0.05em 0.1em rgba(#000, 0.75);
+      }
+      &>h3 {
+        margin: 0;
+        font-weight: 500;
+        font-size: 1.2em;
+      }
+      &>span {
+        display: flex;
+        align-items: center;
+        gap: 0.15em;
+        &> svg {
+          width: 1.15em;
+          height: 1.15em;
+          fill: url(#themeGradient);
+        }
+        &>span {
+          font-weight: 500;
+          font-size: 0.8em;
+          margin-top: 0.1em;
+        }
+      }
+    }
+  }
+  &>.meta {
+    display: flex;
+    gap: 0.75em;
+    flex-direction: column;
+  }
+}

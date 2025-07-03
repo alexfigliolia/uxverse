@@ -14,6 +14,14 @@ export const Gradients = (_: Propless) => {
         id="themeGradient"
         colors={[Variables.orange, Variables.red]}
       />
+      <SVGGradient
+        x1={0}
+        y1={0}
+        x2={1}
+        y2={0}
+        id="cyanToGreen"
+        colors={[Variables.cyan, Variables.green]}
+      />
     </Fragment>
   );
 };

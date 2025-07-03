@@ -30,9 +30,16 @@
       width: 85%;
     }
     & .icon-link {
-      --icon-size: 1.65em;
+      --icon-size: 1.75em;
       @media (min-width: 670px) {
         --label-font-size: 0.7em;
+      }
+      &:has(.user-stroked),
+      &:has(.user-filled) {
+        --icon-size: 1.85em;
+        &>div {
+          margin-bottom: -0.1em;
+        }
       }
     }
     & .create-button {

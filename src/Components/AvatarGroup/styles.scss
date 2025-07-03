@@ -1,0 +1,51 @@
+@use "Styles/Variables";
+
+.avatar-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1em;
+  &>div {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 0.5em;
+    &>.avatar {
+      height: 40px;
+      width: 40px;
+      padding: 1.5px;
+      margin: 0 -0.5em;
+      position: relative;
+      box-shadow: none;
+      z-index: var(--index);
+      background-color: Variables.$light-gray;
+      transition: opacity 0.5s, scale 0.5s, box-shadow 0.5s, z-index 0.5s;
+      &:first-of-type {
+        margin: 0;
+        margin-right: -0.5em;
+      }
+      &.fade {
+        opacity: 0.35;
+        scale: 0.9;
+        &.hovered {
+          opacity: 1;
+          scale: 1.1;
+          z-index: var(--length);
+          box-shadow: 0em 0.2em 0.3em rgba(#000, 0.25);
+        }
+      }
+      &>* {
+        pointer-events: none;
+      }
+    }
+  }
+  &>button {
+    outline: none;
+    border: none;
+    font-size: 0.8em;
+    font-weight: 300;
+    color: Variables.$gray-text;
+    &>strong {
+      font-weight: 700;
+    }
+  }
+}

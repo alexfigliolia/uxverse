@@ -3,12 +3,19 @@ $black-text: #1f1f1f;
 $black-text-secondary: #363434;
 $gray-text: #727272;
 $gray-text-secondary: #bbbbbb;
-$red: #fd1868;
+$red: #fd1887;
 $orange: #fd7f18;
+$fucia: #fb43ef;
+$sky-blue: #41b3ff;
+$green: #12f016;
+$yellow: #f3fb02;
+$cyan: #30dcff;
 $light-gray: #f3f1f1;
+$lighter-gray: #f8f8f8;
 
 /* DIMENSIONS */
 $nav-height: 60px;
+$max-content-width: 1200px;
 
 @mixin center {
   display: flex;

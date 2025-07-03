@@ -1,0 +1,81 @@
+@use "Styles/Variables";
+
+.explore-page {
+  --offset: -2em;
+  width: 100%;
+  margin: 0 auto;
+  max-width: Variables.$max-content-width;
+  overflow: hidden;
+  @media(min-width: 1200px) {
+    --offset: 0em;
+  }
+  &>.map-layout {
+    height: 50vh;
+    height: 50svh;
+    @media (min-width: 670px) {
+      height: 42.5vh;
+      height: 42.5svh;
+    }
+    & .recenter {
+      position: absolute;
+      bottom: calc((var(--offset) * -1) + 1em);
+      right: 1em;
+      width: 2.75em;
+      height: 2.75em;
+      border-radius: 50%;
+      background-color: #fff;
+      z-index: 2;
+      @include Variables.center;
+      box-shadow: 0em 0em 0.2em rgba(#000, 0.15), 0em 0.1em 0.3em rgba(#000, 0.15);
+      &>svg {
+        width: 75%;
+        height: 75%;
+        margin-top: -0.1em;
+        fill: url(#themeGradient);
+      }
+    }
+  }
+  &__feed {
+    width: 100%;
+    margin-top: var(--offset);
+    position: relative;
+    background-color: Variables.$lighter-gray;
+    z-index: 2;
+    border-top-left-radius: 0.75em;
+    border-top-right-radius: 0.75em;
+    box-shadow: 0em -0.1em 0.3em rgba(#000, 0.1);
+    @media(min-width: 1200px) {
+      border-radius: 0;
+    }
+    &>div {
+      width: 100%;
+      padding: 1em;
+      margin: 0 auto;
+      padding-top: 1.5em;
+      display: flex;
+      gap: 1.5em;
+      flex-direction: column;
+      &>search {
+        width: 100%;
+        @include Variables.center;
+        max-width: 700px;
+        margin: 0 auto;
+      }
+      &>.explore-page__feed-results {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1em;
+        &>.explore-result {
+          @media (min-width: 760px) {
+            width: calc(50% - 0.5em);
+          }
+          @media (min-width: 1200px) {
+            width: calc(33.33333% - 0.6666em);
+          }
+        }
+      }
+    }
+  }
+}

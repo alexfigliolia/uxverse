@@ -1,4 +1,5 @@
 import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
+import { Formatting } from "Tools/Formatting";
 import { Propless } from "Types/React";
 import "./styles.scss";
 
@@ -13,7 +14,9 @@ export const Reactions = (_: Propless) => {
       </div>
       <span>
         by <ReducedLetterSpacing Tag="strong">Someone</ReducedLetterSpacing> and{" "}
-        <ReducedLetterSpacing Tag="strong">others</ReducedLetterSpacing>
+        <ReducedLetterSpacing Tag="strong">
+          {Formatting.formatCompact(25)} others
+        </ReducedLetterSpacing>
       </span>
     </div>
   );

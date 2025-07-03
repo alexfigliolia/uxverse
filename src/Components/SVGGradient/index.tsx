@@ -2,13 +2,12 @@ import { SVGProps } from "react";
 import "./styles.scss";
 
 export const SVGGradient = ({ colors, ...rest }: Props) => {
-  const { length } = colors;
+  const N = colors.length - 1;
   return (
     <svg className="svg-gradient" aria-hidden>
       <linearGradient {...rest}>
         {colors.map((c, i) => {
-          const offset = i === 0 ? "0%" : `${((length - 1) * 100) / i}%`;
-          return <stop key={i} offset={offset} stopColor={c} />;
+          return <stop key={i} offset={`${100 * (i / N)}%`} stopColor={c} />;
         })}
       </linearGradient>
     </svg>

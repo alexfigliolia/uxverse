@@ -12,7 +12,7 @@
   background-color: #fff;
   transition: box-shadow 0.5s;
   @media (min-width: 1400px) {
-    max-width: 1200px;
+    max-width: Variables.$max-content-width;
     border-bottom-left-radius: 0.5em;
     border-bottom-right-radius: 0.5em;
   }

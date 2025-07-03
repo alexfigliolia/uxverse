@@ -8,6 +8,6 @@
   @include Variables.center;
   &>div {
     width: 90%;
-    max-width: 1200px;
+    max-width: Variables.$max-content-width;
   }
 }
