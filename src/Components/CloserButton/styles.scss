@@ -1,0 +1,15 @@
+@use "Styles/Variables";
+
+.closer-button {
+  width: 2.5em;
+  height: 2.5em;
+  border: none;
+  border-radius: 50%;
+  background-color: Variables.$light-gray;
+  @include Variables.center;
+  &>svg {
+    width: 70%;
+    height: 70%;
+    stroke: Variables.$black-text;
+  }
+}
