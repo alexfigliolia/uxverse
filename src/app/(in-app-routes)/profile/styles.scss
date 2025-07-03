@@ -24,7 +24,8 @@
       top: 0;
       left: 0;
       z-index: 2;
-      background-color: #fff;
+      background-color: rgba(#fff, 0.85);
+      backdrop-filter: blur(7.5px);
       display: flex;
       gap: 1.5em;
       flex-direction: column;
@@ -83,12 +84,13 @@
     }
     &.compress .profile-page__content-header {
       & .avatar {
-        scale: 0.4;
-        margin-top: -6em;
-        translate: calc(-1 * (min(45vw, 350px) - (10em * 0.2))) 4em;
+        scale: 0.3;
+        margin-top: -7em;
+        translate: calc(-1 * (min(45vw, 350px) - (10em * 0.15))) 4em;
       }
       & .profile-bio__user {
         font-size: 0.8em;
+        margin-top: -1em;
       }
       & .profile-stats {
         opacity: 0;
@@ -103,7 +105,7 @@
       } 
       & .profile-tabs > button {
         padding: 0.25em 0.5em;
-        margin-top: -0.35em;
+        margin-top: -0.5em;
         scale: 0.9;
       }
     } 
