@@ -5,7 +5,8 @@
   height: 2.5em;
   border: none;
   border-radius: 50%;
-  background-color: Variables.$light-gray;
+  backdrop-filter: blur(2.5px);
+  background-color: rgba(Variables.$light-gray, 0.85);
   @include Variables.center;
   &>svg {
     width: 70%;

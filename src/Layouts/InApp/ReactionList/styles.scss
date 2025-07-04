@@ -1,9 +1,13 @@
 @use "Styles/Variables";
 
 .bottom-sheet.reaction-list {
+  --notch-color: #fff;
   color: Variables.$black-text;
   & > .sheet {
     max-width: 600px;
+    @media (min-width: 670px) {
+      margin-top: calc(Variables.$nav-height / -1);
+    }
   }
   & .sheet-scroll-view {
     padding-top: 0;
@@ -12,8 +16,7 @@
     padding-bottom: calc(Variables.$nav-height + 1em);
     @media (min-width: 670px) {
       padding-bottom: 1.5em;
-      max-height: 70vh;
-      max-height: 70svh;
+      max-height: min(70svh, 70vh, 500px);
     }
   }
   & .closer-button {
@@ -21,6 +24,7 @@
     right: 1em;
     z-index: 2;
     position: fixed;
+    background-color: rgba(#fff, 0.85);
     @media (min-width: 670px) {
       top: 1.5em;
       right: 1.5em;
@@ -35,8 +39,6 @@
     position: sticky;
     top: 0;
     left: 0;
-    // background-color: rgba(#fff, 0.75);
-    // backdrop-filter: blur(2.5px);
     @media (min-width: 670px) {
       padding: 1.5em 0 1em;
       font-size: 1.4em;
@@ -59,13 +61,14 @@
         justify-content: space-between;
         text-decoration: none;
         color: Variables.$black-text;
-        transition: background-color 0.3s;
+        transition: all 0.3s;
         border-bottom: 1px solid Variables.$light-gray;
         &:visited {
           text-decoration: none;
           color: Variables.$black-text;
         }
         &:hover {
+          background-color: rgba(#fff, 0.5);
           backdrop-filter: blur(2.5px);
           &> span:first-of-type {
             @include Variables.themeGradient(to right);
