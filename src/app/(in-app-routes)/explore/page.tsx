@@ -1,8 +1,7 @@
 "use client";
 import { useCallback, useEffect, useRef } from "react";
 import { APIProvider } from "@vis.gl/react-google-maps";
-import { TargetFilled } from "Icons/Target";
-import { ExploreResult, MapLayout, SearchInput } from "Layouts/Explore";
+import { ExploreResult, SearchInput } from "Layouts/Explore";
 import { Callback } from "Types/Generics";
 import { Propless } from "Types/React";
 import "./styles.scss";
@@ -41,17 +40,41 @@ export default function Explore(_: Propless) {
     recenter?.current?.();
   }, []);
 
+  useEffect(() => {
+    navigator.permissions.query({ name: "geolocation" }).then(result => {
+      alert(result.state);
+      // if (result.state === "granted") {
+      //   report(result.state);
+      //   geoBtn.style.display = "none";
+      // } else if (result.state === "prompt") {
+      //   report(result.state);
+      //   geoBtn.style.display = "none";
+      //   navigator.geolocation.getCurrentPosition(
+      //     revealPosition,
+      //     positionDenied,
+      //     geoSettings,
+      //   );
+      // } else if (result.state === "denied") {
+      //   report(result.state);
+      //   geoBtn.style.display = "inline";
+      // }
+      // result.addEventListener("change", () => {
+      //   report(result.state);
+      // });
+    });
+  }, []);
+
   return (
     <APIProvider apiKey={API_KEY}>
       <div className="explore-page">
-        <MapLayout ref={map} recenter={recenter}>
+        {/* <MapLayout ref={map} recenter={recenter}>
           <button
             className="recenter"
             onClick={recenterMap}
             aria-label="Center around your current position">
             <TargetFilled />
           </button>
-        </MapLayout>
+        </MapLayout> */}
         <div className="explore-page__feed">
           <div>
             <search>

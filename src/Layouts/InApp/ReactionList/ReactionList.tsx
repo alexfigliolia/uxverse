@@ -12,7 +12,6 @@ import "./styles.scss";
 export const ReactionList = (_: Propless) => {
   const titleID = useId();
   const { open, reactions, toggle } = use(ReactionListContext);
-
   return (
     <Portal>
       <BottomSheet
