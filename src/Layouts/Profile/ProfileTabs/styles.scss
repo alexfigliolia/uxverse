@@ -22,7 +22,9 @@
         height: 2em;
         transition: opacity 0.3s;
         &:first-of-type {
-          stroke: Variables.$gray-text-secondary;
+          z-index: 2;
+          position: relative;
+          stroke: Variables.$black-text-secondary;
         }
         &:last-of-type {
           opacity: 0;

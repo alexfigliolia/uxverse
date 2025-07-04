@@ -8,10 +8,9 @@
   &__banner {
     width: 100%;
     height: 200px;
-    background: url('/place-1.jpg') no-repeat center;
-    background-size: cover;
     z-index: 1;
     position: relative;
+    overflow: hidden;
   }
   &__content {
     width: 100%;
@@ -49,6 +48,7 @@
           border-bottom: 1px solid Variables.$light-gray;
           & p {
             max-height: var(--max-height);
+            margin-bottom: 1.25em;
           }
         }
         &>.profile-stats {
@@ -57,6 +57,9 @@
           max-width: 500px;
           margin: 0 auto;
           max-height: 38px;
+        }
+        &>.profile-tabs > button > div > svg {
+          transition: none;
         }
       }
     }
@@ -80,6 +83,9 @@
       & .profile-bio p, 
       & .profile-tabs > button {
         transition: all 0.5s;
+      }
+      & .profile-tabs > button > div > svg {
+        transition: opacity 0.3s;
       }
     }
     &.compress .profile-page__content-header {

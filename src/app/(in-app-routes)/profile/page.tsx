@@ -1,7 +1,8 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useClassNames } from "@figliolia/classnames";
 import { Avatar } from "Components/Avatar";
+import { FullBleedImage } from "Components/FullBleedImage";
 import { TabsContextProvider } from "Components/Tabs/TabsContext";
 import { GridFilled, GridStroked } from "Icons/Grid";
 import { PostFilled, PostStroked } from "Icons/Post";
@@ -31,10 +32,16 @@ const TABS: ProfileTab[] = [
 ];
 
 export default function Profile(_: Propless) {
+  const image = useRef<HTMLImageElement>(null);
   const [ready, setReady] = useState(false);
   const [compress, setCompress] = useState(false);
 
   const onScroll = useCallback(() => {
+    if (image.current) {
+      const progress = Math.max(0, Math.min(window.scrollY, 200)) / 200;
+      image.current.style.scale = `${1 + progress / 10}`;
+      image.current.style.translate = `0 ${progress * 10}px`;
+    }
     if (window.scrollY >= 100) {
       setCompress(true);
     } else {
@@ -56,7 +63,9 @@ export default function Profile(_: Propless) {
   return (
     <TabsContextProvider options={TABS}>
       <div className={classes}>
-        <div className="profile-page__banner" />
+        <div className="profile-page__banner">
+          <FullBleedImage ref={image} src="/place-1.jpg" />
+        </div>
         <div className="profile-page__content">
           <div className="profile-page__content-header">
             <Avatar active />

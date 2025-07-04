@@ -1,4 +1,3 @@
-"use client";
 import { Tabs } from "Components/Tabs";
 import { Propless } from "Types/React";
 import { ProfileTab } from "../types";
