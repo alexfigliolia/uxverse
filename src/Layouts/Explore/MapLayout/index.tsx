@@ -1,72 +1,49 @@
 "use client";
-import {
-  RefObject,
-  useCallback,
-  useEffect,
-  useImperativeHandle,
-  useState,
-} from "react";
+import { RefObject, useCallback, useEffect, useImperativeHandle } from "react";
 import { useClassNames } from "@figliolia/classnames";
 import { useMap } from "@vis.gl/react-google-maps";
 import { AvatarMarker } from "Components/AvatarMarker";
 import { GoogleMap, Position } from "Components/GoogleMap";
+import { useGeolocation } from "Hooks/useGeolocation";
 import { Callback } from "Types/Generics";
 import { OptionalChildren } from "Types/React";
 import "./styles.scss";
 
-const GEOLOCATION_OPTIONS = {
-  timeout: 5000,
-  maximumAge: 0,
-};
-
-let cachedPosition: Position | undefined = undefined;
-
 export const MapLayout = ({ ref, recenter, children }: Props) => {
   const map = useMap();
-  const [position, setPosition] = useState<Position | undefined>(
-    cachedPosition,
-  );
 
-  const onPosition = useCallback(
-    ({ coords }: GeolocationPosition) => {
-      const { latitude, longitude } = coords;
-      cachedPosition = { lat: latitude, lng: longitude };
-      map?.setCenter?.(cachedPosition);
-      setPosition(cachedPosition);
+  const onLocation = useCallback(
+    (position: Position) => {
+      map?.setCenter?.(position);
     },
     [map],
   );
 
-  const centerAroundUserLocation = useCallback(() => {
-    if (!cachedPosition) {
-      return navigator?.geolocation?.getCurrentPosition(
-        onPosition,
-        null,
-        GEOLOCATION_OPTIONS,
-      );
-    }
-    map?.setCenter?.(cachedPosition);
-    setPosition(cachedPosition);
-  }, [map, onPosition]);
+  const {
+    position,
+    permission,
+    locationError,
+    watchPosition,
+    refreshLocation,
+    queryUserPosition,
+  } = useGeolocation(onLocation);
 
   useEffect(() => {
-    if (map && cachedPosition) {
-      map.setCenter(cachedPosition);
+    if (position && map) {
+      map.setCenter(position);
     }
-    centerAroundUserLocation();
-    const ID = navigator?.geolocation?.watchPosition(
-      onPosition,
-      null,
-      GEOLOCATION_OPTIONS,
-    );
-    return () => {
-      navigator?.geolocation?.clearWatch(ID);
-    };
-  }, [onPosition, map, centerAroundUserLocation]);
+  }, [position, map]);
 
-  useImperativeHandle(recenter, () => centerAroundUserLocation, [
-    centerAroundUserLocation,
-  ]);
+  useEffect(() => {
+    refreshLocation();
+    watchPosition();
+  }, [refreshLocation, watchPosition]);
+
+  useEffect(() => {
+    alert(`permission: ${permission}, locationError: ${locationError}`);
+  }, [permission, locationError]);
+
+  useImperativeHandle(recenter, () => queryUserPosition, [queryUserPosition]);
 
   const classes = useClassNames("map-layout", { hidden: !position });
 
