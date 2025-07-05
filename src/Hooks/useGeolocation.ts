@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Position } from "Components/GoogleMap";
 import { GPSLocation, LocationError, Permission } from "Tools/GPSLocation";
 import { Callback } from "Types/Generics";
+import { useGPSNotifications } from "./useGPSNotifications";
 
 let cachedPosition: Position | undefined = undefined;
 
@@ -16,6 +17,8 @@ export const useGeolocation = (onLocation?: Callback<[Position]>) => {
   const [locationError, setLocationError] = useState<LocationError>(
     GPSLocation.INITIAL_LOCATION_ERROR,
   );
+
+  useGPSNotifications(permission, locationError);
 
   const onPosition = useCallback(
     ({ coords }: GeolocationPosition) => {

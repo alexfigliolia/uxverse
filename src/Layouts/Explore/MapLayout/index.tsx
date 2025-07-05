@@ -19,14 +19,8 @@ export const MapLayout = ({ ref, recenter, children }: Props) => {
     [map],
   );
 
-  const {
-    position,
-    // permission,
-    // locationError,
-    watchPosition,
-    refreshLocation,
-    queryUserPosition,
-  } = useGeolocation(onLocation);
+  const { position, watchPosition, refreshLocation, queryUserPosition } =
+    useGeolocation(onLocation);
 
   useEffect(() => {
     refreshLocation();
