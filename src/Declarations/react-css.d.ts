@@ -5,5 +5,7 @@ declare module "react" {
     "--index"?: number;
     "--length"?: number;
     "--max-height"?: string;
+    "--theme-color"?: string;
+    "--theme-gradient"?: string;
   }
 }

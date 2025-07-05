@@ -30,6 +30,22 @@ export const Gradients = (_: Propless) => {
         id="warning"
         colors={[Variables.warningYellow, Variables.warningOrange]}
       />
+      <SVGGradient
+        x1={0}
+        y1={0}
+        x2={1}
+        y2={1}
+        id="error"
+        colors={[Variables.errorPink, Variables.errorRed]}
+      />
+      <SVGGradient
+        x1={0}
+        y1={0}
+        x2={1}
+        y2={1}
+        id="success"
+        colors={[Variables.successGreen, Variables.successCyan]}
+      />
     </Fragment>
   );
 };

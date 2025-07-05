@@ -11,7 +11,6 @@ import {
 import { useClassNames } from "@figliolia/classnames";
 import { useTimeout } from "@figliolia/react-hooks";
 import { CloserButton } from "Components/CloserButton";
-import { WarningStroked } from "Icons/Warning";
 import { NotificationsContext } from "../Context";
 import { INotification } from "../NotificationStack";
 import { Controller } from "./Controller";
@@ -48,27 +47,43 @@ export const Notification = ({ ID, title, message, type, deleting }: Props) => {
     setScrollHeight(node.current.scrollHeight);
   }, [title, message, type]);
 
-  const typeClassName = useMemo(() => type.toLowerCase(), [type]);
+  const userFacingTitle = useMemo(
+    () => title ?? Controller.defaultTitle(type),
+    [title, type],
+  );
 
+  const Icon = useMemo(() => Controller.getIcon(type), [type]);
+  const themeColor = useMemo(() => Controller.themeColor(type), [type]);
+  const themeGradient = useMemo(() => Controller.themeGradient(type), [type]);
+  const typeClassName = useMemo(() => type.toLowerCase(), [type]);
   const classes = useClassNames("notification", typeClassName, { visible });
 
   return (
     <div
       ref={node}
       className={classes}
-      style={{ "--max-height": `${scrollHeight ?? 0}px` }}>
+      style={{
+        "--max-height": `${scrollHeight ?? 0}px`,
+        "--theme-color": themeColor,
+        "--theme-gradient": themeGradient,
+      }}>
       <div>
         <CloserButton onClick={onClose} />
         {type !== "CUSTOM" && (
-          <div className="notification-icon">
-            <WarningStroked />
-          </div>
+          <Fragment>
+            <div className="notification-icon">
+              <Icon aria-hidden />
+            </div>
+            <div className="notification-background-icon">
+              <Icon aria-hidden />
+            </div>
+          </Fragment>
         )}
         <div className="notification-content">
           {type !== "CUSTOM" ? (
             <Fragment>
               <div className="notification-content__title">
-                {title ?? Controller.defaultTitle(type)}
+                {userFacingTitle}
               </div>
               <div className="notification-content__message">{message}</div>
             </Fragment>

@@ -15,6 +15,10 @@ $lighter-gray: #f8f8f8;
 
 $warning-yellow: #ffcd2a;
 $warning-orange: #ff8d2a;
+$error-pink: #ff2aad;
+$error-red: #ff2a66;
+$success-green: #34f377;
+$success-cyan: #13ca8a;
 
 /* DIMENSIONS */
 $nav-height: 60px;
@@ -42,6 +46,10 @@ $max-content-width: 1200px;
 
 @mixin warningGradient($direction: to bottom) {
   background-image: linear-gradient($direction, $warning-yellow, $warning-orange);
+}
+
+@mixin errorGradient($direction: to bottom) {
+  background-image: linear-gradient($direction, $error-pink, $error-red);
 }
 
 @mixin systemFont {
