@@ -5,11 +5,12 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 1em;
-  &>div {
+  &>ul {
     display: flex;
     flex-wrap: wrap;
     row-gap: 0.5em;
-    &>.avatar {
+    list-style-type: none;
+    & .avatar {
       height: 40px;
       width: 40px;
       padding: 1.5px;

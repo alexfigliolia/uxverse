@@ -37,23 +37,24 @@ export const AvatarGroup = (_: Propless) => {
 
   return (
     <div className="avatar-group">
-      <div>
+      <ul>
         {visibleWindow.map((_, i) => {
           const active = i === index;
           return (
-            <Avatar
-              key={i}
-              data-index={i}
-              className={classnames({ hovered: active, fade })}
-              onMouseLeave={onMouseLeave}
-              onMouseEnter={onMouseEnter}
-              onTouchStart={onMouseEnter}
-              onTouchEnd={onMouseLeave}
-              style={{ "--index": i + 1, "--length": 6 + 1 }}
-            />
+            <li key={i}>
+              <Avatar
+                data-index={i}
+                className={classnames({ hovered: active, fade })}
+                onMouseLeave={onMouseLeave}
+                onMouseEnter={onMouseEnter}
+                onTouchStart={onMouseEnter}
+                onTouchEnd={onMouseLeave}
+                style={{ "--index": i + 1, "--length": 6 + 1 }}
+              />
+            </li>
           );
         })}
-      </div>
+      </ul>
       {remaining && (
         <button>
           and{" "}

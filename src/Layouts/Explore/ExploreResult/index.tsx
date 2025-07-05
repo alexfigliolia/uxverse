@@ -1,6 +1,9 @@
 import { AvatarGroup } from "Components/AvatarGroup";
 import { FullBleedImage } from "Components/FullBleedImage";
+import { Rating } from "Components/Rating";
 import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
+import { TagGroup } from "Components/TagGroup";
+import { FourDots } from "Icons/FourDots";
 import { LocationFilled } from "Icons/Location";
 import { Formatting } from "Tools/Formatting";
 import { Propless } from "Types/React";
@@ -22,7 +25,15 @@ export const ExploreResult = (_: Propless) => {
         </figcaption>
       </figure>
       <div className="meta">
+        <TagGroup />
         <AvatarGroup />
+        <div className="view-more">
+          <Rating />
+          <button>
+            <ReducedLetterSpacing Tag="span">View More</ReducedLetterSpacing>
+            <FourDots aria-hidden />
+          </button>
+        </div>
       </div>
     </article>
   );

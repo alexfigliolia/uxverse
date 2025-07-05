@@ -65,5 +65,34 @@
     display: flex;
     gap: 0.75em;
     flex-direction: column;
+    &>.view-more {
+      display: flex;
+      padding-top: 0.5em;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1.5px solid Variables.$lighter-gray;
+      &>button {
+        @include Variables.center;
+        gap: 0.25em;
+        font-size: 0.9em;
+        font-weight: 500;
+        transition: color 0.3s;
+        color: Variables.$gray-text-secondary;
+        &>svg {
+          width: 1em;
+          height: 1em;
+          scale: 1.75;
+          transition: all 0.3s;
+          stroke: Variables.$gray-text-secondary;
+        }
+        &:hover {
+          color: Variables.$gray-text;
+          &>svg {
+            rotate: 90deg;
+            stroke: Variables.$gray-text;
+          }
+        }
+      }
+    }
   }
 }

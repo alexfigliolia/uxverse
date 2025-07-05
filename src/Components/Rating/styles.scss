@@ -1,0 +1,19 @@
+@use "Styles/Variables";
+
+.result-rating {
+  display: flex;
+  gap: 0.15em;
+  align-items: center;
+  &>svg {
+    width: 1.15em;
+    height: 1.15em;
+    fill: #ffcb48;
+    filter: drop-shadow(0em 0em 0.2em rgba(#000, 0.1));
+  }
+  &>span {
+    color: #ffcb48;
+    font-weight: 500;
+    font-size: 1em;
+    margin-top: 0.05em;
+  }
+}
