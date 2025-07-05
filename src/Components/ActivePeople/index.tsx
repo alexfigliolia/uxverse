@@ -4,23 +4,55 @@ import "./styles.scss";
 
 export const ActivePeople = (_: Propless) => {
   return (
-    <div className="active-people">
-      <Avatar active />
-      <Avatar active />
-      <Avatar active />
-      <Avatar />
-      <Avatar />
-      <Avatar />
-      <Avatar />
-      <Avatar />
-      <Avatar />
-      <Avatar />
-      <Avatar />
-      <Avatar />
-      <Avatar />
-      <Avatar />
-      <Avatar />
-      <Avatar />
-    </div>
+    <ul className="active-people" aria-label="Recently Active People">
+      <li>
+        <Avatar active />
+      </li>
+      <li>
+        <Avatar active />
+      </li>
+      <li>
+        <Avatar active />
+      </li>
+      <li>
+        <Avatar />
+      </li>
+      <li>
+        <Avatar />
+      </li>
+      <li>
+        <Avatar />
+      </li>
+      <li>
+        <Avatar />
+      </li>
+      <li>
+        <Avatar />
+      </li>
+      <li>
+        <Avatar />
+      </li>
+      <li>
+        <Avatar />
+      </li>
+      <li>
+        <Avatar />
+      </li>
+      <li>
+        <Avatar />
+      </li>
+      <li>
+        <Avatar />
+      </li>
+      <li>
+        <Avatar />
+      </li>
+      <li>
+        <Avatar />
+      </li>
+      <li>
+        <Avatar />
+      </li>
+    </ul>
   );
 };

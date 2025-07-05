@@ -21,6 +21,9 @@
     padding-bottom: 1em;
     max-height: 4.5em;
     border-bottom: 1px solid Variables.$light-gray;
+    @media (min-width: 1200px) {
+      padding-left: max(5%, calc((100vw - Variables.$max-content-width) / 2));
+    }
     @media (min-width: 1400px) {
       padding-left: 0.75em;
     }
@@ -30,7 +33,7 @@
     }
   }
   &.enabled > .active-people {
-    transition: all 0.5s;
+    transition: max-height 0.5s, opacity 0.5s, padding-top 0.5s, padding-bottom 0.5s;
   }
   &.compress {
     box-shadow: 0em 0.1em 0.4em rgba(#000, 0.2);
