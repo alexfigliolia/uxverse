@@ -31,7 +31,7 @@ export class NotificationStack {
         return;
       }
       const current = this.storage.get(ID)!;
-      const updated = { ...current, ...update };
+      const updated = { ...current, ...update } as INotification;
       this.storage.set(ID, updated);
       this.storage = new RenderableMap(this.storage);
       return updated;
@@ -113,13 +113,21 @@ export class NotificationStack {
   }
 }
 
-export interface INotification {
+export type INotification = {
   lifespan?: number;
-  title?: ReactNode;
-  message: ReactNode;
-  type: INotificationType;
   deleting?: boolean;
-}
+} & (
+  | {
+      type: "CUSTOM";
+      title?: (ariaID: string) => ReactNode;
+      message: (ariaID: string) => ReactNode;
+    }
+  | {
+      type: Exclude<INotificationType, "CUSTOM">;
+      title?: ReactNode;
+      message: ReactNode;
+    }
+);
 
 export type INotificationType =
   | "ERROR"
@@ -127,4 +135,5 @@ export type INotificationType =
   | "WARNING"
   | "INFO"
   | "CUSTOM";
+
 export type INotificationStack = RenderableMap<string, INotification>;

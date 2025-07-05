@@ -4,6 +4,7 @@ import {
   use,
   useCallback,
   useEffect,
+  useId,
   useMemo,
   useRef,
   useState,
@@ -17,6 +18,8 @@ import { Controller } from "./Controller";
 import "./styles.scss";
 
 export const Notification = ({ ID, title, message, type, deleting }: Props) => {
+  const labelID = useId();
+  const descriptionID = useId();
   const timeout = useTimeout();
   const { stack } = use(NotificationsContext);
   const node = useRef<HTMLDivElement>(null);
@@ -47,11 +50,6 @@ export const Notification = ({ ID, title, message, type, deleting }: Props) => {
     setScrollHeight(node.current.scrollHeight);
   }, [title, message, type]);
 
-  const userFacingTitle = useMemo(
-    () => title ?? Controller.defaultTitle(type),
-    [title, type],
-  );
-
   const Icon = useMemo(() => Controller.getIcon(type), [type]);
   const themeColor = useMemo(() => Controller.themeColor(type), [type]);
   const themeGradient = useMemo(() => Controller.themeGradient(type), [type]);
@@ -61,7 +59,10 @@ export const Notification = ({ ID, title, message, type, deleting }: Props) => {
   return (
     <div
       ref={node}
+      role="alertdialog"
       className={classes}
+      aria-labelledby={labelID}
+      aria-describedby={descriptionID}
       style={{
         "--max-height": `${scrollHeight ?? 0}px`,
         "--theme-color": themeColor,
@@ -82,15 +83,17 @@ export const Notification = ({ ID, title, message, type, deleting }: Props) => {
         <div className="notification-content">
           {type !== "CUSTOM" ? (
             <Fragment>
-              <div className="notification-content__title">
-                {userFacingTitle}
+              <div id={labelID} className="notification-content__title">
+                {title ?? Controller.defaultTitle(type)}
               </div>
-              <div className="notification-content__message">{message}</div>
+              <div id={descriptionID} className="notification-content__message">
+                {message}
+              </div>
             </Fragment>
           ) : (
             <Fragment>
-              {title}
-              {message}
+              {title?.(labelID)}
+              {message(descriptionID)}
             </Fragment>
           )}
         </div>
@@ -99,6 +102,6 @@ export const Notification = ({ ID, title, message, type, deleting }: Props) => {
   );
 };
 
-interface Props extends INotification {
+type Props = {
   ID: string;
-}
+} & INotification;
