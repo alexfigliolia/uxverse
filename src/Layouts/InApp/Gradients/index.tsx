@@ -22,6 +22,14 @@ export const Gradients = (_: Propless) => {
         id="cyanToGreen"
         colors={[Variables.cyan, Variables.green]}
       />
+      <SVGGradient
+        x1={0}
+        y1={0}
+        x2={1}
+        y2={1}
+        id="warning"
+        colors={[Variables.warningYellow, Variables.warningOrange]}
+      />
     </Fragment>
   );
 };

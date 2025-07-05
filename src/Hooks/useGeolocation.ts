@@ -1,39 +1,20 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Position } from "Components/GoogleMap";
+import { GPSLocation, LocationError, Permission } from "Tools/GPSLocation";
 import { Callback } from "Types/Generics";
 
-type Permission = "UNKNOWN" | "ALLOWED" | "DENIED" | "UNAVAILABLE";
-type LocationError = "TIMEOUT" | "UNAVAILABLE" | "NONE";
-
-const GEOLOCATION_OPTIONS = {
-  timeout: 5000,
-  maximumAge: 0,
-};
-
 let cachedPosition: Position | undefined = undefined;
-
-const initialLocationError = (): LocationError => {
-  if (navigator?.geolocation) {
-    return "NONE";
-  }
-  return "UNAVAILABLE";
-};
-
-const initialPermission = (): Permission => {
-  if (navigator?.geolocation) {
-    return "UNKNOWN";
-  }
-  return "UNAVAILABLE";
-};
 
 export const useGeolocation = (onLocation?: Callback<[Position]>) => {
   const watchID = useRef<number | null>(null);
   const [position, setPosition] = useState<Position | undefined>(
     cachedPosition,
   );
-  const [permission, setPermission] = useState<Permission>(initialPermission());
+  const [permission, setPermission] = useState<Permission>(
+    GPSLocation.INITIAL_PERMISSION,
+  );
   const [locationError, setLocationError] = useState<LocationError>(
-    initialLocationError(),
+    GPSLocation.INITIAL_LOCATION_ERROR,
   );
 
   const onPosition = useCallback(
@@ -63,19 +44,11 @@ export const useGeolocation = (onLocation?: Callback<[Position]>) => {
     if (watchID.current) {
       return;
     }
-    watchID.current = navigator?.geolocation?.watchPosition?.(
-      onPosition,
-      onError,
-      GEOLOCATION_OPTIONS,
-    );
+    watchID.current = GPSLocation.watchPosition(onPosition, onError);
   }, [onPosition, onError]);
 
   const refreshLocation = useCallback(() => {
-    navigator?.geolocation?.getCurrentPosition?.(
-      onPosition,
-      onError,
-      GEOLOCATION_OPTIONS,
-    );
+    GPSLocation.getPosition(onPosition, onError);
   }, [onPosition, onError]);
 
   const queryUserPosition = useCallback(() => {
@@ -86,12 +59,15 @@ export const useGeolocation = (onLocation?: Callback<[Position]>) => {
   }, [onLocation, refreshLocation]);
 
   useEffect(() => {
+    if (cachedPosition) {
+      onLocation?.(cachedPosition);
+    }
     return () => {
       if (watchID.current) {
-        navigator?.geolocation?.clearWatch?.(watchID.current);
+        GPSLocation.clearWatch(watchID.current);
       }
     };
-  }, []);
+  }, [onLocation]);
 
   return useMemo(
     () => ({

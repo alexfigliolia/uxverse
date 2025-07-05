@@ -5,16 +5,22 @@ import {
   ReactionList,
   ReactionListProvider,
 } from "Layouts/InApp";
+import { Notifications } from "Layouts/InApp";
+import { NotificationsProvider } from "Layouts/InApp/Notifications";
 import { OptionalChildren } from "Types/React";
 import "./styles.scss";
 
 export default function InAppLayout({ children }: OptionalChildren) {
   return (
-    <ReactionListProvider>
-      <Gradients />
-      <Navigation />
-      <main className="visitor-app">{children}</main>
-      <ReactionList />
-    </ReactionListProvider>
+    <NotificationsProvider>
+      <ReactionListProvider>
+        <Gradients />
+        <Navigation />
+        <main className="visitor-app">{children}</main>
+        {/* TODO: lazy load */}
+        <ReactionList />
+        <Notifications />
+      </ReactionListProvider>
+    </NotificationsProvider>
   );
 }

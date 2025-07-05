@@ -21,31 +21,24 @@ export const MapLayout = ({ ref, recenter, children }: Props) => {
 
   const {
     position,
-    permission,
-    locationError,
+    // permission,
+    // locationError,
     watchPosition,
     refreshLocation,
     queryUserPosition,
   } = useGeolocation(onLocation);
 
   useEffect(() => {
-    if (position && map) {
-      map.setCenter(position);
-    }
-  }, [position, map]);
-
-  useEffect(() => {
     refreshLocation();
     watchPosition();
   }, [refreshLocation, watchPosition]);
 
-  useEffect(() => {
-    alert(`permission: ${permission}, locationError: ${locationError}`);
-  }, [permission, locationError]);
-
   useImperativeHandle(recenter, () => queryUserPosition, [queryUserPosition]);
 
-  const classes = useClassNames("map-layout", { hidden: !position });
+  const classes = useClassNames("map-layout", {
+    hidden: !position,
+    displayNone: false,
+  });
 
   return (
     <div className={classes} ref={ref}>

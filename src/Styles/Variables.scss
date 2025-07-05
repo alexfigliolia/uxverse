@@ -13,6 +13,9 @@ $cyan: #30dcff;
 $light-gray: #f3f1f1;
 $lighter-gray: #f8f8f8;
 
+$warning-yellow: #ffcd2a;
+$warning-orange: #ff8d2a;
+
 /* DIMENSIONS */
 $nav-height: 60px;
 $max-content-width: 1200px;
@@ -35,6 +38,10 @@ $max-content-width: 1200px;
 
 @mixin themeGradient($direction: to bottom) {
   background-image: linear-gradient($direction, $orange, $red);
+}
+
+@mixin warningGradient($direction: to bottom) {
+  background-image: linear-gradient($direction, $warning-yellow, $warning-orange);
 }
 
 @mixin systemFont {

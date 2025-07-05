@@ -37,11 +37,13 @@ export default function Profile(_: Propless) {
   const [compress, setCompress] = useState(false);
 
   const onScroll = useCallback(() => {
-    if (image.current) {
-      const progress = Math.max(0, Math.min(window.scrollY, 200)) / 200;
-      image.current.style.scale = `${1 + progress / 10}`;
-      image.current.style.translate = `0 ${progress * 10}px`;
-    }
+    requestAnimationFrame(() => {
+      if (image.current) {
+        const progress = Math.max(0, Math.min(window.scrollY, 200)) / 200;
+        image.current.style.scale = `${1 + progress / 10}`;
+        image.current.style.translate = `0 ${progress * 10}px`;
+      }
+    });
     if (window.scrollY >= 100) {
       setCompress(true);
     } else {

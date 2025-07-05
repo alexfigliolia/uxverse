@@ -13,6 +13,7 @@
   "dependencies": {
     "@figliolia/bottom-sheet": "^1.6.3",
     "@figliolia/classnames": "^1.0.1",
+    "@figliolia/event-emitter": "^1.1.6",
     "@figliolia/modal-stack": "^2.0.0",
     "@figliolia/page-switch": "^1.0.8",
     "@figliolia/react-hooks": "^1.5.0",
