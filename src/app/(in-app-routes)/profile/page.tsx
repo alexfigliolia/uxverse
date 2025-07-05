@@ -4,6 +4,7 @@ import { useClassNames } from "@figliolia/classnames";
 import { Avatar } from "Components/Avatar";
 import { FullBleedImage } from "Components/FullBleedImage";
 import { TabsContextProvider } from "Components/Tabs/TabsContext";
+import { useScrollAnimation } from "Hooks/useScrollAnimation";
 import { GridFilled, GridStroked } from "Icons/Grid";
 import { PostFilled, PostStroked } from "Icons/Post";
 import {
@@ -37,13 +38,12 @@ export default function Profile(_: Propless) {
   const [compress, setCompress] = useState(false);
 
   const onScroll = useCallback(() => {
-    requestAnimationFrame(() => {
-      if (image.current) {
-        const progress = Math.max(0, Math.min(window.scrollY, 200)) / 200;
-        image.current.style.scale = `${1 + progress / 10}`;
-        image.current.style.translate = `0 ${progress * 10}px`;
-      }
-    });
+    if (image.current) {
+      const progress = Math.max(0, Math.min(window.scrollY, 200)) / 200;
+      image.current.style.opacity = `${1 - progress / 4}`;
+      image.current.style.scale = `${1 + progress / 10}`;
+      image.current.style.translate = `0 ${progress * 10}px`;
+    }
     if (window.scrollY >= 100) {
       setCompress(true);
     } else {
@@ -51,14 +51,11 @@ export default function Profile(_: Propless) {
     }
   }, []);
 
+  useScrollAnimation(onScroll);
+
   useEffect(() => {
     setReady(true);
-    onScroll();
-    window.addEventListener("scroll", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, [onScroll]);
+  }, []);
 
   const classes = useClassNames("profile-page", { ready, compress });
 

@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useClassNames } from "@figliolia/classnames";
 import { ActivePeople } from "Components/ActivePeople";
+import { useScrollAnimation } from "Hooks/useScrollAnimation";
 import { Propless } from "Types/React";
 import { FeedTabs } from "./FeedTabs";
 import "./styles.scss";
@@ -11,7 +12,6 @@ export const Header = (_: Propless) => {
   const [compress, setCompress] = useState(false);
 
   const onScroll = useCallback(() => {
-    setEnabled(true);
     if (window.scrollY >= 200) {
       setCompress(true);
     } else {
@@ -19,13 +19,11 @@ export const Header = (_: Propless) => {
     }
   }, []);
 
+  useScrollAnimation(onScroll);
+
   useEffect(() => {
-    onScroll();
-    window.addEventListener("scroll", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, [onScroll]);
+    setEnabled(true);
+  }, []);
 
   const classes = useClassNames("feed-header", { enabled, compress });
 

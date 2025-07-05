@@ -1,6 +1,7 @@
 "use client";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useRef } from "react";
 import { APIProvider } from "@vis.gl/react-google-maps";
+import { useScrollAnimation } from "Hooks/useScrollAnimation";
 import { TargetFilled } from "Icons/Target";
 import { ExploreResult, MapLayout, SearchInput } from "Layouts/Explore";
 import { Callback } from "Types/Generics";
@@ -17,25 +18,17 @@ export default function Explore(_: Propless) {
   const map = useRef<HTMLDivElement>(null);
 
   const onScroll = useCallback(() => {
-    requestAnimationFrame(() => {
-      const mapNode = map.current?.firstChild as HTMLElement | null;
-      if (mapNode) {
-        const { height } = mapNode.getBoundingClientRect();
-        const bound = Math.min(Math.max(window.scrollY, 0), height);
-        mapNode.style.transition = "translate 10ms, scale 10ms";
-        mapNode.style.scale = `${1 + (bound / height) * 0.25}`;
-        mapNode.style.translate = `0 ${0.5 * bound}px`;
-      }
-    });
+    const mapNode = map.current?.firstChild as HTMLElement | null;
+    if (mapNode) {
+      const { height } = mapNode.getBoundingClientRect();
+      const bound = Math.min(Math.max(window.scrollY, 0), height);
+      mapNode.style.transition = "translate 10ms, scale 10ms";
+      mapNode.style.scale = `${1 + (bound / height) * 0.25}`;
+      mapNode.style.translate = `0 ${0.5 * bound}px`;
+    }
   }, []);
 
-  useEffect(() => {
-    onScroll();
-    window.addEventListener("scroll", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, [onScroll]);
+  useScrollAnimation(onScroll);
 
   const recenterMap = useCallback(() => {
     recenter?.current?.();
