@@ -8,6 +8,19 @@
     color: inherit;
     @include Variables.center;
     gap: 0.35em;
+    &:hover {
+      &> div {
+        &[class$='likes'] > svg:first-of-type {
+          fill: Variables.$gray-text;
+        }
+        &[class$='comments'] > svg:first-of-type {
+          stroke: Variables.$gray-text;
+        }
+      }
+      &>span {
+        color: Variables.$black-text-secondary;
+      }
+    }
     &>div {
       position: relative;
       &[class$='likes'] {
@@ -38,7 +51,7 @@
         width: 100%;
         position: relative;
         z-index: 1;
-        transition: opacity 0.5s;
+        transition: opacity 0.5s, stroke 0.5s, fill 0.5s;
         background-color: #fff;
         &:last-of-type {
           top: 0;
@@ -52,6 +65,7 @@
     &>span {
       font-size: 0.85em;
       font-weight: 300;
+      transition: color 0.5s;
       &>strong {
         font-weight: 700;
         color: Variables.$black-text-secondary;
@@ -60,9 +74,13 @@
   }
   &>.share-button {
     margin-left: auto;
+    &:hover > svg {
+      stroke: Variables.$gray-text;
+    }
     &>svg {
       width: 1.6em;
       height: 1.6em;
+      transition: stroke 0.5s;
       stroke: Variables.$gray-text-secondary;
     }
   }
