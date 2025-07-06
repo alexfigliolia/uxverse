@@ -1,10 +1,10 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
 import { useClassNames } from "@figliolia/classnames";
-import { ActivePeople } from "Components/ActivePeople";
 import { useScrollAnimation } from "Hooks/useScrollAnimation";
 import { Propless } from "Types/React";
 import { FeedTabs } from "./FeedTabs";
+import { RecentlyActive } from "./RecentlyActive";
 import "./styles.scss";
 
 export const Header = (_: Propless) => {
@@ -29,7 +29,7 @@ export const Header = (_: Propless) => {
 
   return (
     <header className={classes}>
-      <ActivePeople />
+      <RecentlyActive />
       <FeedTabs />
     </header>
   );

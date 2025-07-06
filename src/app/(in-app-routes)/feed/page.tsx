@@ -10,7 +10,7 @@ const TABS = [
   },
   {
     value: "location",
-    label: "My Location",
+    label: "Near By",
   },
 ];
 
