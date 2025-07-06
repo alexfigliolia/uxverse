@@ -1,0 +1,36 @@
+@use "Styles/Variables";
+
+.capture-the-moment {
+  cursor: pointer;
+  gap: 0.5em;
+  padding: 0.5em 1em;
+  position: relative;
+  border-radius: 0.5em;
+  color: #fff;
+  @include Variables.center;
+  @include Variables.themeGradient(to bottom right);
+  @include Variables.themeGlow(0.3em, 0.25);
+  background-color: #fff;
+  &:focus-within {
+    outline: 2px solid blue;
+  }
+  &>svg {
+    width: 1.5em;
+    height: 1.5em;
+    fill: #fff;
+  }
+  & input {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    opacity: 0;
+    cursor: pointer;
+    position: absolute;
+    &::-webkit-file-upload-button,
+    &::file-selector-button {
+      display: none;
+    }
+  }
+}

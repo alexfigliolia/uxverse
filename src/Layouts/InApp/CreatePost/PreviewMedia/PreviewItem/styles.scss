@@ -1,0 +1,32 @@
+@use "Styles/Variables";
+
+.preview-item {
+  height: 0;
+  width: auto;
+  border-radius: 0.5em;
+  overflow: hidden;
+  position: relative;
+  opacity: 0;
+  --max-height: 0px;
+  transition: height 0.3s 0.3s, opacity 0.3s 0s;
+  box-shadow: 0 0 0.3em rgba(#000, 0.2), 0em 0.1em 0.2em rgba(#000, 0.35);
+  &.render {
+    opacity: 1;
+    height: 200px;
+    transition: height 0.3s, opacity 0.5s 0.3s;
+    @media (min-width: 670px) {
+      height: 250px;
+    }
+  }
+  &>img.full-bleed-image {
+    width: auto;
+  }
+  &>.closer-button {
+    top: 0.5em;
+    right: 0.5em;
+    width: 2em;
+    height: 2em;
+    position: absolute;
+    background-color: rgba(Variables.$gray, 0.65);
+  }
+}

@@ -1,12 +1,14 @@
 "use client";
 import {
+  CreatePost,
+  CreatePostProvider,
   Gradients,
   Navigation,
+  Notifications,
+  NotificationsProvider,
   ReactionList,
   ReactionListProvider,
 } from "Layouts/InApp";
-import { Notifications } from "Layouts/InApp";
-import { NotificationsProvider } from "Layouts/InApp/Notifications";
 import { OptionalChildren } from "Types/React";
 import "./styles.scss";
 
@@ -14,12 +16,15 @@ export default function InAppLayout({ children }: OptionalChildren) {
   return (
     <NotificationsProvider>
       <ReactionListProvider>
-        <Gradients />
-        <Navigation />
-        <main className="visitor-app">{children}</main>
-        {/* TODO: lazy load */}
-        <ReactionList />
-        <Notifications />
+        <CreatePostProvider>
+          <Gradients />
+          <Navigation />
+          <main className="visitor-app">{children}</main>
+          {/* TODO: lazy load */}
+          <ReactionList />
+          <Notifications />
+          <CreatePost />
+        </CreatePostProvider>
       </ReactionListProvider>
     </NotificationsProvider>
   );

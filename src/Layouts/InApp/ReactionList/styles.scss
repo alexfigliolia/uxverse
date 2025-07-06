@@ -4,8 +4,8 @@
   --notch-color: #fff;
   color: Variables.$black-text;
   & > .sheet {
-    max-width: 600px;
     @media (min-width: 670px) {
+      max-width: 600px;
       margin-top: calc(Variables.$nav-height / -1);
     }
   }

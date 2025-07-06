@@ -10,6 +10,7 @@ $sky-blue: #41b3ff;
 $green: #12f016;
 $yellow: #f3fb02;
 $cyan: #30dcff;
+$gray: #e3e3e5;
 $light-gray: #f3f1f1;
 $lighter-gray: #f8f8f8;
 
@@ -54,4 +55,14 @@ $max-content-width: 1200px;
 
 @mixin systemFont {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+@mixin themeGlow($radius: 0.4em, $opacity: 0.25) {
+  $offset: calc(0.4em * 0.375);
+  $negativeOffset: calc($offset * -1);
+  box-shadow: 
+    $negativeOffset $negativeOffset $radius rgba($orange, $opacity), 
+    $offset $negativeOffset $radius rgba($orange, $opacity), 
+    $offset $offset $radius rgba($red, $opacity),
+    $negativeOffset $offset $radius rgba($red, $opacity);
 }

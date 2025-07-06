@@ -1,10 +1,11 @@
 "use client";
 import Link from "next/link";
-import { use, useId } from "react";
-import { BottomSheet } from "@figliolia/bottom-sheet";
+import { use, useId, useMemo } from "react";
 import { CloserButton } from "Components/CloserButton";
+import { InAppBottomSheet } from "Components/InAppBottomSheet";
 import { Portal } from "Components/Portal";
 import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
+import { createTrapNodeCache } from "Tools/CreateModalContext";
 import { Propless } from "Types/React";
 import { ReactionListContext } from "./Context";
 import "./styles.scss";
@@ -12,12 +13,14 @@ import "./styles.scss";
 export const ReactionList = (_: Propless) => {
   const titleID = useId();
   const { open, reactions, toggle } = use(ReactionListContext);
+  const cacheTrapNode = useMemo(() => createTrapNodeCache(toggle), [toggle]);
   return (
     <Portal>
-      <BottomSheet
+      <InAppBottomSheet
         dim
         notch
         open={open}
+        ref={cacheTrapNode}
         close={toggle.close}
         className="reaction-list"
         aria-labelledby={titleID}>
@@ -35,7 +38,7 @@ export const ReactionList = (_: Propless) => {
             </li>
           ))}
         </ul>
-      </BottomSheet>
+      </InAppBottomSheet>
     </Portal>
   );
 };

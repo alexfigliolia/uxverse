@@ -1,0 +1,56 @@
+@use "Styles/Variables";
+
+.bottom-sheet.create-post {
+  z-index: 200;
+  @media (min-width: 670px) {
+    z-index: 99;
+  }
+  & .sheet {
+    @media (min-width: 670px) {
+      // max-width: 700px;
+    }
+  }
+  & .sheet-scroll-view {
+    padding: 0;
+    padding-bottom: 1em;
+    @media (min-width: 670px) {
+      padding-bottom: 1.5em;
+      max-height: min(80svh, 80vh);
+    }
+    & .pull-down {
+      z-index: 3;
+    }
+  }
+  & .sheet-content {
+    padding-bottom: 1em;
+    @media (min-width: 670px) {
+      padding-bottom: 0;
+    }
+  }
+  & .create-post__form {
+    padding: 0 1em;
+    @media (min-width: 670px) {
+      padding: 0 1.5em;
+    }
+    & form {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      & .capture-the-moment {
+        margin: 1.5em 0 0;
+        width: 100%;
+        max-width: 500px;
+      }
+      & .story {
+        margin-top: 8px;
+        @media (min-width: 670px) {
+          margin-top: 0;
+        }
+      }
+      & .venue {
+        border-top: 1px solid Variables.$gray;
+      }
+    }
+  }
+}

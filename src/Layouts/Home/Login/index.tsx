@@ -1,11 +1,12 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useCallback, useId } from "react";
+import { useCallback, useId, useMemo } from "react";
 import { BottomSheet } from "@figliolia/bottom-sheet";
 import { Suspended } from "HOCs/Suspended";
 import { useSearchParamToggle } from "Hooks/useSearchParamToggle";
 import { AppleIcon } from "Icons/AppleIcon";
 import { GoogleIcon } from "Icons/Google";
+import { createTrapNodeCache } from "Tools/CreateModalContext";
 import { Propless } from "Types/React";
 import "./styles.scss";
 
@@ -20,11 +21,14 @@ export const Login = Suspended((_: Propless) => {
     router.push("/feed");
   }, [router]);
 
+  const cacheTrapNode = useMemo(() => createTrapNodeCache(toggle), [toggle]);
+
   return (
     <BottomSheet
       dim
       notch
       open={open}
+      ref={cacheTrapNode}
       className="login-sheet"
       close={toggle.close}
       aria-labelledby={titleID}>

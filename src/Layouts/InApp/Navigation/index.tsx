@@ -1,4 +1,5 @@
 "use client";
+import { use } from "react";
 import { IconLink } from "Components/IconLink";
 import { BellFilled, BellStroked } from "Icons/Bell";
 import { CameraIcon } from "Icons/Camera";
@@ -6,9 +7,11 @@ import { FeedFilled, FeedStroked } from "Icons/Feed";
 import { LocationFilled, LocationStroked } from "Icons/Location";
 import { UserFilled, UserStroked } from "Icons/User";
 import { Propless } from "Types/React";
+import { CreatePostContext } from "../CreatePost";
 import "./styles.scss";
 
 export const Navigation = (_: Propless) => {
+  const { toggle } = use(CreatePostContext);
   return (
     <nav className="in-app-nav">
       <ul>
@@ -29,7 +32,10 @@ export const Navigation = (_: Propless) => {
           />
         </li>
         <li>
-          <button className="create-button" aria-label="New Post">
+          <button
+            className="create-button"
+            aria-label="New Post"
+            onClick={toggle.open}>
             <CameraIcon aria-hidden />
           </button>
         </li>

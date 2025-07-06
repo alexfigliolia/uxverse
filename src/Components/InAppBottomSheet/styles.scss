@@ -1,0 +1,17 @@
+@use "Styles/Variables";
+
+.bottom-sheet.in-app-bottom-sheet {
+  color: Variables.$black-text;
+  & > .sheet {
+    @media (min-width: 670px) {
+      margin-top: calc(Variables.$nav-height / -1);
+    }
+  }
+  & .sheet-scroll-view {
+    padding-bottom: calc(Variables.$nav-height + 1em);
+    @media (min-width: 670px) {
+      padding-bottom: 1.5em;
+      max-height: min(70svh, 70vh, 500px);
+    }
+  }
+}

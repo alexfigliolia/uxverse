@@ -1,0 +1,46 @@
+@use "Styles/Variables";
+
+.post-input {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  &:focus-within {
+    &::after {
+      scale: 1 1;
+    }
+  }
+  &::after {
+    content: "";
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    z-index: 2;
+    position: absolute;
+    border-radius: 1px;
+    @include Variables.themeGradient(to right);
+    scale: 0 1;
+    transition: scale 0.4s;
+  }
+  & input,
+  & textarea {
+    height: 40px;
+    padding: 0 0.5em;
+    border: none;
+    outline: none;
+    color: Variables.$black-text-secondary;
+    border-radius: 0;
+    border-bottom: 1px solid Variables.$gray;
+    &::placeholder {
+      color: Variables.$gray-text-secondary;
+    }
+  }
+  & textarea {
+    resize: none;
+    min-height: 150px;
+    padding: 0.5em;
+    field-sizing: content;
+    border-top: 1px solid Variables.$gray;
+  }
+}
