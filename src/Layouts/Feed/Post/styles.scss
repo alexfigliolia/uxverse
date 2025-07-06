@@ -55,6 +55,9 @@
   &>.post-actions {
     padding-top: 0.6em;
     border-top: 1px solid Variables.$light-gray;
+    &>.share-button {
+      margin-left: auto;
+    }
   }
 }
 

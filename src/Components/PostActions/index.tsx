@@ -4,10 +4,10 @@ import { useClassNames } from "@figliolia/classnames";
 import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
 import { CommentsFilled, CommentsStroked } from "Icons/Comments";
 import { LikesFilled, LikesStroked } from "Icons/Likes";
-import { ShareIcon } from "Icons/Share";
+import { OptionalChildren } from "Types/React";
 import "./styles.scss";
 
-export const PostActions = ({ likes, comments }: Props) => {
+export const PostActions = ({ likes, comments, children }: Props) => {
   const [liked, _1] = useState(false);
   const [commented, _2] = useState(false);
   const classes = useClassNames("post-actions", { liked, commented });
@@ -33,14 +33,12 @@ export const PostActions = ({ likes, comments }: Props) => {
           Comments
         </span>
       </button>
-      <button className="share-button" aria-label="Share this post">
-        <ShareIcon aria-hidden />
-      </button>
+      {children}
     </div>
   );
 };
 
-interface Props {
+interface Props extends OptionalChildren {
   likes: number;
   comments: number;
 }

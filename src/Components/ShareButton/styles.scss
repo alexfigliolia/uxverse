@@ -1,0 +1,15 @@
+@use "Styles/Variables";
+
+.share-button {
+  @include Variables.center;
+  gap: 0.5em;
+  &:hover > svg {
+    stroke: Variables.$gray-text;
+  }
+  &>svg {
+    width: 1.6em;
+    height: 1.6em;
+    transition: stroke 0.5s;
+    stroke: Variables.$gray-text-secondary;
+  }
+}

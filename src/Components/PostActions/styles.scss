@@ -72,18 +72,6 @@
       }
     }
   }
-  &>.share-button {
-    margin-left: auto;
-    &:hover > svg {
-      stroke: Variables.$gray-text;
-    }
-    &>svg {
-      width: 1.6em;
-      height: 1.6em;
-      transition: stroke 0.5s;
-      stroke: Variables.$gray-text-secondary;
-    }
-  }
   &.liked > button > div[class$='likes'] > svg {
     &:first-of-type {
       opacity: 0;
