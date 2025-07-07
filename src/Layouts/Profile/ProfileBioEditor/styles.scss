@@ -9,6 +9,13 @@
     padding: 0.75em;
     border-radius: inherit;
     min-height: 150px;
+    outline: none;
+    @include Variables.gradientUnderline;
+    &[class*='focused'] {
+      &::after {
+        scale: 1 1;
+      }
+    }
     & p {
       margin: 0;
     }

@@ -21,6 +21,8 @@ export const Input = ({
   onBlur,
   onFocus,
   onInput,
+  label,
+  placeholder,
   feedback,
   className,
   IconStroked,
@@ -94,6 +96,7 @@ export const Input = ({
 
   return (
     <label className={classes}>
+      <span className="visitor-input__label">{label || placeholder}</span>
       <button
         type="button"
         tabIndex={-1}
@@ -110,6 +113,7 @@ export const Input = ({
         onBlur={onBlurInternal}
         onFocus={onFocusInternal}
         onInput={onInputInternal}
+        placeholder={label || placeholder}
       />
       {children}
       {feedback && (

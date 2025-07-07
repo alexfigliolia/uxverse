@@ -9,6 +9,7 @@
   background: Variables.$lighter-gray;
   border-radius: 0.5em;
   border: 2px solid Variables.$lighter-gray;
+  @include Variables.gradientUnderline;
   &.focused,
   &.valid {
     &>.visitor-input__icon > svg {
@@ -34,18 +35,10 @@
       opacity: 1;
     }
   }
-  &::after {
-    content: "";
-    bottom: -4px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    border-radius: 1px;
+  &__label {
+    pointer-events: none;
     position: absolute;
-    scale: 0 1;
-    opacity: 0.6;
-    @include Variables.themeGradient(to right);
-    transition: scale 0.5s;
+    opacity: 0;
   }
   &__feedback,
   &__icon {

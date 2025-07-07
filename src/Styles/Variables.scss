@@ -66,3 +66,19 @@ $max-content-width: 1200px;
     $offset $offset $radius rgba($red, $opacity),
     $negativeOffset $offset $radius rgba($red, $opacity);
 }
+
+@mixin gradientUnderline($opacity: 0.6) {
+  &::after {
+    content: "";
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: 1px;
+    position: absolute;
+    scale: 0 1;
+    opacity: $opacity;
+    @include themeGradient(to right);
+    transition: scale 0.5s;
+  }
+}
