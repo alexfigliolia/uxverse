@@ -3,13 +3,15 @@
 .visitor-input {
   --height: 40px;
   width: 100%;
+  position: relative;
   height: var(--height);
   @include Variables.center;
   background: Variables.$lighter-gray;
   border-radius: 0.5em;
+  border: 2px solid Variables.$lighter-gray;
   &.focused,
-  &.populated {
-    &>button > svg {
+  &.valid {
+    &>.visitor-input__icon > svg {
       &:first-of-type {
         opacity: 0;
       }
@@ -18,7 +20,35 @@
       }
     }
   }
-  &>button {
+  &.focused {
+    &::after {
+      scale: 1 1;
+    }
+  }
+  &.valid > .visitor-input__feedback > svg:first-of-type {
+    opacity: 1;
+  }
+  &.invalid > .visitor-input__feedback {
+    pointer-events: auto;
+    &> svg:last-of-type {
+      opacity: 1;
+    }
+  }
+  &::after {
+    content: "";
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: 1px;
+    position: absolute;
+    scale: 0 1;
+    opacity: 0.6;
+    @include Variables.themeGradient(to right);
+    transition: scale 0.5s;
+  }
+  &__feedback,
+  &__icon {
     width: var(--height);
     height: var(--height);
     display: grid;
@@ -26,10 +56,15 @@
     flex-shrink: 0;
     background-color: transparent;
     &>svg {
-      width: calc(var(--height) * 0.65);
-      height: calc(var(--height) * 0.65);
+      width: 100%;
+      height: 100%;
       grid-area: 1 / 1;
       transition: opacity 0.3s;
+    }
+  }
+  &__icon {
+    &>svg {
+      scale: 0.65;
       &:first-of-type {
         stroke: Variables.$gray-text-secondary;
       }
@@ -49,6 +84,28 @@
     background-color: transparent;
     &::placeholder {
       color: Variables.$gray-text-secondary;
+    }
+  }
+  &__feedback {
+    pointer-events: none;
+    border-radius: 50%;
+    outline-offset: -2px;
+    &:focus-visible {
+      outline: 1.5px solid Variables.$red;
+    }
+    &>svg {
+      scale: 0.75;
+      opacity: 0;
+      &:first-of-type {
+        stroke: url(#success);
+      }
+       &:last-of-type {
+        stroke: url(#error);
+        & path:first-of-type,
+        & path:last-of-type {
+          stroke: Variables.$red;
+        }
+      }
     }
   }
 }
