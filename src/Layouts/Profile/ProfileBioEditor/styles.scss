@@ -1,0 +1,22 @@
+@use "Styles/Variables";
+
+.profile-bio-editor {
+  border-radius: 0.5em;
+  min-height: 150px;
+  position: relative;
+  background-color: Variables.$lighter-gray;
+  &>div {
+    padding: 0.75em;
+    border-radius: inherit;
+    min-height: 150px;
+    & p {
+      margin: 0;
+    }
+  }
+  &>span.input-placeholder {
+    top: 0.75em;
+    left: 0.75em;
+    position: absolute;
+    color: Variables.$gray-text-secondary;
+  }
+}

@@ -1,0 +1,82 @@
+@use "Styles/Variables";
+
+.bottom-sheet.edit-profile {
+  & .sheet {
+    max-width: calc(1000px + 5em);
+  }
+  & form {
+    display: flex;
+    gap: 1em;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    & fieldset {
+      display: flex;
+      gap: 1em;
+      flex-direction: column;
+      border: none;
+      padding: 0;
+      width: 100%;
+      max-width: 500px;
+      & legend {
+        margin: 0;
+        display: block;
+        font-weight: 400;
+        font-size: 1.25em;
+        margin: 1em 0;
+        @include Variables.themeGradient(to bottom right);
+        @include Variables.clipText;
+      }
+      & .visitor-input {
+        &.handle > button > svg:last-of-type {
+          fill: none;
+          stroke: url(#themeGradient);
+        }
+        &.instagram > button > svg {
+          scale: 0.85;
+          &:first-of-type {
+            stroke: unset;
+            fill: Variables.$gray-text-secondary;
+          }
+          &:last-of-type {
+            fill: unset;
+          }
+        }
+        &.tiktok > button > svg {
+          &:first-of-type {
+            scale: 0.95;
+            stroke: unset;
+            fill: Variables.$gray-text-secondary;
+          }
+          &:last-of-type {
+            fill: unset;
+            scale: 1.05;
+            translate: -2.5% -1.5%;
+          }
+        }
+        &.facebook > button > svg {
+          &:first-of-type {
+            stroke: unset;
+            fill: Variables.$gray-text-secondary;
+          }
+          &:last-of-type {
+            fill: unset;
+          }
+        }
+        &.youtube > button > svg {
+          &:first-of-type {
+            stroke: unset;
+            fill: Variables.$gray-text-secondary;
+          }
+        }
+      }
+    }
+    &>.form-actions {
+      display: flex;
+      flex: 0 0 100%;
+      margin: 2em auto 0;
+      @include Variables.center;
+    }
+  }
+}

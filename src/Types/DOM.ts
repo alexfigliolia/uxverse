@@ -17,7 +17,8 @@ export type TextTag =
   | "p"
   | "a"
   | "span"
-  | "strong";
+  | "strong"
+  | "legend";
 
 export type TextProps<T extends TextTag = "h1"> = HTMLAttributes<
   HTMLElementTagNameMap[T]
