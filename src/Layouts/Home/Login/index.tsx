@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useCallback, useId, useMemo } from "react";
-import { BottomSheet } from "@figliolia/bottom-sheet";
+import { BottomSheet } from "Components/BottomSheet";
 import { Suspended } from "HOCs/Suspended";
 import { useSearchParamToggle } from "Hooks/useSearchParamToggle";
 import { AppleIcon } from "Icons/AppleIcon";

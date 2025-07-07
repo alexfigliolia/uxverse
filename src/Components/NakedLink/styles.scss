@@ -1,0 +1,10 @@
+@use "Styles/Variables";
+
+.naked-link {
+  color: Variables.$black-text;
+  text-decoration: none;
+  &:visited {
+    text-decoration: none;
+    color: Variables.$black-text;
+  }
+}

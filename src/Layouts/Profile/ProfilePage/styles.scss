@@ -31,11 +31,17 @@
       padding: 0 5%;
       border-bottom-left-radius: 0.5em;
       border-bottom-right-radius: 0.5em;
-      &>.avatar {
+      & .profile-page__avatar {
         width: 10em;
         height: 10em;
-        padding: 3px;
         margin: -5em auto 0 auto;
+        @include Variables.center;
+        & .avatar {
+          width: 100%;
+          height: 100%;
+          padding: 3px;
+          aspect-ratio: 1 / 1;
+        }
       }
       &-bio {
         width: 100%;
@@ -54,7 +60,7 @@
         &>.profile-stats {
           justify-content: space-between;
           width: 90%;
-          max-width: 500px;
+          max-width: 400px;
           margin: 0 auto;
           max-height: 38px;
         }
@@ -77,7 +83,7 @@
   }
   &.ready {
     & .profile-page__content-header {
-      & .avatar,
+      & .profile-page__avatar,
       & .profile-bio__user,
       & .profile-stats,
       & .profile-bio p, 
@@ -89,7 +95,7 @@
       }
     }
     &.compress .profile-page__content-header {
-      & .avatar {
+      & .profile-page__avatar {
         scale: 0.3;
         margin-top: -7em;
         translate: calc(-1 * (min(45vw, 350px) - (10em * 0.15))) 4em;

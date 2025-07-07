@@ -1,0 +1,31 @@
+@use "Styles/Variables";
+
+.profile-settings-button {
+  width: 2em;
+  height: 2em;
+  position: relative;
+  @include Variables.center;
+  &:hover > svg {
+    &:first-of-type {
+      opacity: 0;
+    }
+    &:last-of-type {
+      opacity: 1;
+    }
+  }
+  &>svg {
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.3s;
+    &:first-of-type {
+      stroke: Variables.$gray-text-secondary;
+    }
+    &:last-of-type {
+      top: 0;
+      left: 0;
+      opacity: 0;
+      position: absolute;
+      stroke: url(#themeGradient);
+    }
+  }
+}

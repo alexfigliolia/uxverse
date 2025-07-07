@@ -14,11 +14,7 @@ export const ShareButton = ({
     if (typeof window === "undefined" || !navigator.share) {
       return;
     }
-    try {
-      void navigator.share(shareData);
-    } catch {
-      // silence
-    }
+    void navigator.share(shareData).catch(() => {});
   }, [shareData]);
 
   return (

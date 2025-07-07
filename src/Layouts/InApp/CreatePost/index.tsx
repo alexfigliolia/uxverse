@@ -9,9 +9,9 @@ import {
   useState,
 } from "react";
 import { CaptureTheMoment } from "Components/CaptureTheMoment";
-import { InAppBottomSheet } from "Components/InAppBottomSheet";
 import { createTrapNodeCache } from "Tools/CreateModalContext";
 import { Propless } from "Types/React";
+import { AboveNavigationBottomSheet } from "../AboveNavigationBottomSheet";
 import { CreatePostContext } from "./Context";
 import { Header } from "./Header";
 import { PostInput, TextArea } from "./PostInput";
@@ -68,9 +68,7 @@ export const CreatePost = (_: Propless) => {
   }, []);
 
   return (
-    <InAppBottomSheet
-      dim
-      notch
+    <AboveNavigationBottomSheet
       open={open}
       ref={trapCache}
       close={toggle.close}
@@ -105,7 +103,7 @@ export const CreatePost = (_: Propless) => {
           )}
         </form>
       </div>
-    </InAppBottomSheet>
+    </AboveNavigationBottomSheet>
   );
 };
 

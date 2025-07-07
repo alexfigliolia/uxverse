@@ -1,4 +1,5 @@
 import { HTMLProps } from "react";
+import { HiddenFileInput } from "Components/HiddenFileInput";
 import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
 import { CameraIcon } from "Icons/Camera";
 import "./styles.scss";
@@ -8,7 +9,7 @@ export const CaptureTheMoment = (props: HTMLProps<HTMLInputElement>) => {
     <label className="capture-the-moment">
       <ReducedLetterSpacing Tag="span">Capture the Moment</ReducedLetterSpacing>
       <CameraIcon />
-      <input
+      <HiddenFileInput
         multiple
         name="media"
         type="file"

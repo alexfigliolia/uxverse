@@ -15,6 +15,7 @@ export type TextTag =
   | "h5"
   | "h6"
   | "p"
+  | "a"
   | "span"
   | "strong";
 

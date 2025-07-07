@@ -1,0 +1,14 @@
+@use "Styles/Variables";
+
+.bottom-sheet.in-app-bottom-sheet.above-navigation-bottom-sheet {
+  z-index: 200;
+  @media (min-width: 670px) {
+    z-index: 99;
+  }
+  & .sheet-scroll-view {
+    padding-bottom: 1.5em;
+    @media (min-width: 670px) {
+      max-height: min(80svh, 80vh);
+    }
+  }
+}

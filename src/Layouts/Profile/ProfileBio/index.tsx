@@ -1,10 +1,10 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
-import { Propless } from "Types/React";
+import { OptionalChildren } from "Types/React";
 import "./styles.scss";
 
-export const ProfileBio = (_: Propless) => {
+export const ProfileBio = ({ children }: OptionalChildren) => {
   const [pHeight, setPHeight] = useState<number>();
   const paragraph = useRef<HTMLParagraphElement>(null);
 
@@ -17,8 +17,13 @@ export const ProfileBio = (_: Propless) => {
   return (
     <div className="profile-bio">
       <div className="profile-bio__user">
-        <ReducedLetterSpacing Tag="h1">Erica Figliolia</ReducedLetterSpacing>
-        <ReducedLetterSpacing Tag="span">@ericafigliolia</ReducedLetterSpacing>
+        <div>
+          <ReducedLetterSpacing Tag="h1">Erica Figliolia</ReducedLetterSpacing>
+          <ReducedLetterSpacing Tag="span">
+            @ericafigliolia
+          </ReducedLetterSpacing>
+        </div>
+        {children}
       </div>
       <p
         ref={paragraph}
