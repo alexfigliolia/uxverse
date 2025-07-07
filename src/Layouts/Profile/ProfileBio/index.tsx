@@ -23,7 +23,6 @@ export const ProfileBio = ({ children }: OptionalChildren) => {
             @ericafigliolia
           </ReducedLetterSpacing>
         </div>
-        {children}
       </div>
       <p
         ref={paragraph}
@@ -34,6 +33,7 @@ export const ProfileBio = ({ children }: OptionalChildren) => {
         <br />
         <a>Behind The Matches</a>
       </p>
+      {children}
     </div>
   );
 };

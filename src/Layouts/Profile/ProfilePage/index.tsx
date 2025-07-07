@@ -1,6 +1,7 @@
 "use client";
 import {
   ComponentType,
+  Fragment,
   ReactNode,
   RefObject,
   useCallback,
@@ -43,13 +44,16 @@ export function ProfilePage({ avatar, Banner, editButton }: Props) {
   const [compress, setCompress] = useState(false);
 
   const onScroll = useCallback(() => {
+    let threshold = 200;
     if (image.current) {
-      const progress = Math.max(0, Math.min(window.scrollY, 200)) / 200;
+      threshold = image.current.getBoundingClientRect().height;
+      const progress =
+        Math.max(0, Math.min(window.scrollY, threshold)) / threshold;
       image.current.style.opacity = `${1 - progress / 4}`;
       image.current.style.scale = `${1 + progress / 10}`;
       image.current.style.translate = `0 ${progress * 10}px`;
     }
-    if (window.scrollY >= 100) {
+    if (window.scrollY >= threshold / 2) {
       setCompress(true);
     } else {
       setCompress(false);
@@ -72,15 +76,21 @@ export function ProfilePage({ avatar, Banner, editButton }: Props) {
         </div>
         <div className="profile-page__content">
           <div className="profile-page__content-header">
-            <div className="profile-page__avatar">{avatar}</div>
-            <div className="profile-page__content-header-bio">
-              <ProfileBio>{editButton}</ProfileBio>
-              <ProfileStats
-                posts={123}
-                following={335}
-                likes={3000000}
-                followers={4353434}
-              />
+            <div className="profile-page__bio">
+              <div className="profile-page__avatar">{avatar}</div>
+              <ProfileBio>
+                <Fragment>
+                  {editButton}
+                  <ProfileStats
+                    posts={123}
+                    following={335}
+                    likes={3000000}
+                    followers={4353434}
+                  />
+                </Fragment>
+              </ProfileBio>
+            </div>
+            <div className="profile-page__feed-group">
               <ProfileTabs />
             </div>
           </div>
