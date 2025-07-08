@@ -1,0 +1,12 @@
+@use "Styles/Variables";
+
+.visitor-input.instagram-handle-input > .visitor-input__icon > svg {
+  scale: 0.6;
+  &:first-of-type {
+    stroke: unset;
+    fill: Variables.$gray-text-secondary;
+  }
+  &:last-of-type {
+    fill: unset;
+  }
+}

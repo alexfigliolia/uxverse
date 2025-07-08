@@ -1,0 +1,14 @@
+@use "Styles/Variables";
+
+.visitor-input.tiktok-handle-input > .visitor-input__icon > svg {
+  &:first-of-type {
+    scale: 0.65;
+    stroke: unset;
+    fill: Variables.$gray-text-secondary;
+  }
+  &:last-of-type {
+    fill: unset;
+    scale: 0.7;
+    translate: -2.5% -1.5%;
+  }
+}

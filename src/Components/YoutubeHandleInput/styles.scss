@@ -1,0 +1,11 @@
+@use "Styles/Variables";
+
+.visitor-input.youtube-handle-input > .visitor-input__icon > svg {
+  &:first-of-type {
+    stroke: unset;
+    fill: Variables.$gray-text-secondary;
+  }
+  &:last-of-type {
+    fill: #ea333d;
+  }
+}

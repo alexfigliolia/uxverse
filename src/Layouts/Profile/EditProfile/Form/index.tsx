@@ -1,18 +1,15 @@
 "use client";
 import { ChangeEvent, use, useCallback, useRef, useState } from "react";
+import { FacebookProfileURLInput } from "Components/FacebookProfileURLInput";
 import { FullNameInput } from "Components/FullNameInput";
 import { GradientBorderButton } from "Components/GradientBorderButton";
-import { Input } from "Components/Input";
+import { InstagramHandleInput } from "Components/InstagramHandleInput";
 import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
 import { EditorTaskRegister } from "Components/RichTextEditor";
-import { SocialMediaHandleInput } from "Components/SocialMediaHandleInput";
-import { AtIcon } from "Icons/At";
-import { FacebookColored, FacebookFilled } from "Icons/Facebook";
-import { InstagramColored, InstagramStroked } from "Icons/Instagram";
-import { TiktokColored, TiktokStroked } from "Icons/Tiktok";
-import { YoutubeIcon } from "Icons/Youtube";
+import { TiktokHandleInput } from "Components/TiktokHandleInput";
+import { VisitorHandleInput } from "Components/VisitorHandleInput";
+import { YoutubeHandleInput } from "Components/YoutubeHandleInput";
 import { ProfileBioEditor } from "Layouts/Profile/ProfileBioEditor";
-import { InputPatterns } from "Tools/InputPatterns";
 import { Propless } from "Types/React";
 import { EditProfileContext } from "../Context";
 import "./styles.scss";
@@ -47,67 +44,26 @@ export const EditProfileForm = (_: Propless) => {
         <ReducedLetterSpacing Tag="legend">Your Info</ReducedLetterSpacing>
         <FullNameInput
           required
-          name="full-name"
           value={name}
-          placeholder="Your Name"
+          name="full-name"
           onChange={onChange}
+          placeholder="Your Name"
         />
-        <Input
-          feedback
+        <VisitorHandleInput
           required
-          type="text"
           name="handle"
           value={handle}
-          spellCheck={false}
-          className="handle"
-          placeholder="Handle"
-          IconFilled={AtIcon}
-          IconStroked={AtIcon}
           onChange={onChange}
-          pattern={InputPatterns.visitorHandle}
+          placeholder="Handle"
         />
         <ProfileBioEditor ref={taskRegister} />
       </fieldset>
       <fieldset>
         <ReducedLetterSpacing Tag="legend">Social Links</ReducedLetterSpacing>
-        <SocialMediaHandleInput
-          feedback
-          name="instagram"
-          className="instagram"
-          placeholder="Instagram Handle"
-          IconFilled={InstagramColored}
-          IconStroked={InstagramStroked}
-          pattern={InputPatterns.instagramHandle}
-        />
-        <SocialMediaHandleInput
-          feedback
-          name="tiktok"
-          className="tiktok"
-          placeholder="Tiktok Handle"
-          IconFilled={TiktokColored}
-          IconStroked={TiktokStroked}
-          pattern={InputPatterns.tiktokHandle}
-        />
-        <Input
-          feedback
-          type="url"
-          name="facebook"
-          spellCheck={false}
-          className="facebook"
-          placeholder="Facebook Profile URL"
-          IconFilled={FacebookColored}
-          IconStroked={FacebookFilled}
-          pattern={InputPatterns.tiktokHandle}
-        />
-        <SocialMediaHandleInput
-          feedback
-          name="youtube"
-          className="youtube"
-          placeholder="Youtube Handle"
-          IconFilled={YoutubeIcon}
-          IconStroked={YoutubeIcon}
-          pattern={InputPatterns.youtubeHandle}
-        />
+        <InstagramHandleInput name="instagram" />
+        <TiktokHandleInput name="tiktok" />
+        <FacebookProfileURLInput name="facebook" />
+        <YoutubeHandleInput name="youtube" />
       </fieldset>
       <div className="form-actions">
         <div>
