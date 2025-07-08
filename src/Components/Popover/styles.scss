@@ -1,0 +1,23 @@
+.popover {
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: 300;
+  visibility: hidden;
+  position: absolute;
+  max-width: min(90vw, 400px);
+  background-color: #fff;
+  border-radius: 0.5em;
+  box-shadow: 0em 0.2em 0.4em rgba(#000, 0.25);
+  transition: opacity 0.3s, visibility 0s 0.3s;
+  &>div {
+    padding: 0.75em;
+    width: max-content;
+    position: relative;
+  }
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s, visibility 0s;
+  }
+}

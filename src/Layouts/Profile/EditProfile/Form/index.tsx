@@ -1,5 +1,6 @@
 "use client";
 import { ChangeEvent, use, useCallback, useRef, useState } from "react";
+import { FullNameInput } from "Components/FullNameInput";
 import { GradientBorderButton } from "Components/GradientBorderButton";
 import { Input } from "Components/Input";
 import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
@@ -9,7 +10,6 @@ import { AtIcon } from "Icons/At";
 import { FacebookColored, FacebookFilled } from "Icons/Facebook";
 import { InstagramColored, InstagramStroked } from "Icons/Instagram";
 import { TiktokColored, TiktokStroked } from "Icons/Tiktok";
-import { UserFilled, UserStroked } from "Icons/User";
 import { YoutubeIcon } from "Icons/Youtube";
 import { ProfileBioEditor } from "Layouts/Profile/ProfileBioEditor";
 import { InputPatterns } from "Tools/InputPatterns";
@@ -45,18 +45,12 @@ export const EditProfileForm = (_: Propless) => {
     <form ref={form} className="edit-profile-form">
       <fieldset>
         <ReducedLetterSpacing Tag="legend">Your Info</ReducedLetterSpacing>
-        <Input
-          feedback
+        <FullNameInput
           required
-          type="text"
           name="full-name"
           value={name}
-          spellCheck={false}
           placeholder="Your Name"
-          IconFilled={UserFilled}
-          IconStroked={UserStroked}
           onChange={onChange}
-          pattern={InputPatterns.fullName}
         />
         <Input
           feedback

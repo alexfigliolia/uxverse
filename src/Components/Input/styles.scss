@@ -1,7 +1,7 @@
 @use "Styles/Variables";
 
 .visitor-input {
-  --height: 40px;
+  --height: 45px;
   width: 100%;
   position: relative;
   height: var(--height);
@@ -26,21 +26,16 @@
       scale: 1 1;
     }
   }
-  &.valid > .visitor-input__feedback > svg:first-of-type {
+  &.valid > .visitor-input__feedback > button > svg:first-of-type {
     opacity: 1;
   }
-  &.invalid > .visitor-input__feedback {
+  &.invalid > .visitor-input__feedback > button {
     pointer-events: auto;
     &> svg:last-of-type {
       opacity: 1;
     }
   }
-  &__label {
-    pointer-events: none;
-    position: absolute;
-    opacity: 0;
-  }
-  &__feedback,
+  &__feedback > button,
   &__icon {
     width: var(--height);
     height: var(--height);
@@ -77,28 +72,6 @@
     background-color: transparent;
     &::placeholder {
       color: Variables.$gray-text-secondary;
-    }
-  }
-  &__feedback {
-    pointer-events: none;
-    border-radius: 50%;
-    outline-offset: -2px;
-    &:focus-visible {
-      outline: 1.5px solid Variables.$red;
-    }
-    &>svg {
-      scale: 0.75;
-      opacity: 0;
-      &:first-of-type {
-        stroke: url(#success);
-      }
-       &:last-of-type {
-        stroke: url(#error);
-        & path:first-of-type,
-        & path:last-of-type {
-          stroke: Variables.$red;
-        }
-      }
     }
   }
 }
