@@ -1,26 +1,14 @@
 @use "Styles/Variables";
 
 .icon-link {
-  --gap-size: 0.25em;
   --icon-size: 1.5em;
-  --label-font-size: 0.6em;
   @include Variables.center;
-  gap: var(--gap-size);
   flex-direction: column;
   text-decoration: none;
-  color: Variables.$gray-text;
+  color: Variables.$black-text-secondary;
   &:visited {
     text-decoration: none;
-    color: Variables.$gray-text;
-  }
-  &>span {
-    transition: background-image 0.25s;
-    font-size: var(--label-font-size);
-    text-transform: uppercase;
-    background-image: linear-gradient(to bottom right, Variables.$gray-text, Variables.$gray-text);
-    @include Variables.clipText;
-    @include Variables.systemFont;
-    font-weight: 500;
+    color: Variables.$black-text-secondary;
   }
   &>div {
     position: relative;
@@ -38,7 +26,7 @@
         & circle,
         & ellipse {
           transition: opacity 0.25s;
-          stroke: Variables.$gray-text;
+          stroke: Variables.$black-text-secondary;
         }
       }
       &:last-of-type {
@@ -54,9 +42,6 @@
   }
   &.active,
   &:hover {
-    &>span {
-      background-image: linear-gradient(to bottom right, Variables.$orange, Variables.$red);
-    }
     &>div > svg {
       &:first-of-type {
         opacity: 0;

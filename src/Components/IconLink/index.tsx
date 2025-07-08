@@ -5,23 +5,27 @@ import { useClassNames } from "@figliolia/classnames";
 import { SVGComponent } from "Types/React";
 import "./styles.scss";
 
-export const IconLink = ({ label, href, IconFilled, IconStroked }: Props) => {
+export const IconLink = ({
+  href,
+  ariaLabel,
+  IconFilled,
+  IconStroked,
+}: Props) => {
   const pathname = usePathname();
   const classes = useClassNames("icon-link", { active: pathname === href });
   return (
-    <Link className={classes} href={href}>
+    <Link className={classes} href={href} aria-label={ariaLabel}>
       <div>
         <IconStroked aria-hidden />
         <IconFilled aria-hidden />
       </div>
-      <span>{label}</span>
     </Link>
   );
 };
 
 interface Props {
-  label: string;
   href: string;
+  ariaLabel: string;
   IconFilled: SVGComponent;
   IconStroked: SVGComponent;
 }

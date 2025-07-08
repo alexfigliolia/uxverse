@@ -30,22 +30,12 @@
       width: 85%;
     }
     & .icon-link {
-      --icon-size: 1.75em;
-      @media (min-width: 670px) {
-        --label-font-size: 0.7em;
-      }
-      &:has(.user-stroked),
-      &:has(.user-filled) {
-        --icon-size: 1.85em;
-        &>div {
-          margin-bottom: -0.1em;
-        }
-      }
+      --icon-size: 2em;
     }
     & .create-button {
-      width: 52.5px;
-      height: 52.5px;
-      margin: -90% -0.5em 0;
+      width: 60px;
+      height: 60px;
+      margin: -90% -1em 0 -1em;
       border-radius: 50%;
       position: relative;
       @include Variables.center;

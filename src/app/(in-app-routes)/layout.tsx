@@ -6,8 +6,6 @@ import {
   Navigation,
   Notifications,
   NotificationsProvider,
-  ReactionList,
-  ReactionListProvider,
 } from "Layouts/InApp";
 import { OptionalChildren } from "Types/React";
 import "./styles.scss";
@@ -15,17 +13,14 @@ import "./styles.scss";
 export default function InAppLayout({ children }: OptionalChildren) {
   return (
     <NotificationsProvider>
-      <ReactionListProvider>
-        <CreatePostProvider>
-          <Gradients />
-          <Navigation />
-          <main className="visitor-app">{children}</main>
-          {/* TODO: lazy load */}
-          <ReactionList />
-          <Notifications />
-          <CreatePost />
-        </CreatePostProvider>
-      </ReactionListProvider>
+      <CreatePostProvider>
+        <Gradients />
+        <Navigation />
+        <main className="visitor-app">{children}</main>
+        {/* TODO: lazy load */}
+        <Notifications />
+        <CreatePost />
+      </CreatePostProvider>
     </NotificationsProvider>
   );
 }

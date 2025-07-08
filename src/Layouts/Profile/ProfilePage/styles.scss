@@ -168,12 +168,14 @@
       & .profile-bio p {
         opacity: 0;
         max-height: 0px;
+        pointer-events: none;
         margin: 0;
         margin-top: 0.25em;
       } 
       & .profile-stats {
         opacity: 0;
         max-height: 0px;
+        pointer-events: none;
         margin-top: -1.5em;
       }
       & .profile-tabs > button {

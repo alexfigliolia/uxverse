@@ -18,7 +18,7 @@ export const Navigation = (_: Propless) => {
         <li>
           <IconLink
             href="/feed"
-            label="Feed"
+            ariaLabel="Navigate to the Feed page"
             IconStroked={FeedStroked}
             IconFilled={FeedFilled}
           />
@@ -26,7 +26,7 @@ export const Navigation = (_: Propless) => {
         <li>
           <IconLink
             href="/explore"
-            label="Explore"
+            ariaLabel="Navigate to the Explore page"
             IconStroked={LocationStroked}
             IconFilled={LocationFilled}
           />
@@ -34,7 +34,7 @@ export const Navigation = (_: Propless) => {
         <li>
           <button
             className="create-button"
-            aria-label="New Post"
+            aria-label="Create a new post"
             onClick={toggle.open}>
             <CameraIcon aria-hidden />
           </button>
@@ -42,7 +42,7 @@ export const Navigation = (_: Propless) => {
         <li>
           <IconLink
             href="/profile"
-            label="Profile"
+            ariaLabel="Navigate to your Profile"
             IconStroked={UserStroked}
             IconFilled={UserFilled}
           />
@@ -50,7 +50,7 @@ export const Navigation = (_: Propless) => {
         <li>
           <IconLink
             href="/notifications"
-            label="noties"
+            ariaLabel="noties"
             IconStroked={BellStroked}
             IconFilled={BellFilled}
           />
