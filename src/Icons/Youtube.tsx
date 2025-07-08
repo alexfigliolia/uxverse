@@ -1,7 +1,7 @@
 import { SVGProps } from "react";
 import { classnames } from "@figliolia/classnames";
 
-export const YoutubeFilled = ({
+export const YoutubeIcon = ({
   children,
   className,
   ...rest
@@ -9,9 +9,8 @@ export const YoutubeFilled = ({
   return (
     <svg
       viewBox="0 0 24 24"
-      fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={classnames("youtube-filled", className)}
+      className={classnames("youtube-icon", className)}
       {...rest}>
       <path
         fillRule="evenodd"

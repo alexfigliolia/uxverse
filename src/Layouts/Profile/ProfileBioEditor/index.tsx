@@ -1,9 +1,20 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  RefObject,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import { JSONContent } from "@tiptap/react";
-import { EditorTaskRegister, RichTextEditor } from "Components/RichTextEditor";
+import {
+  EditorTask,
+  EditorTaskRegister,
+  RichTextEditor,
+} from "Components/RichTextEditor";
 import "./styles.scss";
 
-export const ProfileBioEditor = ({ initialContent }: Props) => {
+export const ProfileBioEditor = ({ ref, initialContent }: Props) => {
   const [empty, setEmpty] = useState(!initialContent);
   const taskRegister = useRef<EditorTaskRegister>(null);
 
@@ -11,6 +22,10 @@ export const ProfileBioEditor = ({ initialContent }: Props) => {
     taskRegister.current?.(editor => {
       setEmpty(editor.isEmpty);
     });
+  }, []);
+
+  const registerTask = useCallback((task: EditorTask) => {
+    taskRegister?.current?.(task);
   }, []);
 
   useEffect(() => {
@@ -25,6 +40,8 @@ export const ProfileBioEditor = ({ initialContent }: Props) => {
     };
   }, [checkIfEmpty]);
 
+  useImperativeHandle(ref, () => registerTask, [registerTask]);
+
   return (
     <RichTextEditor
       editable
@@ -38,4 +55,5 @@ export const ProfileBioEditor = ({ initialContent }: Props) => {
 
 interface Props {
   initialContent?: JSONContent;
+  ref?: RefObject<EditorTaskRegister | null>;
 }

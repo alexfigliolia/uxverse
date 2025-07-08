@@ -6,5 +6,5 @@ export const DefaultBanner = ({ ref }: BannerProps) => {
 };
 
 export interface BannerProps {
-  ref: RefObject<HTMLImageElement | null>;
+  ref?: RefObject<HTMLImageElement | null>;
 }

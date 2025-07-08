@@ -97,14 +97,10 @@ export const Input = ({
   return (
     <label className={classes}>
       <span className="visitor-input__label">{label || placeholder}</span>
-      <button
-        type="button"
-        tabIndex={-1}
-        onClick={focusInput}
-        className="visitor-input__icon">
+      <div role="button" onClick={focusInput} className="visitor-input__icon">
         <IconStroked aria-hidden />
         <IconFilled aria-hidden />
-      </button>
+      </div>
       {inputPrefix}
       <input
         ref={input}
