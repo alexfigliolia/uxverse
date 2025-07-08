@@ -28,7 +28,7 @@ export const Post = (_: Propless) => {
             aria-label="Share this post"
             shareData={{
               title: "Erica Figliolia's Post",
-              text: "Blah blah blah about stuff and things. Post about stuff and things",
+              text: "Check out this post on visitor",
               url: `${process.env.NEXT_PUBLIC_URL}/feed?post=${1}`,
             }}
           />
