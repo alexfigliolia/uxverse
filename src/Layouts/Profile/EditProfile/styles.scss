@@ -1,6 +1,6 @@
 @use "Styles/Variables";
 
-.bottom-sheet.edit-profile {
+.bottom-sheet.edit-profile.in-app-bottom-sheet.above-navigation-bottom-sheet {
   & .sheet {
     max-width: 600px;
     @media (min-width: 1400px) {
@@ -8,6 +8,7 @@
     }
     & .sheet-scroll-view {
       padding: 0;
+      padding-bottom: 0;
       @media(min-width: 670px) {
         padding: 0;
       }
