@@ -1,7 +1,7 @@
 import { BlurAroundText } from "Components/BlurAroundText";
-import { InsetFullScreenContainer } from "Components/InsetFullScreenContainer";
 import { SplitText } from "Components/SplitText";
 import { Propless } from "Types/React";
+import { InsetFullScreenContainer } from "../InsetFullScreenContainer";
 import { LoginButton } from "./LoginButton";
 import "./styles.scss";
 
