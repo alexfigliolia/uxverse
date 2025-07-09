@@ -1,0 +1,20 @@
+@use "Styles/Variables";
+
+.notification-list {
+  & h3 {
+    margin: 0;
+    font-weight: 400;
+    margin-bottom: 0.5em;
+    font-size: 1em;
+    color: Variables.$gray-text;
+  }
+  &__list {
+    background-color: #fff;
+    list-style-type: none;
+    border-radius: 0.5em;
+    & li {
+      padding: 0.75em;
+      border-bottom: 1px solid Variables.$lighter-gray;
+    }
+  }
+}

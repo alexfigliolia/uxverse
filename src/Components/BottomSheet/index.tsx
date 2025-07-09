@@ -12,7 +12,7 @@ export const BottomSheet = forwardRef(function BottomSheet(
 ) {
   return (
     <Portal>
-      <BottomSheetImpl {...props} ref={ref} />;
+      <BottomSheetImpl {...props} ref={ref} />
     </Portal>
   );
 });

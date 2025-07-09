@@ -82,3 +82,10 @@ $max-content-width: 1200px;
     transition: scale 0.5s;
   }
 }
+
+@mixin pastelRainbow($offset: 45%, $opaqueness: 1) {
+  background: radial-gradient(circle at calc(100% + $offset) 100%, rgba(#f518e6, calc($opaqueness * 66%)),  transparent, transparent),
+              radial-gradient(circle at calc(0% - $offset) 0%, rgba(#12f016, calc($opaqueness * 40%)), transparent, transparent),
+              radial-gradient(circle at calc(100% + $offset) 0%, rgba(#f3fb02, calc($opaqueness * 85%)), transparent, transparent),
+              radial-gradient(circle at calc(0% - $offset) 100%, rgba(#14c0f0, calc($opaqueness * 85%)), transparent, transparent),
+}

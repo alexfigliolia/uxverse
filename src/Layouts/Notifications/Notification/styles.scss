@@ -1,0 +1,28 @@
+@use "Styles/Variables";
+
+.visitor-notification {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  &__action {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+    &> span {
+      font-size: 0.95em;
+      color: Variables.$gray-text;
+      @media (min-width: 670px) {
+        font-size: 1em;
+      }
+      &>strong {
+        font-weight: 500;
+        color: Variables.$black-text;
+      }
+      &:last-of-type {
+        font-size: 0.85em;
+        color: Variables.$gray-text-secondary;
+      }
+    }
+  }
+}
