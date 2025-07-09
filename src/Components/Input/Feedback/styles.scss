@@ -1,26 +1,23 @@
 @use "Styles/Variables";
 
 .visitor-input__feedback {
-  position: relative;
-  &>button {
-    pointer-events: none;
-    border-radius: 50%;
-    outline-offset: -2px;
-    &:focus-visible {
-      outline: 1.5px solid Variables.$red;
+  pointer-events: none;
+  border-radius: 50%;
+  outline-offset: -2px;
+  &:focus-visible {
+    outline: 1.5px solid Variables.$red;
+  }
+  &>svg {
+    scale: 0.6;
+    opacity: 0;
+    &:first-of-type {
+      stroke: url(#success);
     }
-    &>svg {
-      scale: 0.6;
-      opacity: 0;
-      &:first-of-type {
-        stroke: url(#success);
-      }
-        &:last-of-type {
-        stroke: url(#error);
-        & path:first-of-type,
-        & path:last-of-type {
-          stroke: Variables.$red;
-        }
+      &:last-of-type {
+      stroke: url(#error);
+      & path:first-of-type,
+      & path:last-of-type {
+        stroke: Variables.$red;
       }
     }
   }

@@ -1,5 +1,5 @@
 "use client";
-import { RefObject, use, useImperativeHandle } from "react";
+import { Fragment, RefObject, use, useImperativeHandle } from "react";
 import { PopoverToggle } from "@figliolia/modal-stack";
 import { Popover, PopoverContext } from "Components/Popover";
 import { CheckCircleStroked } from "Icons/CheckCircle";
@@ -13,28 +13,27 @@ export const FeedBack = ({ ref, text, valid }: Props) => {
   useImperativeHandle(ref, () => toggle, [toggle]);
 
   return (
-    <div className="visitor-input__feedback">
+    <Fragment>
       <button
         type="button"
         id={triggerID}
         ref={targetRef}
         onClick={togglePopover}
-        aria-controls={popoverID}
         aria-expanded={visible}
+        aria-controls={popoverID}
         aria-hidden={valid !== "INVALID"}
+        className="visitor-input__feedback"
         tabIndex={valid === "INVALID" ? 0 : -1}>
         <CheckCircleStroked aria-hidden />
         <WarningStroked aria-hidden />
       </button>
       <Popover
-        id={popoverID}
-        visible={visible}
-        target={targetRef}
+        arrowPosition="right"
         className="visitor-input__popover"
         aria-live={visible ? "polite" : "off"}>
         {text}
       </Popover>
-    </div>
+    </Fragment>
   );
 };
 

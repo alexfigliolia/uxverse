@@ -26,16 +26,16 @@
       scale: 1 1;
     }
   }
-  &.valid > .visitor-input__feedback > button > svg:first-of-type {
+  &.valid > .visitor-input__feedback > svg:first-of-type {
     opacity: 1;
   }
-  &.invalid > .visitor-input__feedback > button {
+  &.invalid > .visitor-input__feedback {
     pointer-events: auto;
     &> svg:last-of-type {
       opacity: 1;
     }
   }
-  &__feedback > button,
+  &__feedback,
   &__icon {
     width: var(--height);
     height: var(--height);
