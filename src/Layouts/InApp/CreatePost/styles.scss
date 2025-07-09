@@ -22,6 +22,20 @@
       padding-bottom: 0;
     }
   }
+  & .user-avatar-with-info {
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    background-color: rgba(#fff, 0.85);
+    backdrop-filter: blur(5px);
+    padding: 2em 1em 1em;
+    border-bottom-left-radius: 0.5em;
+    border-bottom-right-radius: 0.5em;
+    @media (min-width: 670px) {
+      padding: 1.5em;
+    }
+  }
   & .create-post__form {
     padding: 0 1em;
     @media (min-width: 670px) {

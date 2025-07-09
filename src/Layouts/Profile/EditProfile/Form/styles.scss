@@ -12,17 +12,17 @@
     gap: 1em;
     flex-direction: column;
     border: none;
-    padding: 0;
     width: 100%;
-    max-width: 500px;
+    position: relative;
+    @media (min-width: 1400px) {
+      max-width: 500px;
+    }
     & legend {
-      margin: 0;
-      display: block;
-      font-weight: 400;
-      font-size: 1.25em;
-      margin: 1em 0;
-      @include Variables.themeGradient(to bottom right);
-      @include Variables.clipText;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      pointer-events: none;
+      position: absolute;
     }
   }
   &>.form-actions {

@@ -1,12 +1,11 @@
 import { Avatar } from "Components/Avatar";
-import { GradientBorderButton } from "Components/GradientBorderButton";
 import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
-import { Propless } from "Types/React";
+import { OptionalChildren } from "Types/React";
 import "./styles.scss";
 
-export const Header = (_: Propless) => {
+export const UserAvatarWithInfo = ({ children }: OptionalChildren) => {
   return (
-    <div className="create-post__header">
+    <div className="user-avatar-with-info">
       <div>
         <Avatar active />
         <div>
@@ -18,7 +17,7 @@ export const Header = (_: Propless) => {
           </ReducedLetterSpacing>
         </div>
       </div>
-      <GradientBorderButton text="post" />
+      {children}
     </div>
   );
 };

@@ -9,11 +9,12 @@ import {
   useState,
 } from "react";
 import { CaptureTheMoment } from "Components/CaptureTheMoment";
+import { GradientBorderButton } from "Components/GradientBorderButton";
+import { UserAvatarWithInfo } from "Components/UserAvatarWithInfo";
 import { createTrapNodeCache } from "Tools/CreateModalContext";
 import { Propless } from "Types/React";
 import { AboveNavigationBottomSheet } from "../AboveNavigationBottomSheet";
 import { CreatePostContext } from "./Context";
-import { Header } from "./Header";
 import { PostInput, TextArea } from "./PostInput";
 import { PreviewMedia } from "./PreviewMedia";
 import { IMediaPreview } from "./PreviewMedia/PreviewItem";
@@ -73,7 +74,9 @@ export const CreatePost = (_: Propless) => {
       ref={trapCache}
       close={toggle.close}
       className="create-post">
-      <Header />
+      <UserAvatarWithInfo>
+        <GradientBorderButton text="post" />
+      </UserAvatarWithInfo>
       <div className="create-post__form">
         <form onSubmit={onSubmit}>
           <TextArea

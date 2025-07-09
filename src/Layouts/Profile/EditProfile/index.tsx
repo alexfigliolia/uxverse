@@ -1,10 +1,9 @@
 import { use } from "react";
 import { CloserButton } from "Components/CloserButton";
-import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
+import { UserAvatarWithInfo } from "Components/UserAvatarWithInfo";
 import { AboveNavigationBottomSheet } from "Layouts/InApp";
 import { createTrapNodeCache } from "Tools/CreateModalContext";
 import { Propless } from "Types/React";
-import { AvatarUploader } from "../AvatarUploader";
 import { EditProfileContext } from "./Context";
 import { EditProfileForm } from "./Form";
 import "./styles.scss";
@@ -21,12 +20,12 @@ export const EditProfile = (_: Propless) => {
       ref={nodeCache}
       close={toggle.close}>
       <CloserButton onClick={toggle.close} />
-      <div className="edit-profile__heading">
+      {/* <div className="edit-profile__heading">
         <div className="edit-profile__avatar">
           <AvatarUploader />
-        </div>
-        <ReducedLetterSpacing Tag="h2">Edit Your Profile</ReducedLetterSpacing>
-      </div>
+        </div> 
+      </div> */}
+      <UserAvatarWithInfo />
       <div className="edit-profile__inputs">
         <EditProfileForm />
       </div>
