@@ -1,6 +1,7 @@
-import { createContext, useCallback, useMemo, useState } from "react";
+import { createContext } from "react";
 import { ISheetController } from "@figliolia/bottom-sheet";
-import { ModalToggle, useModalToggle } from "@figliolia/modal-stack";
+import { ModalToggle } from "@figliolia/modal-stack";
+import { useToggle } from "Hooks/useToggle";
 import { OptionalChildren } from "Types/React";
 
 export const createModalContext = () => {
@@ -13,19 +14,7 @@ export const createModalContext = () => {
   });
 
   const Provider = ({ children }: OptionalChildren) => {
-    const [open, setOpen] = useState(false);
-
-    const openModal = useCallback(() => {
-      setOpen(true);
-    }, []);
-
-    const closeModal = useCallback(() => {
-      setOpen(false);
-    }, []);
-
-    const toggle = useModalToggle(openModal, closeModal);
-
-    const value = useMemo(() => ({ toggle, open }), [toggle, open]);
+    const value = useToggle();
     return <Context value={value}>{children}</Context>;
   };
 

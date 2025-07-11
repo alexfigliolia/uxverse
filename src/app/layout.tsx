@@ -1,3 +1,4 @@
+import { Viewport } from "next";
 import { Lexend } from "next/font/google";
 import { classnames } from "@figliolia/classnames";
 import { OptionalChildren } from "Types/React";
@@ -8,6 +9,13 @@ const londrinaShadow = Lexend({
   subsets: ["latin"],
   weight: ["300", "400", "500", "700"],
 });
+
+export const viewport: Viewport = {
+  initialScale: 1,
+  minimumScale: 1,
+  maximumScale: 1,
+  width: "device-width",
+};
 
 export default function RootLayout({ children }: OptionalChildren) {
   return (

@@ -16,7 +16,7 @@ export class Controller {
     this.executeAll();
   };
 
-  public executeAll() {
+  private executeAll() {
     while (this.editor && this.taskQueue.size) {
       this.taskQueue.shift()?.(this.editor);
     }

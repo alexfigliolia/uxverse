@@ -1,14 +1,4 @@
-import { ComponentType } from "react";
 import { PopoverProvider } from "Components/Popover";
+import { WithContextProvider } from "Tools/WithContextProvider";
 
-export const withPopoverContext = <T extends Record<string, any>>(
-  WrappedComponent: ComponentType<T>,
-) => {
-  return function PopoverContextComponent(props: T) {
-    return (
-      <PopoverProvider>
-        <WrappedComponent {...props} />
-      </PopoverProvider>
-    );
-  };
-};
+export const withPopoverContext = WithContextProvider(PopoverProvider);

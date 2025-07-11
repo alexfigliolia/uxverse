@@ -17,8 +17,8 @@
     "@figliolia/event-emitter": "^1.1.6",
     "@figliolia/modal-stack": "^2.3.0",
     "@figliolia/page-switch": "^1.0.8",
-    "@figliolia/react-hooks": "^1.5.0",
-    "@figliolia/size-observer": "^2.1.0",
+    "@figliolia/react-hooks": "^1.7.0",
+    "@figliolia/size-observer": "^2.2.0",
     "@serwist/next": "^9.0.14",
     "@tiptap/extension-document": "^2.25.0",
     "@tiptap/extension-emoji": "^2.25.0",
@@ -34,6 +34,7 @@
     "next": "15.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "requestidlecallback-polyfill": "^1.0.2",
     "serwist": "^9.0.15"
   },
   "devDependencies": {

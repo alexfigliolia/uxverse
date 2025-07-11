@@ -323,10 +323,22 @@
   dependencies:
     "@figliolia/size-observer" "^2.1.0"
 
+"@figliolia/react-hooks@^1.7.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@figliolia/react-hooks/-/react-hooks-1.7.0.tgz#491ae713efb36b55ba352a789bcf855e209af6f4"
+  integrity sha512-8b46clZXRwy43ECFe0sbuU4NQNKsL+eepMTYamCaZ4uqN2G5ppZOjgorcsh8wHkJKZtde/OETrH31QFxQqP1aw==
+  dependencies:
+    "@figliolia/size-observer" "^2.2.0"
+
 "@figliolia/size-observer@^2.1.0":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@figliolia/size-observer/-/size-observer-2.1.0.tgz#3f34ba60f9fca129991cab7875e6b130daaa3e98"
   integrity sha512-59VTKtXoP/SSNHehctcaOLkuSDENojm4cErnChYBuApmhj8Wi0I3Y02/V5duJVfa30Agzzar5KnT/RSgYG+ERQ==
+
+"@figliolia/size-observer@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@figliolia/size-observer/-/size-observer-2.2.0.tgz#911232272e90d2332783d578402f391649e38082"
+  integrity sha512-xzK57KpnhZfMWO8JRyAyorLoyVGrqUdCnEFeeqa4MK0DBWdUTbO/0P/y3hI3SFmIOAc0aeuuOzPlMJC71m+wFg==
 
 "@gltf-transform/cli@^4.1.3":
   version "4.1.3"
@@ -4254,6 +4266,11 @@ regexp.prototype.flags@^1.5.3:
     get-proto "^1.0.1"
     gopd "^1.2.0"
     set-function-name "^2.0.2"
+
+requestidlecallback-polyfill@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/requestidlecallback-polyfill/-/requestidlecallback-polyfill-1.0.2.tgz#02eefae286ff86ef04232087dba19f005308b18e"
+  integrity sha512-zzkRzvMe7UdV0M7AIU70vl2fh4rFnNYDL8U0ISwWiOX/5MowBV1ESYCWSQP/KsgJNUOC/AS6X3DApOmxoyE6MA==
 
 resolve-from@^4.0.0:
   version "4.0.0"

@@ -35,7 +35,7 @@ export const EditProfileForm = (_: Propless) => {
     form.current?.reset?.();
     setName("Erica Figliolia");
     setHandle("ericafigliolia");
-    taskRegister.current?.(editor => editor.commands.clearContent());
+    taskRegister.current?.(editor => editor.commands.clearContent(true));
   }, [toggle]);
 
   return (
