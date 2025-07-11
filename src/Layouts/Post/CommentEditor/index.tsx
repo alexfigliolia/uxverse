@@ -3,7 +3,6 @@ import {
   RefObject,
   use,
   useCallback,
-  useEffect,
   useImperativeHandle,
   useRef,
 } from "react";
@@ -33,12 +32,6 @@ export const CommentEditor = ({ onHeight, clear }: Props) => {
   }, [cancelComment, clearEditor]);
 
   const classes = useClassNames("comment-editor", { visible: commenting });
-
-  useEffect(() => {
-    if (commenting) {
-      registerTask?.current?.(editor => editor.commands.focus());
-    }
-  }, [commenting]);
 
   return (
     <form ref={node} className={classes}>

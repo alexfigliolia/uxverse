@@ -4,7 +4,7 @@ import { LazyLowPriorityRender } from "Components/LowPriorityRender/Lazy";
 import { Comment, Reply } from "./Comment";
 
 export const Comments = (props: Reply) => {
-  const { replies = [], level = 0, visible } = props;
+  const { replies = [], level = 0, visible, onClickReply } = props;
 
   const [showReplies, setShowReplies] = useState(false);
 
@@ -31,6 +31,7 @@ export const Comments = (props: Reply) => {
             key={i}
             level={level + 1}
             setSize={replies.length}
+            onClickReply={onClickReply}
             visible={visible && showReplies}
           />
         ))}

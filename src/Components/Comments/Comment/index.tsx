@@ -1,7 +1,8 @@
-import { use, useCallback, useEffect, useMemo, useState } from "react";
+import { use, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useClassNames } from "@figliolia/classnames";
 import { PostActions } from "Components/PostActions";
 import { PostHeading } from "Components/PostHeading";
+import { useMergedRefs } from "Hooks/useMergedRefs";
 import { useScrollHeight } from "Hooks/useScrollHeight";
 import { ChevronDown } from "Icons/ChevronDown";
 import { ReplyIcon } from "Icons/Reply";
@@ -18,11 +19,15 @@ export const Comment = ({
   expanded = false,
   openReplies,
   closeReplies,
+  onClickReply,
   visible: _visible = true,
 }: Props) => {
+  const node = useRef<HTMLLIElement>(null);
   const [visible, setVisible] = useState(false);
-  const [node, scrollHeight] = useScrollHeight();
   const { commentId, createComment } = use(ReplyContext);
+  const [container, scrollHeight] = useScrollHeight<HTMLLIElement>();
+
+  const ref = useMergedRefs(container, node);
 
   const classes = useClassNames("comment", {
     visible,
@@ -41,13 +46,14 @@ export const Comment = ({
     return expanded ? closeReplies : openReplies;
   }, [replies.length, expanded, closeReplies, openReplies]);
 
-  const onClickReply = useCallback(() => {
+  const onReply = useCallback(() => {
     createComment(id);
-  }, [createComment, id]);
+    onClickReply?.(node.current);
+  }, [createComment, onClickReply, id]);
 
   return (
     <li
-      ref={node}
+      ref={ref}
       role="treeitem"
       className={classes}
       aria-level={level + 1}
@@ -66,7 +72,7 @@ export const Comment = ({
         comments={replies.length}
         onClickComments={onClickComments}>
         {!!replies.length && <ChevronDown />}
-        <button className="reaction-button reply-button" onClick={onClickReply}>
+        <button className="reaction-button reply-button" onClick={onReply}>
           <div className="icons-reply">
             <ReplyIcon aria-hidden />
             <ReplyIcon aria-hidden />
@@ -88,6 +94,7 @@ export interface Props {
   replies?: Reply[];
   openReplies: Callback;
   closeReplies: Callback;
+  onClickReply?: Callback<[HTMLLIElement | null]>;
 }
 
 export type Reply = Omit<Props, "openReplies" | "closeReplies">;

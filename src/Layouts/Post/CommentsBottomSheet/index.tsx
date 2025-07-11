@@ -25,13 +25,21 @@ export const CommentsBottomSheet = withReplyProvider((_: Propless) => {
     clearEditor?.current?.();
   }, [toggle, cancelComment]);
 
+  const onClickReply = useCallback((node: HTMLLIElement | null) => {
+    node?.scrollIntoView?.({
+      block: "start",
+      inline: "nearest",
+      behavior: "smooth",
+    });
+  }, []);
+
   return (
     <AboveNavigationBottomSheet
       open={open}
       close={close}
       className="comments-bottom-sheet">
       <CloserButton onClick={close} />
-      <CommentsTree style={{ paddingBottom }} />
+      <CommentsTree style={{ paddingBottom }} onClickReply={onClickReply} />
       <CommentEditor clear={clearEditor} onHeight={setPaddingBottom} />
     </AboveNavigationBottomSheet>
   );
