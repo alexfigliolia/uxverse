@@ -1,10 +1,15 @@
 @use "Styles/Variables";
 
 .bounded-content.post-page {
+  --max-height: 0px;
   padding-top: 1em;
   min-height: 100svh;
   @media(min-width: 670px) {
     padding-top: 1.5em;
+  }
+  &.commenting > div {
+    transition: padding-bottom 0s;
+    padding-bottom: var(--max-height);
   }
   &>div {
     width: 100%;
@@ -15,6 +20,7 @@
     background-color: #fff;
     border-radius: 0.5em;
     flex-direction: column;
+    transition: padding-bottom 0.5s;
   }
   & .post {
     border-radius: 0;
@@ -47,5 +53,14 @@
     @media(min-width: 670px) {
       padding: 0 0.75em 1.5em;
     } 
+  }
+  & .comment-editor {
+    left: 50%;
+    z-index: 400;
+    max-width: 700px;
+    translate: -50% 50%;
+    &.visible {
+      translate: -50% 0;
+    }
   }
 }
