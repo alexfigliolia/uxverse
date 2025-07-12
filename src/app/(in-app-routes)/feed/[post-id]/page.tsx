@@ -15,11 +15,15 @@ export default withCommentsWindowContext(function PostPage(_: Propless) {
   const { toggle } = use(CommentsWindowContext);
 
   const onClickReply = useCallback((node: HTMLLIElement | null) => {
-    node?.scrollIntoView?.({
-      block: "start",
-      inline: "nearest",
-      behavior: "smooth",
-    });
+    if (typeof window !== "undefined" && node) {
+      window.scrollTo({
+        top:
+          node.getBoundingClientRect().top +
+          document.documentElement.scrollTop -
+          32,
+        behavior: "smooth",
+      });
+    }
   }, []);
 
   return (
