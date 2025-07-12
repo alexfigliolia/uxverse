@@ -1,4 +1,12 @@
-import { use, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  use,
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useClassNames } from "@figliolia/classnames";
 import { PostActions } from "Components/PostActions";
 import { PostHeading } from "Components/PostHeading";
@@ -22,9 +30,10 @@ export const Comment = ({
   onClickReply,
   visible: _visible = true,
 }: Props) => {
+  const paragraphID = useId();
   const node = useRef<HTMLLIElement>(null);
   const [visible, setVisible] = useState(_visible);
-  const { commentId, createComment } = use(ReplyContext);
+  const { commentId, toggle } = use(ReplyContext);
   const [container, scrollHeight] = useScrollHeight<
     HTMLLIElement,
     number | "unset"
@@ -50,9 +59,11 @@ export const Comment = ({
   }, [replies.length, expanded, closeReplies, openReplies]);
 
   const onReply = useCallback(() => {
-    createComment(id);
+    toggle.open(id);
     onClickReply?.(node.current);
-  }, [createComment, onClickReply, id]);
+  }, [toggle, onClickReply, id]);
+
+  const ariaLabel = useMemo(() => "Comment by username", []);
 
   return (
     <li
@@ -63,6 +74,8 @@ export const Comment = ({
       aria-setsize={setSize}
       aria-hidden={!visible}
       aria-expanded={expanded}
+      aria-label={ariaLabel}
+      aria-describedby={paragraphID}
       aria-selected={commentId === id}
       style={{
         "--level": level,
@@ -71,7 +84,7 @@ export const Comment = ({
       }}>
       <article>
         <PostHeading />
-        <p>{comment}</p>
+        <p id={paragraphID}>{comment}</p>
         <PostActions
           likes={3}
           conditionalComments

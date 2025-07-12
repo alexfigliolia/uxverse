@@ -1,14 +1,16 @@
 "use client";
 import { createContext, useCallback, useMemo, useState } from "react";
+import { ModalToggle, useModalToggle } from "@figliolia/modal-stack";
 import { WithContextProvider } from "Tools/WithContextProvider";
-import { Callback } from "Types/Generics";
 import { OptionalChildren } from "Types/React";
 
 export const ReplyContext = createContext<IReplyContext>({
   commentId: null,
   commenting: false,
-  createComment: () => {},
-  cancelComment: () => {},
+  toggle: new ModalToggle(
+    (_: number | null) => {},
+    () => {},
+  ),
 });
 
 export const ReplyProvider = ({ children }: OptionalChildren) => {
@@ -25,9 +27,11 @@ export const ReplyProvider = ({ children }: OptionalChildren) => {
     setCommenting(true);
   }, []);
 
+  const toggle = useModalToggle(createComment, cancelComment);
+
   const value = useMemo(
-    () => ({ commenting, commentId, createComment, cancelComment }),
-    [commenting, commentId, createComment, cancelComment],
+    () => ({ commenting, commentId, toggle }),
+    [commenting, commentId, toggle],
   );
 
   return <ReplyContext value={value}>{children}</ReplyContext>;
@@ -38,6 +42,5 @@ export const withReplyProvider = WithContextProvider(ReplyProvider);
 interface IReplyContext {
   commenting: boolean;
   commentId: number | null;
-  cancelComment: Callback;
-  createComment: Callback<[number | null]>;
+  toggle: ModalToggle<[ID: number | null]>;
 }
