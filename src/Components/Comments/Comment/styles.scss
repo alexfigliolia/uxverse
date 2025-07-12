@@ -2,17 +2,17 @@
 
 .comment {
   --level: 0;
+  --font-size: 0.9em;
   --max-height: unset;
   padding: 0.75em;
-  font-size: 0.9em;
   position: relative;
   max-height: 0;
   opacity: 0;
   visibility: hidden;
   margin-bottom: -1.5em;
   border-radius: 0.5em;
-  margin-left: calc(1.5em * var(--level));
-  width: calc(100% - (1.5em * var(--level)));
+  margin-left: calc(1em * var(--level));
+  width: calc(100% - (1em * var(--level)));
   transition: max-height 0.5s 0.15s, margin-bottom 0.5s 0.15s, opacity 0.35s, visibility 0s 0.5s, background-color 0.3s;
   &.visible {
     opacity: 1;
@@ -33,6 +33,7 @@
     width: 100%;
     display: flex;
     gap: 0.75em;
+    font-size: var(--font-size);
     flex-direction: column;
     &>p {
       margin: 0;
@@ -50,16 +51,11 @@
         height: 1px;
         background-color: Variables.$light-gray;
       }
-      & .reaction-button {
-        &>div {
-          width: 1.45em;
-          height: 1.45em;
-          &.icons-likes {
-            width: 1.3em;
-            height: 1.3em;
-          }
+      & .reaction-button.reply-button {
+        &:hover > div > svg:first-of-type {
+          stroke: Variables.$gray-text;
         }
-        &.reply-button > div {
+        &> div {
           width: 1.5em;
           height: 1.5em;
           margin-right: 0.15em;

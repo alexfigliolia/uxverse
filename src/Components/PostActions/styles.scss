@@ -24,8 +24,8 @@
     &>div {
       position: relative;
       &[class$='likes'] {
-        width: 1.5em;
-        height: 1.5em;
+        width: 1.35em;
+        height: 1.35em;
         translate: 0 -0.1em;
         &>svg {
           fill: Variables.$gray-text-secondary;
@@ -35,8 +35,8 @@
         }
       }
       &[class$='comments'] {
-        width: 1.65em;
-        height: 1.65em;
+        width: 1.5em;
+        height: 1.5em;
         margin-right: 0.15em;
         &>svg {
           stroke: Variables.$gray-text-secondary;
