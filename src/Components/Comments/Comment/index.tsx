@@ -23,9 +23,12 @@ export const Comment = ({
   visible: _visible = true,
 }: Props) => {
   const node = useRef<HTMLLIElement>(null);
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(_visible);
   const { commentId, createComment } = use(ReplyContext);
-  const [container, scrollHeight] = useScrollHeight<HTMLLIElement>();
+  const [container, scrollHeight] = useScrollHeight<
+    HTMLLIElement,
+    number | "unset"
+  >(_visible ? "unset" : 0);
 
   const ref = useMergedRefs(container, node);
 
@@ -61,25 +64,31 @@ export const Comment = ({
       aria-hidden={!visible}
       aria-expanded={expanded}
       aria-selected={commentId === id}
-      style={{ "--level": level, "--max-height": `${scrollHeight}px` }}>
-      <PostHeading />
-      <p>{comment}</p>
-      <PostActions
-        likes={3}
-        conditionalComments
-        commentType="Reply"
-        commentTypePlural="Replies"
-        comments={replies.length}
-        onClickComments={onClickComments}>
-        {!!replies.length && <ChevronDown />}
-        <button className="reaction-button reply-button" onClick={onReply}>
-          <div className="icons-reply">
-            <ReplyIcon aria-hidden />
-            <ReplyIcon aria-hidden />
-          </div>
-          <span>Reply</span>
-        </button>
-      </PostActions>
+      style={{
+        "--level": level,
+        "--max-height":
+          scrollHeight === "unset" ? scrollHeight : `${scrollHeight}px`,
+      }}>
+      <article>
+        <PostHeading />
+        <p>{comment}</p>
+        <PostActions
+          likes={3}
+          conditionalComments
+          commentType="Reply"
+          commentTypePlural="Replies"
+          comments={replies.length}
+          onClickComments={onClickComments}>
+          {!!replies.length && <ChevronDown />}
+          <button className="reaction-button reply-button" onClick={onReply}>
+            <div className="icons-reply">
+              <ReplyIcon aria-hidden />
+              <ReplyIcon aria-hidden />
+            </div>
+            <span>Reply</span>
+          </button>
+        </PostActions>
+      </article>
     </li>
   );
 };
