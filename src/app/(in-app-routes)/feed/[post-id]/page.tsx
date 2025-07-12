@@ -1,45 +1,79 @@
 "use client";
 import { Fragment, use, useCallback, useRef, useState } from "react";
 import { useClassNames } from "@figliolia/classnames";
+import { useTimeout } from "@figliolia/react-hooks";
 import { BoundedContent } from "Components/BoundedContent";
 import { ReplyContext, withReplyProvider } from "Components/Comments";
+import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
+import { Suspended } from "HOCs/Suspended";
+import { useCommentParam } from "Hooks/useCommentParam";
 import { Post } from "Layouts/Feed";
 import { CommentEditor, CommentsTree } from "Layouts/Post";
 import { Scrolling } from "Tools/Scrolling";
+import { Callback } from "Types/Generics";
 import { Propless } from "Types/React";
 import "./styles.scss";
 
-export default withReplyProvider(function PostPage(_: Propless) {
-  const { commenting } = use(ReplyContext);
-  const title = useRef<HTMLHeadingElement>(null);
-  const [editorHeight, setEditorHeight] = useState(0);
+export default Suspended(
+  withReplyProvider(function PostPage(_: Propless) {
+    const timeout = useTimeout();
+    const { commenting } = use(ReplyContext);
+    const title = useRef<HTMLHeadingElement>(null);
+    const [editorHeight, setEditorHeight] = useState(0);
 
-  const onClickComments = useCallback(() => {
-    Scrolling.agnosticScrollToNode(title.current);
-  }, []);
+    const conditionallyDelay = useCallback(
+      (fn: Callback, wait = false) => {
+        timeout.execute(() => fn(), wait ? 500 : 0);
+      },
+      [timeout],
+    );
 
-  const onClickReply = useCallback((node: HTMLLIElement | null) => {
-    void Promise.resolve().then(() => {
-      Scrolling.agnosticScrollToNode(node, 32);
-    });
-  }, []);
+    const scrollToComments = useCallback(
+      (wait = false) => {
+        conditionallyDelay(
+          () => Scrolling.scrollWindowToNode(title.current),
+          wait,
+        );
+      },
+      [conditionallyDelay],
+    );
 
-  const onEditorHeight = useCallback((height: number) => {
-    setEditorHeight(height / 2);
-  }, []);
+    const onClickReply = useCallback(
+      (node: HTMLLIElement | null, wait: boolean = false) => {
+        conditionallyDelay(() => Scrolling.scrollWindowToNode(node, 32), wait);
+      },
+      [conditionallyDelay],
+    );
 
-  const classes = useClassNames("post-page", { commenting });
+    const onEditorHeight = useCallback((height: number) => {
+      setEditorHeight(height / 2);
+    }, []);
 
-  return (
-    <Fragment>
-      <BoundedContent
-        className={classes}
-        style={{ "--max-height": `${editorHeight}px` }}>
-        <Post onClickComments={onClickComments} />
-        <h4 ref={title}>Comments</h4>
-        <CommentsTree onClickReply={onClickReply} />
-        <CommentEditor onHeight={onEditorHeight} />
-      </BoundedContent>
-    </Fragment>
-  );
-});
+    const onCommentParam = useCallback(() => {
+      scrollToComments(true);
+    }, [scrollToComments]);
+
+    const onClickComments = useCallback(() => {
+      scrollToComments();
+    }, [scrollToComments]);
+
+    useCommentParam(onCommentParam);
+
+    const classes = useClassNames("post-page", { commenting });
+
+    return (
+      <Fragment>
+        <BoundedContent
+          className={classes}
+          style={{ "--max-height": `${editorHeight}px` }}>
+          <Post onClickComments={onClickComments} />
+          <ReducedLetterSpacing ref={title} Tag="h4">
+            Comments
+          </ReducedLetterSpacing>
+          <CommentsTree onClickReply={onClickReply} />
+          <CommentEditor onHeight={onEditorHeight} />
+        </BoundedContent>
+      </Fragment>
+    );
+  }),
+);

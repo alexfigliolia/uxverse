@@ -1,4 +1,4 @@
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, HTMLProps } from "react";
 
 export type ContainerElement = "div" | "section" | "main";
 
@@ -20,7 +20,7 @@ export type TextTag =
   | "strong"
   | "legend";
 
-export type TextProps<T extends TextTag = "h1"> = HTMLAttributes<
+export type TextProps<T extends TextTag = "h1"> = HTMLProps<
   HTMLElementTagNameMap[T]
 > & {
   Tag?: T;

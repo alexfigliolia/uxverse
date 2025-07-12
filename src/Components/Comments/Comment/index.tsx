@@ -16,6 +16,7 @@ import { ChevronDown } from "Icons/ChevronDown";
 import { ReplyIcon } from "Icons/Reply";
 import { Callback } from "Types/Generics";
 import { ReplyContext } from "../ReplyContext";
+import { useQueryParamComment } from "./useQueryParamComment";
 import "./styles.scss";
 
 export const Comment = ({
@@ -25,6 +26,7 @@ export const Comment = ({
   setSize = 0,
   replies = [],
   expanded = false,
+  openParents,
   openReplies,
   closeReplies,
   onClickReply,
@@ -50,6 +52,14 @@ export const Comment = ({
     setTimeout(() => setVisible(_visible), 0);
   }, [_visible]);
 
+  const onQueryParamActivated = useCallback(() => {
+    openParents();
+    toggle.open(id);
+    onClickReply?.(node.current, true);
+  }, [openParents, onClickReply, toggle, id]);
+
+  useQueryParamComment(id, onQueryParamActivated);
+
   const onClickComments = useMemo(() => {
     if (!replies.length) {
       return undefined;
@@ -59,8 +69,8 @@ export const Comment = ({
 
   const onReply = useCallback(() => {
     toggle.open(id);
-    onClickReply?.(node.current);
-  }, [toggle, onClickReply, id]);
+    onClickReply?.(node.current, false);
+  }, [toggle, id, onClickReply]);
 
   const ariaLabel = useMemo(() => "Comment by username", []);
 
@@ -85,6 +95,7 @@ export const Comment = ({
         <p id={paragraphID}>{comment}</p>
         <PostActions
           likes={3}
+          commentId={id}
           conditionalComments
           commentType="Reply"
           commentTypePlural="Replies"
@@ -104,17 +115,19 @@ export const Comment = ({
   );
 };
 
-export interface Props {
-  id: number;
+export interface Props extends CommentEntry {
   visible?: boolean;
   level?: number;
   setSize?: number;
-  comment: string;
   expanded?: boolean;
-  replies?: Reply[];
   openReplies: Callback;
   closeReplies: Callback;
-  onClickReply?: Callback<[HTMLLIElement | null]>;
+  openParents: Callback;
+  onClickReply?: Callback<[HTMLLIElement | null, boolean | undefined]>;
 }
 
-export type Reply = Omit<Props, "openReplies" | "closeReplies">;
+interface CommentEntry {
+  id: number;
+  comment: string;
+  replies?: CommentEntry[];
+}

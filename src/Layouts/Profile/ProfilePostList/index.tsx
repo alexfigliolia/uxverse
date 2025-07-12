@@ -8,7 +8,7 @@ import "./styles.scss";
 
 export const ProfilePostList = (_: Propless) => {
   const { panelID } = use(TabsContext);
-  const navigate = useNavigateToPost(1);
+  const navigate = useNavigateToPost(1, true);
   return (
     <div id={panelID} role="tabpanel" className="profile-post-list">
       <Post onClickComments={navigate} />

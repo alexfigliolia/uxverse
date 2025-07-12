@@ -1,16 +1,24 @@
 "use client";
 import { Fragment, useCallback, useState } from "react";
 import { LazyLowPriorityRender } from "Components/LowPriorityRender/Lazy";
-import { Comment, Reply } from "./Comment";
+import { Callback } from "Types/Generics";
+import { Comment, type Props as CommentProps } from "./Comment";
 
-export const Comments = (props: Reply) => {
-  const { replies = [], level = 0, visible, onClickReply } = props;
+export const Comments = (props: Props) => {
+  const {
+    replies = [],
+    level = 0,
+    visible,
+    onClickReply,
+    openReplies: openParentReplies = () => {},
+  } = props;
 
   const [showReplies, setShowReplies] = useState(false);
 
   const openReplies = useCallback(() => {
+    openParentReplies();
     setShowReplies(true);
-  }, []);
+  }, [openParentReplies]);
 
   const closeReplies = useCallback(() => {
     setShowReplies(false);
@@ -23,6 +31,7 @@ export const Comments = (props: Reply) => {
         expanded={showReplies}
         openReplies={openReplies}
         closeReplies={closeReplies}
+        openParents={openParentReplies}
       />
       <LazyLowPriorityRender>
         {replies.map((reply, i) => (
@@ -31,6 +40,7 @@ export const Comments = (props: Reply) => {
             key={i}
             level={level + 1}
             setSize={replies.length}
+            openReplies={openReplies}
             onClickReply={onClickReply}
             visible={visible && showReplies}
           />
@@ -39,3 +49,8 @@ export const Comments = (props: Reply) => {
     </Fragment>
   );
 };
+
+interface Props
+  extends Omit<CommentProps, "closeReplies" | "openReplies" | "openParents"> {
+  openReplies?: Callback;
+}

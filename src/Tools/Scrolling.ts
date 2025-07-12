@@ -1,5 +1,5 @@
 export class Scrolling {
-  public static agnosticScrollToNode<T extends Element>(
+  public static scrollWindowToNode<T extends Element>(
     node: T | null,
     offset = 16,
   ) {

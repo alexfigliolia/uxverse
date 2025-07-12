@@ -7,7 +7,7 @@ import { Propless } from "Types/React";
 import { Post } from "../Post";
 
 export const Feed = (_: Propless) => {
-  const navigate = useNavigateToPost(1);
+  const navigate = useNavigateToPost(1, true);
   const { panelID, activeTab, toTabID } = use(TabsContext);
   const activeID = useMemo(() => toTabID(activeTab), [toTabID, activeTab]);
   return (
