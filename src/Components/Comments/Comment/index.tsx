@@ -34,10 +34,9 @@ export const Comment = ({
   const node = useRef<HTMLLIElement>(null);
   const [visible, setVisible] = useState(_visible);
   const { commentId, toggle } = use(ReplyContext);
-  const [container, scrollHeight] = useScrollHeight<
-    HTMLLIElement,
-    number | "unset"
-  >(_visible ? "unset" : 0);
+  const [container, scrollHeight] = useScrollHeight<HTMLLIElement>(
+    _visible ? 10000 : 0,
+  );
 
   const ref = useMergedRefs(container, node);
 
@@ -79,8 +78,7 @@ export const Comment = ({
       aria-selected={commentId === id}
       style={{
         "--level": level,
-        "--max-height":
-          scrollHeight === "unset" ? scrollHeight : `${scrollHeight}px`,
+        "--max-height": `${scrollHeight}px`,
       }}>
       <article>
         <PostHeading />
