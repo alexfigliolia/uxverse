@@ -1,6 +1,5 @@
 import { TabsContextProvider } from "Components/Tabs/TabsContext";
 import { Feed as FeedContent, Header } from "Layouts/Feed";
-import { PostScreen } from "Layouts/Post";
 import { Propless } from "Types/React";
 import "./styles.scss";
 
@@ -20,7 +19,6 @@ export default function Feed(_: Propless) {
     <TabsContextProvider options={TABS}>
       <Header />
       <FeedContent />
-      <PostScreen />
     </TabsContextProvider>
   );
 }

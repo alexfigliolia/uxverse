@@ -51,6 +51,9 @@
         width: 100%;
         position: relative;
         z-index: 1;
+        &:first-of-type {
+          transition: opacity 0.5s, stroke 0.5s, fill 0.5s;
+        }
         &:last-of-type {
           top: 0;
           left: 0;

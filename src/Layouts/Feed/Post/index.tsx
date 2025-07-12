@@ -4,10 +4,10 @@ import { PostActions } from "Components/PostActions";
 import { PostHeading } from "Components/PostHeading";
 import { Reactions } from "Components/Reactions";
 import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
-import { Propless } from "Types/React";
+import { Callback } from "Types/Generics";
 import "./styles.scss";
 
-export const Post = (_: Propless) => {
+export const Post = ({ onClickComments }: Props) => {
   return (
     <article className="post">
       <PostHeading />
@@ -18,7 +18,7 @@ export const Post = (_: Propless) => {
         <Reactions />
         <OverscrollDetector Tag="p">
           <ReducedLetterSpacing Tag="strong">
-            Erica Figliolia&nbsp;&nbsp;
+            Erica Figliolia&nbsp;
           </ReducedLetterSpacing>
           Blah blah blah about stuff and things. Post about stuff and things
           Blah blah blah about stuff and things. Post about stuff and things
@@ -41,8 +41,16 @@ export const Post = (_: Propless) => {
           Blah blah blah about stuff and things. Post about stuff and things
           Blah blah blah about stuff and things. Post about stuff and things
         </OverscrollDetector>
-        <PostActions likes={32} comments={12} />
+        <PostActions
+          likes={32}
+          comments={12}
+          onClickComments={onClickComments}
+        />
       </div>
     </article>
   );
 };
+
+interface Props {
+  onClickComments?: Callback;
+}

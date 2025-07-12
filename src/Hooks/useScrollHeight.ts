@@ -3,11 +3,15 @@ import { Options, useSizeObserver } from "@figliolia/size-observer";
 import { Callback } from "Types/Generics";
 import { useMergedRefs } from "./useMergedRefs";
 
-export const useScrollHeight = <T extends HTMLElement = HTMLElement>(
+export const useScrollHeight = <
+  T extends HTMLElement = HTMLElement,
+  D = number,
+>(
+  defaultValue = 0 as D,
   onHeight?: Callback<[number]>,
 ) => {
   const measureRef = useRef<T>(null);
-  const [height, setHeight] = useState(0);
+  const [height, setHeight] = useState<D | number>(defaultValue);
 
   const cacheHeight = useCallback(() => {
     if (measureRef.current) {
