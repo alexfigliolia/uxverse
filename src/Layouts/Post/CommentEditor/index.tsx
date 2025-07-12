@@ -18,7 +18,7 @@ export const CommentEditor = ({ onHeight, clear }: Props) => {
   const { cancelComment, commenting } = use(ReplyContext);
   const registerTask = useRef<EditorTaskRegister>(null);
 
-  const [node] = useScrollHeight<HTMLFormElement>(onHeight);
+  const [node] = useScrollHeight<HTMLFormElement>(0, onHeight);
 
   const clearEditor = useCallback(() => {
     registerTask.current?.(editor => editor.commands.clearContent(true));
