@@ -31,6 +31,11 @@
     }
     & .icon-link {
       --icon-size: 2em;
+      & .user-filled,
+      & .feed-filled,
+      & .bell-filled {
+        scale: 1.1;
+      }
     }
     & .create-button {
       width: 60px;
