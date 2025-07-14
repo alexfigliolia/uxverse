@@ -2,8 +2,8 @@
 
 .profile-stats {
   width: 100%;
-  @include Variables.center;
   gap: 1em;
+  @include Variables.center;
   @include Variables.systemFont;
   &>div {
     @include Variables.center;
@@ -13,13 +13,13 @@
       &:first-of-type {
         font-size: 1.2em;
         font-weight: 600;
-        color: Variables.$black-text-secondary;
+        color: Variables.$black-text;
       }
       &:last-of-type {
         font-size: 0.65em;
         font-weight: 500;
         text-transform: uppercase;
-        color: Variables.$gray-text-secondary;
+        color: Variables.$gray-text;
       }
     }
   }

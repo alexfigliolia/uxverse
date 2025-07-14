@@ -1,0 +1,9 @@
+@use "Styles/Variables";
+
+.editor-content-renderer {
+  line-height: 1.5;
+  color: Variables.$black-text-secondary;
+  & p:empty::after {
+    content: "\00A0";
+  }
+}

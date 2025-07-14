@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
+import { UserSocialLinks } from "Components/SocialLinks";
 import { OptionalChildren } from "Types/React";
 import "./styles.scss";
 
@@ -22,6 +23,7 @@ export const ProfileBio = ({ children }: OptionalChildren) => {
           <ReducedLetterSpacing Tag="span">
             @ericafigliolia
           </ReducedLetterSpacing>
+          <UserSocialLinks />
         </div>
       </div>
       <p

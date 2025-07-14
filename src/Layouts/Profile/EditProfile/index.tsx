@@ -20,11 +20,6 @@ export const EditProfile = (_: Propless) => {
       ref={nodeCache}
       close={toggle.close}>
       <CloserButton onClick={toggle.close} />
-      {/* <div className="edit-profile__heading">
-        <div className="edit-profile__avatar">
-          <AvatarUploader />
-        </div> 
-      </div> */}
       <UserAvatarWithInfo />
       <div className="edit-profile__inputs">
         <EditProfileForm />

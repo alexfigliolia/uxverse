@@ -1,0 +1,42 @@
+@use "Styles/Variables";
+
+.profile-actions {
+  @include Variables.center;
+  gap: 1em;
+  width: 100%;
+  &>button {
+    @include Variables.center;
+    gap: 0.5em;
+    width: 100%;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    font-weight: 500;
+    &:first-of-type {
+      color: Variables.$black-text-secondary;
+      background-color: Variables.$light-gray;
+      &>div {
+        gap: inherit;
+      }
+      & svg {
+        fill: url(#themeGradient);
+      }
+    }
+    &:last-of-type {
+      color: #fff;
+      border-radius: 0.5em;
+      padding: 0.5em 1em;
+      @include Variables.themeGlow(0.2em, 0.2);
+      @include Variables.themeGradient(to bottom right);
+      &>span {
+        font-size: 0.9em;
+      }
+      &>svg {
+        fill: #fff;
+      }
+    }
+    & svg {
+      width: 1.5em;
+      height: 1.5em;
+    }
+  }
+}

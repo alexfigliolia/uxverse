@@ -9,11 +9,6 @@ import {
 } from "react";
 import { useClassNames } from "@figliolia/classnames";
 import { useController } from "@figliolia/react-hooks";
-import Document from "@tiptap/extension-document";
-import Emoji, { gitHubEmojis } from "@tiptap/extension-emoji";
-import Link from "@tiptap/extension-link";
-import Paragraph from "@tiptap/extension-paragraph";
-import Text from "@tiptap/extension-text";
 import {
   EditorContent,
   Extensions,
@@ -37,22 +32,7 @@ export const RichTextEditor = ({
   const controller = useController(new Controller());
 
   const mergedExtensions = useMemo(
-    () => [
-      ...extensions,
-      Text,
-      Paragraph,
-      Document,
-      Emoji.configure({
-        emojis: gitHubEmojis,
-        enableEmoticons: true,
-      }),
-      Link.configure({
-        openOnClick: true,
-        autolink: true,
-        defaultProtocol: "https",
-        protocols: ["http", "https"],
-      }),
-    ],
+    () => [...extensions, ...Controller.DEFAULT_EXTENSIONS],
     [extensions],
   );
 
@@ -90,7 +70,7 @@ export const RichTextEditor = ({
 
   return (
     <EditorContent className={classes} editor={editor}>
-      {empty && placeholder && (
+      {editable && empty && placeholder && (
         <span className="input-placeholder">{placeholder}</span>
       )}
       {children}

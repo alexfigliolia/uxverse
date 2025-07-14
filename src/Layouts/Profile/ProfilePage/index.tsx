@@ -1,7 +1,6 @@
 "use client";
 import {
   ComponentType,
-  Fragment,
   ReactNode,
   RefObject,
   useCallback,
@@ -10,17 +9,13 @@ import {
   useState,
 } from "react";
 import { useClassNames } from "@figliolia/classnames";
+import { EditorContentRenderer } from "Components/EditorContentRenderer";
 import { TabsContextProvider } from "Components/Tabs/TabsContext";
 import { useScrollAnimation } from "Hooks/useScrollAnimation";
 import { GridFilled, GridStroked } from "Icons/Grid";
 import { PostFilled, PostStroked } from "Icons/Post";
-import {
-  ProfileBio,
-  ProfileFeed,
-  ProfileStats,
-  ProfileTab,
-  ProfileTabs,
-} from "Layouts/Profile";
+import { ProfileFeed, ProfileTab, ProfileTabs } from "Layouts/Profile";
+import { UserProfileInfo } from "../UserProfileInfo";
 import "./styles.scss";
 
 const TABS: ProfileTab[] = [
@@ -38,7 +33,12 @@ const TABS: ProfileTab[] = [
   },
 ];
 
-export function ProfilePage({ avatar, Banner, editButton }: Props) {
+export function ProfilePage({
+  avatar,
+  Banner,
+  editButton,
+  profileActions,
+}: Props) {
   const image = useRef<HTMLImageElement>(null);
   const [ready, setReady] = useState(false);
   const [compress, setCompress] = useState(false);
@@ -74,26 +74,22 @@ export function ProfilePage({ avatar, Banner, editButton }: Props) {
         <div className="profile-page__banner">
           <Banner ref={image} />
         </div>
-        <div className="profile-page__content">
-          <div className="profile-page__content-header">
-            <div className="profile-page__bio">
-              <div className="profile-page__avatar">{avatar}</div>
-              <ProfileBio>
-                <Fragment>
-                  {editButton}
-                  <ProfileStats
-                    posts={123}
-                    following={335}
-                    likes={3000000}
-                    followers={4353434}
-                  />
-                </Fragment>
-              </ProfileBio>
-            </div>
-            <div className="profile-page__feed-group">
-              <ProfileTabs />
-            </div>
+        <div className="profile-page__avatar">{avatar}</div>
+        <div className="profile-page__header">
+          {editButton}
+          <div className="profile-page__avatar">
+            {avatar} {profileActions}
           </div>
+          <div className="profile-page__bio">
+            <UserProfileInfo />
+            {profileActions}
+            <EditorContentRenderer />
+          </div>
+          <div className="profile-page__tabs">
+            <ProfileTabs />
+          </div>
+        </div>
+        <div className="profile-page__content">
           <ProfileFeed />
         </div>
       </div>
@@ -104,5 +100,6 @@ export function ProfilePage({ avatar, Banner, editButton }: Props) {
 interface Props {
   avatar: ReactNode;
   editButton?: ReactNode;
+  profileActions?: ReactNode;
   Banner: ComponentType<{ ref: RefObject<HTMLImageElement | null> }>;
 }
