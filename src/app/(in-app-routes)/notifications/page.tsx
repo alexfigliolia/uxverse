@@ -10,26 +10,18 @@ import "./styles.scss";
 
 export default function Notifications(_: Propless) {
   const [ready, setReady] = useState(false);
-  const [sticky, setSticky] = useState(false);
   const [compress, setCompress] = useState(false);
 
-  const isSticky = useCallback(() => {
-    return document.body.offsetHeight >= window.innerHeight + 100;
-  }, []);
-
   const onScroll = useCallback(() => {
-    const stick = isSticky();
     setReady(true);
-    setSticky(stick);
-    setCompress(stick && window.scrollY >= 50);
-  }, [isSticky]);
+    setCompress(window.scrollY >= 50);
+  }, []);
 
   useScrollAnimation(onScroll);
 
   const classes = useClassNames("notifications-page", {
     ready,
     compress,
-    sticky,
   });
 
   return (
