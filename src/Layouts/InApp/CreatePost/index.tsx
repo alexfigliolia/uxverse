@@ -24,6 +24,7 @@ export const CreatePost = (_: Propless) => {
   const { toggle, open } = use(CreatePostContext);
   const fileUploader = useRef<HTMLInputElement>(null);
   const [place, setPlace] = useState("");
+  const [loading, setLoading] = useState(0);
   const [_files, setFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<IMediaPreview[]>([]);
 
@@ -39,6 +40,10 @@ export const CreatePost = (_: Propless) => {
     [],
   );
 
+  const onMediaLoaded = useCallback(() => {
+    setLoading(l => l - 1);
+  }, []);
+
   const onFileUpload = useCallback(() => {
     if (!fileUploader.current) {
       return;
@@ -47,6 +52,7 @@ export const CreatePost = (_: Propless) => {
     if (!files?.length) {
       return;
     }
+    setLoading(files.length);
     const fileArray = Array.from(files);
     setFiles(f => [...f, ...fileArray]);
     setPreviews(p => [
@@ -84,8 +90,16 @@ export const CreatePost = (_: Propless) => {
             className="story"
             placeholder="Tell your story"
           />
-          <CaptureTheMoment ref={fileUploader} onChange={onFileUpload} />
-          <PreviewMedia media={previews} remove={removeUploadedItem} />
+          <CaptureTheMoment
+            ref={fileUploader}
+            loading={!!loading}
+            onChange={onFileUpload}
+          />
+          <PreviewMedia
+            media={previews}
+            remove={removeUploadedItem}
+            onMediaLoaded={onMediaLoaded}
+          />
           <PostInput className="venue">
             <input
               type="text"

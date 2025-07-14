@@ -8,7 +8,14 @@ import { FullBleedVideo } from "Components/FullBleedVideo";
 import { Callback } from "Types/Generics";
 import "./styles.scss";
 
-export const PreviewItem = ({ src, name, type, remove }: Props) => {
+export const PreviewItem = ({
+  src,
+  name,
+  type,
+  index,
+  remove,
+  onMediaLoaded,
+}: Props) => {
   const timeout = useTimeout();
   const node = useRef<HTMLElement>(null);
   const [render, setRender] = useState(false);
@@ -22,26 +29,37 @@ export const PreviewItem = ({ src, name, type, remove }: Props) => {
     setRender(true);
   }, []);
 
+  const deleteItem = useCallback(() => {
+    remove(index);
+  }, [remove, index]);
+
   const onClick = useCallback(() => {
     setRender(false);
-    timeout.execute(() => remove(), 600);
-  }, [timeout, remove]);
-
-  const classes = useClassNames("preview-item", { render });
+    timeout.execute(() => deleteItem(), 600);
+  }, [timeout, deleteItem]);
 
   const typeName = useMemo(
     () => (type.startsWith("image") ? "Image" : "Video"),
     [type],
   );
 
+  const classes = useClassNames("preview-item", { render });
+
   return (
     <figure
       ref={node}
       className={classes}
       style={{ "--max-height": `${maxHeight}px` }}>
-      {type.startsWith("image") && <FullBleedImage src={src} alt={name} />}
+      {type.startsWith("image") && (
+        <FullBleedImage src={src} alt={name} onLoad={onMediaLoaded} />
+      )}
       {type.startsWith("video") && (
-        <FullBleedVideo src={src} alt={name} controls />
+        <FullBleedVideo
+          src={src}
+          alt={name}
+          controls
+          onLoadedData={onMediaLoaded}
+        />
       )}
       <CloserButton onClick={onClick} aria-label={`Delete this ${typeName}`} />
     </figure>
@@ -49,7 +67,9 @@ export const PreviewItem = ({ src, name, type, remove }: Props) => {
 };
 
 interface Props extends IMediaPreview {
-  remove: Callback;
+  index: number;
+  onMediaLoaded: Callback;
+  remove: Callback<[number]>;
 }
 
 export interface IMediaPreview {
