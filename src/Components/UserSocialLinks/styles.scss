@@ -1,7 +1,8 @@
 @use "Styles/Variables";
 
 .user-social-links {
-  @include Variables.center;
+  display: flex;
+  align-items: center;
   gap: 1em;
   &>a {
     &>svg {

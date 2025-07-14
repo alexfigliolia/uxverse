@@ -1,7 +1,7 @@
 @use "Styles/Variables";
 
 .profile-page {
-  --avatar-size: 8.5em;
+  --avatar-size: 10em;
   --offset: calc(var(--avatar-size) / 2);
   width: 100%;
   max-width: 100%;
@@ -9,7 +9,7 @@
   margin: 0 auto;
   color: Variables.$black-text;
   @media (min-width: 670px) {
-    --avatar-size: 10em;
+    --avatar-size: 12em;
   }
   @media (min-width: 1200px) {
     --avatar-size: 18em;
@@ -24,13 +24,14 @@
     }
   }
   &__avatar {
-    z-index: 2;
+    z-index: 3;
     @include Variables.center;
-    position: sticky;
-    top: calc(var(--offset) * -1);
-    left: 0;
+    position: relative;
+    // position: sticky;
+    // top: calc(var(--offset) * -1);
+    // left: 0;
     margin: calc(var(--avatar-size) / -2) auto 0;
-    @media(min-width: 1200px) {
+    @media(min-width: 900px) {
       display: none;
     }
     & .avatar,
@@ -40,6 +41,7 @@
       flex-shrink: 0;
     }
     & .avatar {
+      padding: 2px;
       @media (min-width: 670px) {
         padding: 3px;
       }
@@ -55,13 +57,15 @@
     background-color: rgba(#fff, 0.75);
     backdrop-filter: blur(5px);
     padding: calc(var(--offset) + 1em) 5% 0;
-    position: sticky;
-    top: 0;
-    left: 0;
+    position: relative;
+    // position: sticky;
+    // top: 0;
+    // left: 0;
+    z-index: 2;
     border-bottom-left-radius: 0.5em;
     border-bottom-right-radius: 0.5em;
-    @media(min-width: 1200px) {
-      column-gap: 5em;
+    @media(min-width: 900px) {
+      column-gap: 4em;
       margin-top: 0;
       padding: 1.5em 1em 0;
       flex-direction: row;
@@ -69,17 +73,22 @@
       align-items: flex-start;
       justify-content: center;
     }
+    @media(min-width: 1200px) {
+      column-gap: 7em;
+      padding: 1.5em 1em 0;
+    }
     & * {
       margin: 0;
     }
     & .profile-settings-button {
       position: absolute;
-      top: 1em;
-      right: 1em;
+      top: 0;
+      right: 0;
+      z-index: 2;
     }
     &>.profile-page__avatar {
       display: none;
-      @media(min-width: 1200px) {
+      @media(min-width: 900px) {
         flex-shrink: 0;
         display: flex;
         justify-content: space-between;
@@ -90,29 +99,31 @@
           margin-bottom: calc((var(--offset) + 1.5em) * -1);
         }
       }
+      &>.user-social-links {
+        display: none;
+        @media (min-width: 900px) {
+          display: flex;
+          font-size: 1.15em;
+        }
+      }
     }
   }
   &__bio {
     width: 100%;
     display: flex;
     gap: 0.75em;
-    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+    flex-shrink: 1;
     flex-direction: column;
-    @media(min-width: 1200px) {
-      max-width: 600px;
-      text-align: left;
+    position: relative;
+    @media(min-width: 900px) {
       margin-left: -1em;
       margin-right: -4em;
     }
+    & .profile-actions,
     & .user-social-links {
-      @media(min-width: 1200px) {
-        justify-content: flex-start;
-      }
-    }
-    & .profile-actions {
-      margin: 0 auto;
-      max-width: 500px;
-      @media(min-width: 1200px) {
+      @media(min-width: 900px) {
         display: none;
       }
     }
@@ -123,7 +134,12 @@
   & .profile-stats {
     margin: 0.25em 0;
     font-size: 0.9em;
+    max-width: 500px;
     justify-content: space-around;
+    @media (min-width: 900px) {
+      max-width: 400px;
+      justify-content: space-between;
+    }
   }
   &__tabs {
     font-size: 0.9em;

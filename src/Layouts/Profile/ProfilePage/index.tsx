@@ -11,10 +11,16 @@ import {
 import { useClassNames } from "@figliolia/classnames";
 import { EditorContentRenderer } from "Components/EditorContentRenderer";
 import { TabsContextProvider } from "Components/Tabs/TabsContext";
+import { UserSocialLinks } from "Components/UserSocialLinks";
 import { useScrollAnimation } from "Hooks/useScrollAnimation";
 import { GridFilled, GridStroked } from "Icons/Grid";
 import { PostFilled, PostStroked } from "Icons/Post";
-import { ProfileFeed, ProfileTab, ProfileTabs } from "Layouts/Profile";
+import {
+  ProfileFeed,
+  ProfileStats,
+  ProfileTab,
+  ProfileTabs,
+} from "Layouts/Profile";
 import { UserProfileInfo } from "../UserProfileInfo";
 import "./styles.scss";
 
@@ -76,12 +82,21 @@ export function ProfilePage({
         </div>
         <div className="profile-page__avatar">{avatar}</div>
         <div className="profile-page__header">
-          {editButton}
           <div className="profile-page__avatar">
-            {avatar} {profileActions}
+            {avatar}
+            <UserSocialLinks />
+            {profileActions}
           </div>
           <div className="profile-page__bio">
+            {editButton}
             <UserProfileInfo />
+            <UserSocialLinks />
+            <ProfileStats
+              likes={1233424}
+              followers={12323342}
+              following={123}
+              posts={123}
+            />
             {profileActions}
             <EditorContentRenderer />
           </div>
