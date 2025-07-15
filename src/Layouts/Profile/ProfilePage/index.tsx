@@ -13,7 +13,9 @@ import { TabsContextProvider } from "Components/Tabs/TabsContext";
 import { useScrollAnimation } from "Hooks/useScrollAnimation";
 import { GridFilled, GridStroked } from "Icons/Grid";
 import { PostFilled, PostStroked } from "Icons/Post";
-import { ProfileFeed, ProfileTab, ProfileTabs } from "Layouts/Profile";
+import { ProfileFeed } from "../ProfileFeed";
+import { ProfileTabs } from "../ProfileTabs";
+import { ProfileTab } from "../types";
 import {
   AvatarSection,
   type Props as AvatarSectionProps,

@@ -2,9 +2,9 @@
 import { use } from "react";
 import { ITabsContext, TabsContext } from "Components/Tabs";
 import { Propless } from "Types/React";
-import { ProfileGrid } from "../ProfileGrid";
-import { ProfilePostList } from "../ProfilePostList";
 import { ProfileTab } from "../types";
+import { ProfileGrid } from "./ProfileGrid";
+import { ProfilePostList } from "./ProfilePostList";
 import "./styles.scss";
 
 export const ProfileFeed = (_: Propless) => {
