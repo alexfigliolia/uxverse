@@ -3,7 +3,7 @@ import { use } from "react";
 import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
 import { SettingsFilled } from "Icons/Settings";
 import { Propless } from "Types/React";
-import { EditProfileContext } from "../EditProfile/Context";
+import { EditProfileContext } from "../../EditProfile/Context";
 import "./styles.scss";
 
 export const EditProfileButton = (_: Propless) => {

@@ -1,9 +1,9 @@
+import { ReactNode } from "react";
 import { EditorContentRenderer } from "Components/EditorContentRenderer";
 import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
-import { Propless } from "Types/React";
 import "./styles.scss";
 
-export const UserInfoSection = (_: Propless) => {
+export const UserInfoSection = ({ profileActions }: Props) => {
   return (
     <div className="profile-page__user-info">
       <div className="usernames">
@@ -11,6 +11,11 @@ export const UserInfoSection = (_: Propless) => {
         <ReducedLetterSpacing Tag="span">@ericafigliolia</ReducedLetterSpacing>
       </div>
       <EditorContentRenderer />
+      {profileActions}
     </div>
   );
 };
+
+interface Props {
+  profileActions?: ReactNode;
+}

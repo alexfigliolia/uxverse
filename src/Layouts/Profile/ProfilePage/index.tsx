@@ -1,6 +1,7 @@
 "use client";
 import {
   ComponentType,
+  ReactNode,
   RefObject,
   useCallback,
   useEffect,
@@ -40,6 +41,7 @@ export function ProfilePage({
   avatar,
   Banner,
   editButton,
+  editIconButton,
   profileActions,
 }: Props) {
   const image = useRef<HTMLImageElement>(null);
@@ -80,9 +82,10 @@ export function ProfilePage({
             <AvatarSection
               avatar={avatar}
               editButton={editButton}
+              editIconButton={editIconButton}
               profileActions={profileActions}
             />
-            <UserInfoSection />
+            <UserInfoSection profileActions={profileActions} />
           </div>
           <ProfileTabs />
         </div>
@@ -93,5 +96,6 @@ export function ProfilePage({
 }
 
 interface Props extends AvatarSectionProps {
+  editIconButton?: ReactNode;
   Banner: ComponentType<{ ref: RefObject<HTMLImageElement | null> }>;
 }

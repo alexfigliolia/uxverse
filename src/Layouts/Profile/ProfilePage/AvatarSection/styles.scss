@@ -12,8 +12,10 @@
     flex-direction: column;
   }
   &>.user-meta {
+    position: relative;
     align-items: flex-end;
     justify-content: flex-start;
+    align-self: flex-start;
     @include Variables.columnLayout;
     padding: 0.25em 0 0;
     @media (min-width: 670px) {
@@ -41,6 +43,14 @@
       display: none;
       @media (min-width: 900px) {
         display: flex;
+      }
+    }
+    &>.edit-profile-icon-button {
+      position: absolute;
+      top: calc(100% + 0.5em);
+      right: -0.25em;
+      @media (min-width: 900px) {
+        display: none;
       }
     }
     &>.profile-actions {

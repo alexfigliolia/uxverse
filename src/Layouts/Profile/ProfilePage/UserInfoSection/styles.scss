@@ -3,9 +3,12 @@
 .profile-page__user-info {
   width: 100%;
   @include Variables.columnLayout(1em);
-  align-self: center;
   color: Variables.$black-text;
+  @media (min-width: 670px) {
+    max-width: 600px;
+  }
   @media (min-width: 900px) {
+    align-self: center;
     max-width: 600px;
     padding-top: 0.75em;
   }
@@ -27,6 +30,11 @@
       color: Variables.$gray-text;
       @include Variables.themeGradient(to bottom right);
       @include Variables.clipText;
+    }
+  }
+  &>.profile-actions {
+    @media (min-width: 900px) {
+      display: none;
     }
   }
 }

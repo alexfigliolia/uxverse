@@ -1,6 +1,6 @@
 @use "Styles/Variables";
 
-.profile-settings-button {
+.edit-profile-icon-button {
   width: 1.75em;
   height: 1.75em;
   position: relative;
@@ -18,7 +18,7 @@
     height: 100%;
     transition: opacity 0.3s;
     &:first-of-type {
-      stroke: Variables.$black-text-secondary;
+      stroke: Variables.$gray-text;
     }
     &:last-of-type {
       top: 0;

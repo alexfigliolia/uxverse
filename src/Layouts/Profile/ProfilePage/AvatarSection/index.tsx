@@ -7,6 +7,7 @@ export const AvatarSection = ({
   avatar,
   editButton,
   profileActions,
+  editIconButton,
 }: Props) => {
   return (
     <div className="profile-page__avatar">
@@ -16,6 +17,7 @@ export const AvatarSection = ({
         <UserSocialLinksGray />
         {profileActions}
         {editButton}
+        {editIconButton}
       </div>
     </div>
   );
@@ -24,5 +26,6 @@ export const AvatarSection = ({
 export interface Props {
   avatar: ReactNode;
   editButton?: ReactNode;
+  editIconButton?: ReactNode;
   profileActions?: ReactNode;
 }
