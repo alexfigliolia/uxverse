@@ -1,10 +1,9 @@
 @use "Styles/Variables";
 
 .profile-page {
-  --avatar-size: 10em;
+  --avatar-size: 7.5em;
   --offset: calc(var(--avatar-size) / 2);
   width: 100%;
-  max-width: 100%;
   max-width: Variables.$max-content-width;
   margin: 0 auto;
   color: Variables.$black-text;
@@ -12,150 +11,29 @@
     --avatar-size: 12em;
   }
   @media (min-width: 1200px) {
-    --avatar-size: 18em;
-  }
-  &__banner {
-    width: 100%;
-    height: 200px;
-    position: relative;
-    overflow: hidden;
-    @media (min-width: 1200px) {
-      height: 250px;
-    }
-  }
-  &__avatar {
-    z-index: 3;
-    @include Variables.center;
-    position: relative;
-    // position: sticky;
-    // top: calc(var(--offset) * -1);
-    // left: 0;
-    margin: calc(var(--avatar-size) / -2) auto 0;
-    @media(min-width: 900px) {
-      display: none;
-    }
-    & .avatar,
-    & .avatar-uploader {
-      width: var(--avatar-size);
-      height: var(--avatar-size);
-      flex-shrink: 0;
-    }
-    & .avatar {
-      padding: 2px;
-      @media (min-width: 670px) {
-        padding: 3px;
-      }
-    }
+    --avatar-size: 15em;
   }
   &__header {
     width: 100%;
-    margin: 0 auto;
-    display: flex;
-    gap: 0.75em;
-    flex-direction: column;
-    margin-top: calc(var(--offset) * -1);
-    background-color: rgba(#fff, 0.75);
+    padding: 0 5%;
+    background-color: rgba(#fff, 0.85);
     backdrop-filter: blur(5px);
-    padding: calc(var(--offset) + 1em) 5% 0;
-    position: relative;
-    // position: sticky;
-    // top: 0;
-    // left: 0;
-    z-index: 2;
+    @include Variables.columnLayout;
     border-bottom-left-radius: 0.5em;
     border-bottom-right-radius: 0.5em;
-    @media(min-width: 900px) {
-      column-gap: 4em;
-      margin-top: 0;
-      padding: 1.5em 1em 0;
-      flex-direction: row;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      justify-content: center;
-    }
-    @media(min-width: 1200px) {
-      column-gap: 7em;
-      padding: 1.5em 1em 0;
-    }
-    & * {
-      margin: 0;
-    }
-    & .profile-settings-button {
-      position: absolute;
-      top: 0;
-      right: 0;
-      z-index: 2;
-    }
-    &>.profile-page__avatar {
-      display: none;
-      @media(min-width: 900px) {
-        flex-shrink: 0;
-        display: flex;
-        justify-content: space-between;
-        flex-direction: column;
-        gap: 1.5em;
-        &>div[class*='avatar'] {
-          translate: 0 calc((var(--offset) + 1.5em) * -1);
-          margin-bottom: calc((var(--offset) + 1.5em) * -1);
-        }
-      }
-      &>.user-social-links {
-        display: none;
-        @media (min-width: 900px) {
-          display: flex;
-          font-size: 1.15em;
-        }
-      }
-    }
-  }
-  &__bio {
-    width: 100%;
-    display: flex;
-    gap: 0.75em;
-    max-width: 500px;
-    margin: 0 auto;
-    flex-shrink: 1;
-    flex-direction: column;
-    position: relative;
-    @media(min-width: 900px) {
-      margin-left: -1em;
-      margin-right: -4em;
-    }
-    & .profile-actions,
-    & .user-social-links {
-      @media(min-width: 900px) {
-        display: none;
-      }
-    }
-  }
-  & .editor-content-renderer {
-    font-size: 0.95em;
-  }
-  & .profile-stats {
-    margin: 0.25em 0;
-    font-size: 0.9em;
-    max-width: 500px;
-    justify-content: space-around;
-    @media (min-width: 900px) {
-      max-width: 400px;
-      justify-content: space-between;
-    }
-  }
-  &__tabs {
-    font-size: 0.9em;
-    min-width: 100%;
-    flex-shrink: 0;
   }
   &__content {
-    width: 90%;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5em;
-    margin-top: 1.5em;
-    color: Variables.$black-text;
-    @media (min-width: 1300px) {
-      width: 100%;
+    @include Variables.columnLayout(0.75em);
+    align-items: flex-start;
+    @media (min-width: 670px) {
+      gap: 1.5em;
     }
+    @media (min-width: 900px) {
+      flex-direction: row;
+      gap: 10%;
+    }
+  }
+  & .tabs.profile-tabs {
+    font-size: 0.9em;
   }
 }

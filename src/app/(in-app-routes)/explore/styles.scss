@@ -52,9 +52,7 @@
       padding: 1em;
       margin: 0 auto;
       padding-top: 1.5em;
-      display: flex;
-      gap: 1.5em;
-      flex-direction: column;
+      @include Variables.columnLayout(1.5em);
       &>search {
         width: 100%;
         @include Variables.center;

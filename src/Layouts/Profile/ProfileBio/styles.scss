@@ -2,9 +2,7 @@
 
 .profile-bio {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
+  @include Variables.columnLayout(1em);
   position: relative;
   &__user {
     width: 100%;
@@ -12,11 +10,9 @@
     justify-content: space-between;
     &>div {
       width: 100%;
-      display: flex;
       justify-content: flex-start;
       align-items: flex-start;
-      gap: 0.25em;
-      flex-direction: column;
+      @include Variables.columnLayout(0.25em);
       &>h1 {
         font-size: 1.5em;
         font-weight: 500;

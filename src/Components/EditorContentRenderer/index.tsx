@@ -16,7 +16,7 @@ export const EditorContentRenderer = (_: Propless) => {
               content: [
                 {
                   type: "text",
-                  text: "This is a bio about things and stuff with a bio about things and stuff.",
+                  text: "This is a bio about things and stuff with a bio about things and stuff. ",
                 },
               ],
             },

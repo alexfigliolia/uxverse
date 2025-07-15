@@ -6,9 +6,7 @@
   align-items: center;
   gap: 0.75em;
   &__action {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25em;
+    @include Variables.columnLayout(0.25em);
     &> span {
       font-size: 0.95em;
       color: Variables.$gray-text;

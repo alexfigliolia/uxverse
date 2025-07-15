@@ -5,8 +5,13 @@ import { Propless } from "Types/React";
 import { ProfileGrid } from "../ProfileGrid";
 import { ProfilePostList } from "../ProfilePostList";
 import { ProfileTab } from "../types";
+import "./styles.scss";
 
 export const ProfileFeed = (_: Propless) => {
   const { activeTab } = use(TabsContext) as ITabsContext<ProfileTab>;
-  return activeTab === "grid" ? <ProfileGrid /> : <ProfilePostList />;
+  return (
+    <div className="profile-feed">
+      {activeTab === "grid" ? <ProfileGrid /> : <ProfilePostList />}
+    </div>
+  );
 };

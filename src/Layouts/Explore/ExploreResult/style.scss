@@ -6,9 +6,7 @@
   background-color: #fff;
   border-radius: 0.5em;
   padding: 0.75em;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75em;
+  @include Variables.columnLayout;
   &>figure {
     width: 100%;
     height: 150px;
@@ -32,9 +30,7 @@
       color: #fff;
       position: absolute;
       padding: 0.5em 0.75em;
-      display: flex;
-      gap: 0.15em;
-      flex-direction: column;
+      @include Variables.columnLayout(0.15em);
       &>h3,
       &>span {
         text-shadow: 0em 0em 0.3em rgba(#000, 1), 0em 0em 0.3em rgba(#000, 1), 0em 0.05em 0.1em rgba(#000, 0.75);
@@ -62,9 +58,7 @@
     }
   }
   &>.meta {
-    display: flex;
-    gap: 0.75em;
-    flex-direction: column;
+    @include Variables.columnLayout;
     &>.view-more {
       display: flex;
       padding-top: 0.5em;

@@ -11,9 +11,7 @@
     height: 2.5em;
   }
   &>.meta {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15em;
+    @include Variables.columnLayout(0.15em);
     &>a {
       font-size: 1em;
     }

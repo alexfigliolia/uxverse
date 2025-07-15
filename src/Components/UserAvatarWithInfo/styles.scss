@@ -13,9 +13,7 @@
     font-weight: 500;
     color: Variables.$black-text-secondary;
     &>div {
-      display: flex;
-      gap: 0.1em;
-      flex-direction: column;
+      @include Variables.columnLayout(0.1em);
       &>span {
         &:first-of-type {
           font-weight: 400;

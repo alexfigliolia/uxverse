@@ -1,6 +1,6 @@
 @use "Styles/Variables";
 
-.user-social-links {
+.user-social-links-colored {
   display: flex;
   align-items: center;
   gap: 1em;
@@ -8,7 +8,7 @@
     &>svg {
       width: 1.5em;
       height: 1.5em;
-      &.youtube-icon{
+      &.youtube-icon {
         fill: #ea333d;
       }
       &:not(.instagram-colored) {

@@ -28,10 +28,8 @@
     }
   }
   & .edit-profile__heading {
-    display: flex;
+    @include Variables.columnLayout(1em);
     align-items: center;
-    flex-direction: column;
-    gap: 1em;
     margin: 3em auto 0;
     @media(min-width: 670px) {
       margin: 2em auto 0;

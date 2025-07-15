@@ -2,14 +2,10 @@
 
 .notifications-page {
   &>div {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
+    @include Variables.columnLayout(1em);
   }
   &__heading {
-    display: flex;
-    gap: 0.5em;
-    flex-direction: column;
+    @include Variables.columnLayout(0.5em);
     background-color: #fff;
     padding: 2em 0.75em;
     border-radius: 0.5em;

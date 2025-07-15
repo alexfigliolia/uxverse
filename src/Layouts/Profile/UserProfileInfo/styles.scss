@@ -1,9 +1,7 @@
 @use "Styles/Variables";
 
 .user-profile-info {
-  display: flex;
-  gap: 0.15em;
-  flex-direction: column;
+  @include Variables.columnLayout(0.15em);
   &>h1 {
     font-size: 1.5em;
     font-weight: 500;

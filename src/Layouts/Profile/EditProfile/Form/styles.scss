@@ -8,9 +8,7 @@
   flex-wrap: wrap;
   width: 100%;
   & fieldset {
-    display: flex;
-    gap: 1em;
-    flex-direction: column;
+    @include Variables.columnLayout(1em);
     border: none;
     width: 100%;
     position: relative;

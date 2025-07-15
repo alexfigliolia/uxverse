@@ -17,7 +17,7 @@ export const AvatarUploader = (_: Propless) => {
 
   return (
     <div className="avatar-uploader" tabIndex={0} {...listener.events}>
-      <Avatar active src={image} />
+      <Avatar src={image} />
       <HiddenFileInput
         ref={input}
         multiple={false}

@@ -26,9 +26,7 @@
   }
   &>form {
     width: 100%;
-    display: flex;
-    gap: 1em;
-    flex-direction: column;
+    @include Variables.columnLayout(1em);
       &>.rich-text-editor {
       --min-height: 80px;
       font-size: 0.9em;

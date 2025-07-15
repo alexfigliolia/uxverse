@@ -5,8 +5,8 @@ import {
   EditProfile,
   EditProfileProvider,
   ProfilePage,
-  ProfileSettingsButton,
 } from "Layouts/Profile";
+import { EditProfileButton } from "Layouts/Profile/EditProfileButton";
 import { Propless } from "Types/React";
 
 export default function Profile(_: Propless) {
@@ -15,7 +15,7 @@ export default function Profile(_: Propless) {
       <ProfilePage
         avatar={<AvatarUploader />}
         Banner={BannerWithUploader}
-        editButton={<ProfileSettingsButton />}
+        editButton={<EditProfileButton />}
       />
       {/* TODO: lazy load */}
       <EditProfile />

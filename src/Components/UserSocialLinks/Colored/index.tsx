@@ -7,9 +7,9 @@ import { SocialURLs } from "Tools/SocialURLs";
 import { Propless } from "Types/React";
 import "./styles.scss";
 
-export const UserSocialLinks = (_: Propless) => {
+export const UserSocialLinksColored = (_: Propless) => {
   return (
-    <div className="user-social-links">
+    <div className="user-social-links-colored">
       <Link
         target="_blank"
         aria-label="Visit Erica Figliolia's Instagram"

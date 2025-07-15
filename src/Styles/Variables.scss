@@ -89,3 +89,9 @@ $max-content-width: 1200px;
               radial-gradient(circle at calc(100% + $offset) 0%, rgba(#f3fb02, calc($opaqueness * 85%)), transparent, transparent),
               radial-gradient(circle at calc(0% - $offset) 100%, rgba(#14c0f0, calc($opaqueness * 85%)), transparent, transparent),
 }
+
+@mixin columnLayout($gap: 0.75em) {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+}
