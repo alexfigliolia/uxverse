@@ -43,10 +43,10 @@ export const OverscrollDetector = <T extends HTMLElement = HTMLElement>({
   return useMemo(
     () =>
       childrenFN.current({
-        ref: mergedRefs,
+        isTruncated,
         clientHeight,
         scrollHeight,
-        isTruncated,
+        ref: mergedRefs,
       }),
     [mergedRefs, clientHeight, scrollHeight, isTruncated],
   );

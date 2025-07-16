@@ -1,19 +1,29 @@
 "use client";
 import { useCallback, useState } from "react";
 import { classnames } from "@figliolia/classnames";
+import { useTimeout } from "@figliolia/react-hooks";
 import { EditorContentRenderer } from "Components/EditorContentRenderer";
 import { OverscrollDetector } from "Components/OverscrollDetector";
 import { Propless } from "Types/React";
 import "./styles.scss";
 
 export const PostText = (_: Propless) => {
+  const timeout = useTimeout();
   const [expand, setExpand] = useState(false);
+  const [disableTruncation, setDisableTruncation] = useState(false);
 
   const onClick = useCallback(() => {
     if (!window.getSelection()?.toString?.()?.length) {
-      setExpand(e => !e);
+      setExpand(e => {
+        if (e) {
+          timeout.execute(() => setDisableTruncation(false), 500);
+        } else {
+          setDisableTruncation(true);
+        }
+        return !e;
+      });
     }
-  }, []);
+  }, [timeout]);
 
   return (
     <OverscrollDetector>
@@ -30,6 +40,7 @@ export const PostText = (_: Propless) => {
           className={classnames("post-content__text", {
             expand,
             overscroll: isTruncated,
+            "disable-truncation": isTruncated && disableTruncation,
           })}
           title={isTruncated ? "Click to expand" : undefined}>
           <EditorContentRenderer
