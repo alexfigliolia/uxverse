@@ -20,6 +20,6 @@ export const MaxHeightObserver = <T extends HTMLElement = HTMLElement>({
 };
 
 interface Props<T extends HTMLElement = HTMLElement> {
-  onHeight?: Callback<[string | number]>;
+  onHeight?: Callback<[number]>;
   children: Callback<[RefCallback<T>, string, string], ReactNode>;
 }

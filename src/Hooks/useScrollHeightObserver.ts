@@ -8,15 +8,15 @@ export const useScrollHeightObserver = <
   D extends string | number = number,
 >(
   defaultValue = 0 as D,
-  onHeight?: Callback<[string | number]>,
+  onHeight?: Callback<[number]>,
 ) => {
   const measureRef = useRef<T>(null);
   const [height, setHeight] = useState<D | number>(defaultValue);
 
   const cacheHeight = useCallback(() => {
     if (measureRef.current) {
-      setHeight(measureRef.current.scrollHeight ?? "unset");
-      onHeight?.(measureRef.current.scrollHeight ?? "unset");
+      setHeight(measureRef.current.scrollHeight);
+      onHeight?.(measureRef.current.scrollHeight);
     }
   }, [onHeight]);
 
