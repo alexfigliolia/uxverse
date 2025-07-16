@@ -23,7 +23,7 @@
     border-bottom-left-radius: 0.5em;
     border-bottom-right-radius: 0.5em;
     position: sticky;
-    top: calc((var(--max-height) * -1) + 150px);
+    top: calc((var(--max-height) * -1) + 160px);
     left: 0;
   }
   &__content {
@@ -47,7 +47,7 @@
     & .profile-page__user-info {
       & .editor-content-renderer,
       & .profile-actions {
-        transition: opacity 0.75s;
+        transition: opacity 1s 0.25s;
       }
       & .usernames {
         transition: all 0.75s;
@@ -58,7 +58,7 @@
     & .profile-page__avatar {
       & .user-meta,
       &>[class*='avatar'] {
-        transition: all 0.5s;
+        transition: all 0.5s 0.25s;
       }
       &>[class*='avatar'] {
         scale: 0.4;
@@ -77,7 +77,7 @@
         transition: opacity 0.5s;
       }
       & .usernames {
-        transition: all 0.5s;
+        transition: all 0.5s 0.25s;
         scale: 0.75;
         translate: -12.5% calc(var(--max-height) - var(--avatar-size) - 35px);
       }
