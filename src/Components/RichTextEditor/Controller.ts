@@ -1,5 +1,6 @@
 import { LinkedList } from "@figliolia/data-structures";
 import type { Editor } from "@tiptap/core";
+import Bold from "@tiptap/extension-bold";
 import Document from "@tiptap/extension-document";
 import Emoji, { gitHubEmojis } from "@tiptap/extension-emoji";
 import Link from "@tiptap/extension-link";
@@ -13,6 +14,7 @@ export class Controller {
 
   public static readonly DEFAULT_EXTENSIONS = [
     Text,
+    Bold,
     Paragraph,
     Document,
     Emoji.configure({

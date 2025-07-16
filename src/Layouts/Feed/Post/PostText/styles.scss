@@ -1,0 +1,38 @@
+@use "Styles/Variables";
+
+.post-content {
+  &__text {
+    width: 100%;
+    margin: 0;
+    line-height: 1.5;
+    font-size: 0.9em;
+    color: Variables.$black-text-secondary;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: calc(1em * 1.5 * 3);
+    &.overscroll {
+      max-height: var(--client-height);
+      transition: max-height 0.5s;
+      cursor: pointer; 
+      &.expand {
+        max-height: 1000px;
+        transition: max-height 1s;
+      }
+    }
+    & p {
+      @include Variables.reducedLetterSpacing;
+      &:first-of-type {
+        margin-top: 0;
+      }
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+    & strong {
+      font-weight: 500;
+      font-size: 1.05em;
+      color: Variables.$black-text;
+      @include Variables.reducedLetterSpacing;
+    }
+  }
+}

@@ -8,5 +8,7 @@ declare module "react" {
     "--max-height"?: string;
     "--theme-color"?: string;
     "--theme-gradient"?: string;
+    "--scroll-height"?: string;
+    "--client-height"?: string;
   }
 }

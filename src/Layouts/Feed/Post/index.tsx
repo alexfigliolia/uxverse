@@ -1,10 +1,9 @@
 import { FullBleedImage } from "Components/FullBleedImage";
-import { OverscrollDetector } from "Components/OverscrollDetector";
 import { PostActions } from "Components/PostActions";
 import { PostHeading } from "Components/PostHeading";
 import { Reactions } from "Components/Reactions";
-import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
 import { Callback } from "Types/Generics";
+import { PostText } from "./PostText";
 import "./styles.scss";
 
 export const Post = ({ onClickComments }: Props) => {
@@ -16,31 +15,7 @@ export const Post = ({ onClickComments }: Props) => {
       </figure>
       <div className="post-content">
         <Reactions />
-        <OverscrollDetector Tag="p">
-          <ReducedLetterSpacing Tag="strong">
-            Erica Figliolia&nbsp;
-          </ReducedLetterSpacing>
-          Blah blah blah about stuff and things. Post about stuff and things
-          Blah blah blah about stuff and things. Post about stuff and things
-          Blah blah blah about stuff and things. Post about stuff and things
-          Blah blah blah about stuff and things. Post about stuff and things
-          Blah blah blah about stuff and things. Post about stuff and things
-          Blah blah blah about stuff and things. Post about stuff and things
-          Blah blah blah about stuff and things. Post about stuff and things
-          Blah blah blah about stuff and things. Post about stuff and things
-          Blah blah blah about stuff and things. Post about stuff and things
-          Blah blah blah about stuff and things. Post about stuff and things
-          Blah blah blah about stuff and things. Post about stuff and things
-          Blah blah blah about stuff and things. Post about stuff and things
-          Blah blah blah about stuff and things. Post about stuff and things
-          Blah blah blah about stuff and things. Post about stuff and things
-          Blah blah blah about stuff and things. Post about stuff and things
-          Blah blah blah about stuff and things. Post about stuff and things
-          Blah blah blah about stuff and things. Post about stuff and things
-          Blah blah blah about stuff and things. Post about stuff and things
-          Blah blah blah about stuff and things. Post about stuff and things
-          Blah blah blah about stuff and things. Post about stuff and things
-        </OverscrollDetector>
+        <PostText />
         <PostActions
           likes={32}
           comments={12}

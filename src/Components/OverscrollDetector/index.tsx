@@ -1,46 +1,70 @@
 "use client";
-import { useCallback, useMemo, useState } from "react";
-import { useClassNames } from "@figliolia/classnames";
-import { Dimensions, Options, useSizeObserver } from "@figliolia/size-observer";
-import { OptionalChildren } from "Types/React";
+import {
+  ReactNode,
+  RefCallback,
+  RefObject,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { useMergedRefs } from "Hooks/useMergedRefs";
+import { Callback } from "Types/Generics";
 
-export const OverscrollDetector = <T extends keyof HTMLElementTagNameMap>({
+export const OverscrollDetector = <T extends HTMLElement = HTMLElement>({
+  ref,
   children,
-  Tag,
-  className,
-}: Props<T>) => {
-  const [overscroll, setOverscroll] = useState(false);
+}: Props) => {
+  const node = useRef<T>(null);
+  const mergedRefs = useMergedRefs(node, ref);
+  const [scrollHeight, setScrollHeight] = useState(0);
+  const [clientHeight, setClientHeight] = useState(0);
+  const childrenFN = useRef<OverScrollRenderFN<T>>(children);
+  childrenFN.current = children;
 
-  const detectOverscroll = useCallback(
-    (_: Dimensions, node: HTMLElementTagNameMap[T]) => {
-      setOverscroll(node.scrollHeight > node.clientHeight);
-    },
-    [],
+  const detectOverscroll = useCallback(() => {
+    if (!node.current) {
+      return;
+    }
+    setClientHeight(node.current.clientHeight);
+    setScrollHeight(node.current.scrollHeight);
+  }, []);
+
+  useEffect(() => {
+    detectOverscroll();
+  }, [detectOverscroll]);
+
+  const isTruncated = useMemo(
+    () => scrollHeight > clientHeight,
+    [scrollHeight, clientHeight],
   );
 
-  const options: Options<HTMLElementTagNameMap[T]> = useMemo(
-    () => ({
-      width: false,
-      height: true,
-      onChange: detectOverscroll,
-    }),
-    [detectOverscroll],
-  );
-
-  const screen = useSizeObserver<HTMLElementTagNameMap[T]>(options);
-
-  const classes = useClassNames(className, { overscroll });
-
-  return (
-    // @ts-ignore
-    <Tag className={classes} ref={screen}>
-      {children}
-    </Tag>
+  return useMemo(
+    () =>
+      childrenFN.current({
+        ref: mergedRefs,
+        clientHeight,
+        scrollHeight,
+        isTruncated,
+      }),
+    [mergedRefs, clientHeight, scrollHeight, isTruncated],
   );
 };
 
-interface Props<T extends keyof HTMLElementTagNameMap>
-  extends OptionalChildren {
-  Tag: T;
-  className?: string;
+export interface Props<T extends HTMLElement = HTMLElement> {
+  ref?: RefObject<T | null>;
+  children: OverScrollRenderFN;
 }
+
+type OverScrollRenderFN<T extends HTMLElement = HTMLElement> = Callback<
+  [
+    {
+      scrollHeight: number;
+      clientHeight: number;
+      isTruncated: boolean;
+      ref: RefCallback<T>;
+    },
+  ],
+  ReactNode
+>;
