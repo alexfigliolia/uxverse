@@ -1,14 +1,16 @@
 "use client";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { classnames } from "@figliolia/classnames";
 import { useTimeout } from "@figliolia/react-hooks";
 import { EditorContentRenderer } from "Components/EditorContentRenderer";
 import { OverscrollDetector } from "Components/OverscrollDetector";
+import { Scrolling } from "Tools/Scrolling";
 import { Propless } from "Types/React";
 import "./styles.scss";
 
 export const PostText = (_: Propless) => {
   const timeout = useTimeout();
+  const node = useRef<HTMLDivElement>(null);
   const [expand, setExpand] = useState(false);
   const [disableTruncation, setDisableTruncation] = useState(false);
 
@@ -16,6 +18,7 @@ export const PostText = (_: Propless) => {
     if (!window.getSelection()?.toString?.()?.length) {
       setExpand(e => {
         if (e) {
+          Scrolling.scrollWindowToNode(node.current?.closest?.(".post"), 100);
           timeout.execute(() => setDisableTruncation(false), 500);
         } else {
           setDisableTruncation(true);
@@ -26,7 +29,7 @@ export const PostText = (_: Propless) => {
   }, [timeout]);
 
   return (
-    <OverscrollDetector>
+    <OverscrollDetector ref={node}>
       {({ ref, isTruncated, scrollHeight, clientHeight }) => (
         <div
           ref={ref}

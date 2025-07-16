@@ -1,6 +1,6 @@
 export class Scrolling {
   public static scrollWindowToNode<T extends Element>(
-    node: T | null,
+    node: T | null | undefined,
     offset = 16,
   ) {
     if (typeof window !== "undefined" && node) {
