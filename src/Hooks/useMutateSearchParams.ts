@@ -1,20 +1,28 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo } from "react";
 
-export const useAppendSearchParam = () => {
+export const useMutateSearchParams = () => {
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
 
-  const mutateAndNavigate = useCallback(
+  const mutate = useCallback(
     (mutator: (params: URLSearchParams) => void) => {
       const nextParams = new URLSearchParams(params);
       mutator(nextParams);
       const paramString = nextParams.toString();
       const queryParam = paramString.length ? `?${paramString}` : "";
-      router.push(`${pathname}${queryParam}`, { scroll: false });
+      return `${pathname}${queryParam}`;
     },
-    [params, router, pathname],
+    [params, pathname],
+  );
+
+  const mutateAndNavigate = useCallback(
+    (mutator: (params: URLSearchParams) => void) => {
+      const nextPath = mutate(mutator);
+      router.push(nextPath, { scroll: false });
+    },
+    [mutate, router],
   );
 
   const appendParam = useCallback(

@@ -1,17 +1,21 @@
 "use client";
-import { ReactNode, useContext, useMemo } from "react";
+import { ReactNode, use, useMemo } from "react";
 import { useClassNames } from "@figliolia/classnames";
-import { ITabsContext, Tab, TabsContext } from "Components/Tabs/TabsContext";
+import {
+  ITabsContext,
+  Tab as ITab,
+  TabsContext,
+} from "Components/Tabs/TabsContext";
+import { Callback } from "Types/Generics";
+import { Tab } from "./Tab";
 import "./styles.scss";
 
-export const Tabs = <T extends Tab>({
+export const Tabs = <T extends ITab>({
   className,
   ariaLabel,
   renderTab,
 }: Props<T>) => {
-  const { options, toTabID, setActiveTab, panelID, activeTab } = useContext(
-    TabsContext,
-  ) as ITabsContext<T>;
+  const { options, activeTab } = use(TabsContext) as ITabsContext<T>;
 
   const position = useMemo(
     () => options.findIndex(t => t.value === activeTab) ?? 0,
@@ -30,27 +34,15 @@ export const Tabs = <T extends Tab>({
           width: `${100 / options.length}%`,
         }}
       />
-      {options.map(option => {
-        const ID = toTabID(option.value);
-        const onClick = () => setActiveTab(option.value);
-        return (
-          <button
-            id={ID}
-            key={ID}
-            role="tab"
-            onClick={onClick}
-            aria-controls={panelID}
-            aria-selected={activeTab === option.value}>
-            {renderTab(option)}
-          </button>
-        );
-      })}
+      {options.map(option => (
+        <Tab<T> key={option.value} option={option} renderTab={renderTab} />
+      ))}
     </div>
   );
 };
 
-interface Props<T extends Tab> {
+interface Props<T extends ITab> {
   className?: string;
   ariaLabel: string;
-  renderTab: (tab: T) => ReactNode;
+  renderTab: Callback<[tab: T], ReactNode>;
 }

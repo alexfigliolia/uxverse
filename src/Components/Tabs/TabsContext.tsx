@@ -2,9 +2,12 @@
 import {
   createContext,
   Dispatch,
+  RefObject,
   SetStateAction,
   useCallback,
+  useEffect,
   useId,
+  useImperativeHandle,
   useMemo,
   useState,
 } from "react";
@@ -17,12 +20,15 @@ export const TabsContext = createContext<ITabsContext>({
   activeTab: "-1",
   ariaLabel: "",
   toTabID: () => "",
+  activeTabID: "-1",
   setActiveTab: () => {},
 });
 
 export const TabsContextProvider = <T extends Tab>({
+  ref,
   children,
   options,
+  onChange,
 }: Props<T>) => {
   const panelID = useId();
   const [activeTab, setActiveTab] = useState<
@@ -38,9 +44,29 @@ export const TabsContextProvider = <T extends Tab>({
     return `TAB_CONTEXT_ID_${value}`;
   }, []);
 
+  const activeTabID = useMemo(() => toTabID(activeTab), [activeTab, toTabID]);
+
+  useEffect(() => {
+    onChange?.(activeTab);
+  }, [activeTab, onChange]);
+
+  const getActiveTab = useCallback(() => {
+    return activeTab;
+  }, [activeTab]);
+
+  useImperativeHandle(ref, () => getActiveTab, [getActiveTab]);
+
   const value = useMemo(
-    () => ({ toTabID, options, panelID, setActiveTab, activeTab, ariaLabel }),
-    [panelID, activeTab, ariaLabel, options, toTabID],
+    () => ({
+      toTabID,
+      options,
+      panelID,
+      activeTab,
+      ariaLabel,
+      activeTabID,
+      setActiveTab,
+    }),
+    [panelID, activeTab, ariaLabel, options, toTabID, activeTabID],
   );
 
   return <TabsContext value={value}>{children}</TabsContext>;
@@ -48,6 +74,8 @@ export const TabsContextProvider = <T extends Tab>({
 
 interface Props<T extends Tab> extends OptionalChildren {
   options: T[];
+  ref?: RefObject<Callback | null>;
+  onChange?: Callback<[ExtractValues<Props<T>["options"]>]>;
 }
 
 export interface Tab {
@@ -64,6 +92,7 @@ export interface ITabsContext<T extends Tab = Tab> {
   panelID: string;
   activeTab: T["value"];
   ariaLabel: string;
+  activeTabID: string;
   toTabID: Callback<[string], string>;
   setActiveTab: Dispatch<SetStateAction<string>>;
 }

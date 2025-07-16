@@ -1,11 +1,11 @@
 import { useCallback, useMemo, useState } from "react";
 import { useModalToggle } from "@figliolia/modal-stack";
-import { useAppendSearchParam } from "./useAppendSearchParam";
+import { useMutateSearchParams } from "./useMutateSearchParams";
 import { useSearchParam } from "./useSearchParam";
 
 export const useSearchParamToggle = (param: string) => {
   const [open, setOpen] = useState(false);
-  const { deleteParam } = useAppendSearchParam();
+  const { deleteParam } = useMutateSearchParams();
 
   const openModal = useCallback(() => {
     setOpen(true);

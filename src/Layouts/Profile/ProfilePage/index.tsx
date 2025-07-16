@@ -18,16 +18,16 @@ import "./styles.scss";
 
 const TABS: ProfileTab[] = [
   {
-    value: "grid",
-    label: "grid",
-    IconFilled: GridFilled,
-    IconStroked: GridStroked,
-  },
-  {
     value: "posts",
     label: "posts",
     IconFilled: PostFilled,
     IconStroked: PostStroked,
+  },
+  {
+    value: "grid",
+    label: "grid",
+    IconFilled: GridFilled,
+    IconStroked: GridStroked,
   },
 ];
 
