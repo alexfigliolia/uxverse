@@ -11,7 +11,7 @@ import { useClassNames } from "@figliolia/classnames";
 import { PostActions } from "Components/PostActions";
 import { PostHeading } from "Components/PostHeading";
 import { useMergedRefs } from "Hooks/useMergedRefs";
-import { useScrollHeight } from "Hooks/useScrollHeight";
+import { useScrollHeightObserver } from "Hooks/useScrollHeightObserver";
 import { ChevronDown } from "Icons/ChevronDown";
 import { ReplyIcon } from "Icons/Reply";
 import { Callback } from "Types/Generics";
@@ -36,7 +36,7 @@ export const Comment = ({
   const node = useRef<HTMLLIElement>(null);
   const [visible, setVisible] = useState(_visible);
   const { commentId, toggle } = use(ReplyContext);
-  const [container, scrollHeight] = useScrollHeight<HTMLLIElement>(
+  const [container, scrollHeight] = useScrollHeightObserver<HTMLLIElement>(
     _visible ? 10000 : 0,
   );
 

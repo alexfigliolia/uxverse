@@ -12,7 +12,7 @@ import { ReplyContext } from "Components/Comments";
 import { GradientBorderButton } from "Components/GradientBorderButton";
 import { EditorTaskRegister, RichTextEditor } from "Components/RichTextEditor";
 import { useMergedRefs } from "Hooks/useMergedRefs";
-import { useScrollHeight } from "Hooks/useScrollHeight";
+import { useScrollHeightObserver } from "Hooks/useScrollHeightObserver";
 import { Callback } from "Types/Generics";
 import "./styles.scss";
 
@@ -23,9 +23,9 @@ export const CommentEditor = ({
   className,
   ...rest
 }: Props) => {
-  const [node] = useScrollHeight(0, onHeight);
   const { toggle, commenting } = use(ReplyContext);
   const registerTask = useRef<EditorTaskRegister>(null);
+  const [node] = useScrollHeightObserver<HTMLDivElement>(0, onHeight);
 
   const mergedRefs = useMergedRefs(node, ref, toggle.registerTrapNode);
 

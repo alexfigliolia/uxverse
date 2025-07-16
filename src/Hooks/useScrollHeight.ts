@@ -1,11 +1,9 @@
-import { useCallback, useMemo, useRef, useState } from "react";
-import { Options, useSizeObserver } from "@figliolia/size-observer";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Callback } from "Types/Generics";
-import { useMergedRefs } from "./useMergedRefs";
 
 export const useScrollHeight = <
   T extends HTMLElement = HTMLElement,
-  D = number,
+  D extends string | number = number,
 >(
   defaultValue = 0 as D,
   onHeight?: Callback<[number]>,
@@ -15,23 +13,22 @@ export const useScrollHeight = <
 
   const cacheHeight = useCallback(() => {
     if (measureRef.current) {
-      setHeight(measureRef.current.scrollHeight);
-      onHeight?.(measureRef.current.scrollHeight);
+      setHeight(measureRef.current.scrollHeight ?? "unset");
+      onHeight?.(measureRef.current.scrollHeight ?? "unset");
     }
   }, [onHeight]);
 
-  const options: Options = useMemo(
-    () => ({
-      width: false,
-      height: true,
-      onChange: cacheHeight,
-    }),
-    [cacheHeight],
+  useEffect(() => {
+    cacheHeight();
+  }, [cacheHeight]);
+
+  const maxHeight = useMemo(
+    () => (typeof height === "number" ? `${height}px` : height),
+    [height],
   );
 
-  const node = useSizeObserver<T>(options);
-
-  const ref = useMergedRefs(measureRef, node);
-
-  return [ref, height] as const;
+  return useMemo(
+    () => [measureRef, maxHeight, cacheHeight] as const,
+    [maxHeight, cacheHeight],
+  );
 };
