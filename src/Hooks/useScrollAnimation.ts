@@ -1,16 +1,20 @@
 import { useCallback, useEffect } from "react";
 import { Callback } from "Types/Generics";
 
-export const useScrollAnimation = (lerp: Callback<[]>) => {
+export const useScrollAnimation = (lerp: Callback<[]>, active = true) => {
   const onScroll = useCallback(() => {
     requestAnimationFrame(lerp);
   }, [lerp]);
 
   useEffect(() => {
-    onScroll();
-    window.addEventListener("scroll", onScroll);
+    if (active) {
+      onScroll();
+      window.addEventListener("scroll", onScroll);
+    } else {
+      window.removeEventListener("scroll", onScroll);
+    }
     return () => {
       window.removeEventListener("scroll", onScroll);
     };
-  }, [onScroll]);
+  }, [onScroll, active]);
 };

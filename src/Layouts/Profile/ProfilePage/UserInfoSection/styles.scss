@@ -7,12 +7,12 @@
   @media (min-width: 670px) {
     max-width: 600px;
   }
-  @media (min-width: 900px) {
+  @media (min-width: Variables.$profile-horizontal-layout) {
     align-self: center;
     max-width: 600px;
     padding-top: 0.75em;
   }
-  @media (min-width: 1200px) {
+  @media (min-width: Variables.$max-content-width) {
     font-size: 1.1em;
   }
   & h1,
@@ -33,7 +33,7 @@
     }
   }
   &>.profile-actions {
-    @media (min-width: 900px) {
+    @media (min-width: Variables.$profile-horizontal-layout) {
       display: none;
     }
   }

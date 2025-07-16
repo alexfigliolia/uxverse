@@ -10,7 +10,7 @@
   @media (min-width: 670px) {
     --avatar-size: 12em;
   }
-  @media (min-width: 1200px) {
+  @media (min-width: Variables.$max-content-width) {
     --avatar-size: 15em;
   }
   &__header {
@@ -23,8 +23,11 @@
     border-bottom-left-radius: 0.5em;
     border-bottom-right-radius: 0.5em;
     position: sticky;
-    top: calc((var(--max-height) * -1) + 160px);
+    top: calc((var(--max-height) * -1) + 100px);
     left: 0;
+    @media (min-width: Variables.$profile-horizontal-layout) {
+      top: calc((var(--max-height) * -1) + 50px);
+    }
   }
   &__content {
     @include Variables.columnLayout(0.75em);
@@ -32,16 +35,18 @@
     @media (min-width: 670px) {
       gap: 1.5em;
     }
-    @media (min-width: 900px) {
+    @media (min-width: Variables.$profile-horizontal-layout) {
       flex-direction: row;
       gap: 10%;
     }
   }
   &.ready {
     & .profile-page__avatar {
-      & .user-meta,
-      &>[class*='avatar'] {
-        transition: all 0.75s;
+      @media (min-width: Variables.$profile-horizontal-layout) {
+        transition: opacity 1s 0.25s;
+      }
+      & .edit-profile-icon-button {
+        transition: all 0.5s;
       }
     }
     & .profile-page__user-info {
@@ -50,23 +55,23 @@
         transition: opacity 1s 0.25s;
       }
       & .usernames {
-        transition: all 0.75s;
+        transition: all 0.5s;
       }
     }
   }
   &.compress {
     & .profile-page__avatar {
-      & .user-meta,
-      &>[class*='avatar'] {
+      & .edit-profile-icon-button {
         transition: all 0.5s 0.25s;
-      }
-      &>[class*='avatar'] {
-        scale: 0.4;
-        translate: -30% calc(var(--max-height) - var(--avatar-size) - (var(--offset) * 0.75));
-      }
-      & .user-meta {
         scale: 0.9;
-        translate: 5% calc(var(--max-height) - 245%);
+        translate: 5% calc(var(--max-height) - var(--avatar-size) - 75%);
+        @media (min-width: 670px) {
+          translate: 5% calc(var(--max-height) + 150% - var(--avatar-size));
+        }
+        @media (min-width: Variables.$profile-horizontal-layout) {
+          scale: 1;
+          translate: none;
+        }
       }
     }
     & .profile-page__user-info {
@@ -75,11 +80,22 @@
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.5s;
+        @media (min-width: Variables.$profile-horizontal-layout) {
+          opacity: 1;
+          pointer-events: auto;
+        }
       }
       & .usernames {
         transition: all 0.5s 0.25s;
         scale: 0.75;
         translate: -12.5% calc(var(--max-height) - var(--avatar-size) - 35px);
+        @media (min-width: 670px) {
+          translate: -12.5% calc(var(--max-height) - var(--avatar-size) - 15px);
+        }
+        @media (min-width: Variables.$profile-horizontal-layout) {
+          scale: 1;
+          translate: none;
+        }
       }
     }
   }

@@ -1,3 +1,4 @@
+@use "sass:string";
 @use "Styles/Variables";
 
 :export {
@@ -16,4 +17,5 @@
   warningOrange: Variables.$warning-orange;
   successGreen: Variables.$success-green;
   successCyan: Variables.$success-cyan;
+  profileHorizontalLayout: string.slice(#{Variables.$profile-horizontal-layout}, 1, -3);
 }

@@ -1,7 +1,9 @@
+@use "Styles/Variables";
+
 .profile-feed {
   width: 90%;
   margin: 1.5em auto 0;
-  @media (min-width: 1200px) {
+  @media (min-width: Variables.$max-content-width) {
     width: 100%;
   }
 }
