@@ -9,6 +9,7 @@ import {
   useState,
 } from "react";
 import { useClassNames } from "@figliolia/classnames";
+import { MaxHeightObserver } from "Components/MaxHeightObserver";
 import { TabsContextProvider } from "Components/Tabs/TabsContext";
 import { useScrollAnimation } from "Hooks/useScrollAnimation";
 import { GridFilled, GridStroked } from "Icons/Grid";
@@ -46,6 +47,8 @@ export function ProfilePage({
   editIconButton,
   profileActions,
 }: Props) {
+  const headerHeight = useRef(0);
+  const previousPosition = useRef(0);
   const image = useRef<HTMLImageElement>(null);
   const [ready, setReady] = useState(false);
   const [compress, setCompress] = useState(false);
@@ -60,9 +63,11 @@ export function ProfilePage({
       image.current.style.scale = `${1 + progress / 10}`;
       image.current.style.translate = `0 ${progress * 10}px`;
     }
-    if (window.scrollY >= threshold / 2) {
+    const direction = window.scrollY > previousPosition.current ? 1 : -1;
+    previousPosition.current = window.scrollY;
+    if (direction === 1 && window.scrollY >= headerHeight.current * 0.75) {
       setCompress(true);
-    } else {
+    } else if (direction === -1 && window.scrollY < threshold * 1.5) {
       setCompress(false);
     }
   }, []);
@@ -73,24 +78,35 @@ export function ProfilePage({
     setReady(true);
   }, []);
 
+  const cacheHeaderHeight = useCallback((height: number) => {
+    headerHeight.current = height;
+  }, []);
+
   const classes = useClassNames("profile-page", { ready, compress });
 
   return (
     <TabsContextProvider options={TABS}>
       <div className={classes}>
         <BannerSection ref={image} Banner={Banner} />
-        <div className="profile-page__header">
-          <div className="profile-page__content">
-            <AvatarSection
-              avatar={avatar}
-              editButton={editButton}
-              editIconButton={editIconButton}
-              profileActions={profileActions}
-            />
-            <UserInfoSection profileActions={profileActions} />
-          </div>
-          <ProfileTabs />
-        </div>
+        <MaxHeightObserver onHeight={cacheHeaderHeight}>
+          {(ref, height) => (
+            <div
+              ref={ref}
+              className="profile-page__header"
+              style={{ "--max-height": height }}>
+              <div className="profile-page__content">
+                <AvatarSection
+                  avatar={avatar}
+                  editButton={editButton}
+                  editIconButton={editIconButton}
+                  profileActions={profileActions}
+                />
+                <UserInfoSection profileActions={profileActions} />
+              </div>
+              <ProfileTabs />
+            </div>
+          )}
+        </MaxHeightObserver>
         <ProfileFeed />
       </div>
     </TabsContextProvider>

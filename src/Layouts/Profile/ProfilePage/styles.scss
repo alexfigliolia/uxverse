@@ -22,9 +22,9 @@
     @include Variables.columnLayout;
     border-bottom-left-radius: 0.5em;
     border-bottom-right-radius: 0.5em;
-    // position: sticky;
-    // top: calc((var(--max-height) * -1) + 150px);
-    // left: 0;
+    position: sticky;
+    top: calc((var(--max-height) * -1) + 150px);
+    left: 0;
   }
   &__content {
     @include Variables.columnLayout(0.75em);
@@ -37,44 +37,50 @@
       gap: 10%;
     }
   }
-  // &.ready {
-  //   & .profile-page__avatar {
-      // & .user-meta,
-      // &>[class*='avatar'] {
-        // transition: all 0.5s;
-      // }
-    // }
-    // & .profile-page__user-info {
-    //   & .editor-content-renderer,
-    //   & .profile-actions {
-        // transition: opacity 0.5s;
-      // }
-      // & .usernames {
-        // transition: all 0.5s;
-  //     }
-  //   }
-  // }
-  // &.compress {
-  //   & .profile-page__avatar {
-  //     &>[class*='avatar'] {
-        // scale: 0.4;
-        // translate: -30% calc(var(--max-height) - var(--avatar-size) - (var(--offset) * 0.75));
-      // }
-      // & .user-meta {
-        // scale: 0.9;
-        // translate: 5% calc(var(--max-height) - 100% - 50px - (var(--offset) * 0.5) - 5%);
-      // }
-    // }
-    // & .profile-page__user-info {
-    //   & .editor-content-renderer,
-    //   & .profile-actions {
-        // opacity: 0;
-        // pointer-events: none;
-      // }
-      // & .usernames {
-      //   scale: 0.75;
-      //   translate: -12.5% calc(var(--max-height) - var(--avatar-size) - 35px);
-      // }
-    // }
-  // }
+  &.ready {
+    & .profile-page__avatar {
+      & .user-meta,
+      &>[class*='avatar'] {
+        transition: all 0.75s;
+      }
+    }
+    & .profile-page__user-info {
+      & .editor-content-renderer,
+      & .profile-actions {
+        transition: opacity 0.75s;
+      }
+      & .usernames {
+        transition: all 0.75s;
+      }
+    }
+  }
+  &.compress {
+    & .profile-page__avatar {
+      & .user-meta,
+      &>[class*='avatar'] {
+        transition: all 0.5s;
+      }
+      &>[class*='avatar'] {
+        scale: 0.4;
+        translate: -30% calc(var(--max-height) - var(--avatar-size) - (var(--offset) * 0.75));
+      }
+      & .user-meta {
+        scale: 0.9;
+        translate: 5% calc(var(--max-height) - 245%);
+      }
+    }
+    & .profile-page__user-info {
+      & .editor-content-renderer,
+      & .profile-actions {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s;
+      }
+      & .usernames {
+        transition: all 0.5s;
+        scale: 0.75;
+        translate: -12.5% calc(var(--max-height) - var(--avatar-size) - 35px);
+      }
+    }
+  }
 }
