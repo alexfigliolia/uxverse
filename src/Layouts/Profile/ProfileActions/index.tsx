@@ -1,13 +1,17 @@
+import { ComponentType, HTMLProps } from "react";
+import { classnames } from "@figliolia/classnames";
 import { GradientBorderButton } from "Components/GradientBorderButton";
 import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
 import { HeartRibbon } from "Icons/HeartRibbon";
 import { MessageFilled } from "Icons/Message";
-import { Propless } from "Types/React";
 import "./styles.scss";
 
-export const ProfileActions = (_: Propless) => {
+export const ProfileActions = ({
+  className,
+  ...rest
+}: HTMLProps<HTMLDivElement>) => {
   return (
-    <div className="profile-actions">
+    <div className={classnames("profile-actions", className)} {...rest}>
       <GradientBorderButton text="message">
         <MessageFilled aria-hidden />
       </GradientBorderButton>
@@ -18,3 +22,5 @@ export const ProfileActions = (_: Propless) => {
     </div>
   );
 };
+
+export type ProfileActionsComponent = ComponentType<HTMLProps<HTMLDivElement>>;

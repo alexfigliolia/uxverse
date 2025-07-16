@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import { EditorContentRenderer } from "Components/EditorContentRenderer";
 import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
+import { ProfileBioRenderer } from "./ProfileBioRenderer";
 import "./styles.scss";
 
 export const UserInfoSection = ({ profileActions }: Props) => {
@@ -10,7 +10,7 @@ export const UserInfoSection = ({ profileActions }: Props) => {
         <ReducedLetterSpacing Tag="h1">Erica Figliolia</ReducedLetterSpacing>
         <ReducedLetterSpacing Tag="span">@ericafigliolia</ReducedLetterSpacing>
       </div>
-      <EditorContentRenderer />
+      <ProfileBioRenderer />
       {profileActions}
     </div>
   );

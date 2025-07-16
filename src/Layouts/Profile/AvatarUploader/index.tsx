@@ -1,13 +1,18 @@
 "use client";
 import { useCallback, useState } from "react";
-import { Avatar } from "Components/Avatar";
+import { useClassNames } from "@figliolia/classnames";
+import { Avatar, type Props } from "Components/Avatar";
 import { HiddenFileInput } from "Components/HiddenFileInput";
 import { useHiddenImageUploader } from "Hooks/useHiddenImageUploader";
-import { Propless } from "Types/React";
 import "./styles.scss";
 
-export const AvatarUploader = (_: Propless) => {
-  const [image, setImage] = useState("/profile.jpg");
+export const AvatarUploader = ({
+  className,
+  active,
+  src = "/profile.jpg",
+  ...rest
+}: Props) => {
+  const [image, setImage] = useState(src);
 
   const onFile = useCallback((file: File) => {
     setImage(URL.createObjectURL(file));
@@ -15,9 +20,11 @@ export const AvatarUploader = (_: Propless) => {
 
   const { input, onChange, listener } = useHiddenImageUploader(onFile);
 
+  const classes = useClassNames("avatar-uploader", className);
+
   return (
-    <div className="avatar-uploader" tabIndex={0} {...listener.events}>
-      <Avatar src={image} />
+    <div className={classes} {...rest} tabIndex={0} {...listener.events}>
+      <Avatar src={image} active={active} />
       <HiddenFileInput
         ref={input}
         multiple={false}

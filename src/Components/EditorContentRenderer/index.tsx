@@ -1,40 +1,25 @@
+import { HTMLProps } from "react";
+import { classnames } from "@figliolia/classnames";
+import { JSONContent } from "@tiptap/core";
 import { renderToReactElement } from "@tiptap/static-renderer/pm/react";
 import { Controller } from "Components/RichTextEditor";
-import { Propless } from "Types/React";
 import "./styles.scss";
 
-export const EditorContentRenderer = (_: Propless) => {
+export const EditorContentRenderer = ({
+  content,
+  className,
+  ...rest
+}: Props) => {
   return (
-    <div className="editor-content-renderer">
+    <div className={classnames("editor-content-renderer", className)} {...rest}>
       {renderToReactElement({
         extensions: Controller.DEFAULT_EXTENSIONS,
-        content: {
-          type: "doc",
-          content: [
-            {
-              type: "paragraph",
-              content: [
-                {
-                  type: "text",
-                  text: "This is a bio about things and stuff with a bio about things and stuff. ",
-                },
-              ],
-            },
-            {
-              type: "paragraph",
-            },
-            {
-              type: "paragraph",
-              content: [
-                {
-                  type: "text",
-                  text: "Behind The Matches",
-                },
-              ],
-            },
-          ],
-        },
+        content,
       })}
     </div>
   );
 };
+
+interface Props extends Omit<HTMLProps<HTMLDivElement>, "content"> {
+  content: JSONContent;
+}

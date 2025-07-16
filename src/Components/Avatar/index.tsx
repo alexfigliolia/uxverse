@@ -1,4 +1,4 @@
-import { HTMLProps } from "react";
+import { ComponentType, HTMLProps } from "react";
 import { classnames } from "@figliolia/classnames";
 import { FullBleedImage } from "Components/FullBleedImage";
 import "./styles.scss";
@@ -18,7 +18,9 @@ export const Avatar = ({
   );
 };
 
-interface Props extends HTMLProps<HTMLDivElement> {
+export interface Props extends HTMLProps<HTMLDivElement> {
   src?: string;
   active?: boolean;
 }
+
+export type AvatarComponent = ComponentType<Props>;
