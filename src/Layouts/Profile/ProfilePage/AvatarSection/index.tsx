@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { UserSocialLinksGray } from "Components/UserSocialLinks";
+import { UserSocialLinks } from "Components/UserSocialLinks";
 import { ProfileStats } from "Layouts/Profile/ProfileStats";
 import "./styles.scss";
 
@@ -14,7 +14,7 @@ export const AvatarSection = ({
       {avatar}
       <div className="user-meta">
         <ProfileStats followers={123454367} following={1234} />
-        <UserSocialLinksGray />
+        <UserSocialLinks />
         {profileActions}
         {editButton}
         {editIconButton}
