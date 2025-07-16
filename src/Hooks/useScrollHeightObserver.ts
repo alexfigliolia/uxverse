@@ -33,7 +33,5 @@ export const useScrollHeightObserver = <
 
   const ref = useMergedRefs(measureRef, node);
 
-  console.log(height);
-
   return useMemo(() => [ref, height] as const, [ref, height]);
 };
