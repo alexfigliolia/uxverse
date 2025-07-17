@@ -19,8 +19,8 @@ export const Gradients = (_: Propless) => {
         y1={0}
         x2={1}
         y2={0}
-        id="cyanToGreen"
-        colors={[Variables.cyan, Variables.green]}
+        id="themeGradientRight"
+        colors={[Variables.red, Variables.orange]}
       />
       <SVGGradient
         x1={0}

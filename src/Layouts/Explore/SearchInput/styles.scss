@@ -42,8 +42,9 @@
       #ff5cf4,
       #68c3ff, 
       #49ff4c,
-      #f9ff42,
-      #57e3ff
+      #fdf751,
+      rgba(Variables.$orange, 0.75),
+      rgba(Variables.$red, 0.75)
     );
     opacity: 0;
   }
@@ -81,7 +82,7 @@
         opacity: 0;
         z-index: 0;
         position: absolute;
-        stroke: url(#cyanToGreen);
+        stroke: url(#themeGradientRight);
       }
     }
   }
