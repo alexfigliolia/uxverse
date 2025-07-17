@@ -25,7 +25,15 @@ export const useMutateSearchParams = () => {
     [mutate, router],
   );
 
-  const appendParam = useCallback(
+  const mutateAndReplace = useCallback(
+    (mutator: (params: URLSearchParams) => void) => {
+      const nextPath = mutate(mutator);
+      router.replace(nextPath, { scroll: false });
+    },
+    [mutate, router],
+  );
+
+  const appendParamAndPush = useCallback(
     (key: string, value: string) => {
       mutateAndNavigate(params => {
         params.set(key, value);
@@ -34,7 +42,16 @@ export const useMutateSearchParams = () => {
     [mutateAndNavigate],
   );
 
-  const deleteParam = useCallback(
+  const appendParamAndReplace = useCallback(
+    (key: string, value: string) => {
+      mutateAndReplace(params => {
+        params.set(key, value);
+      });
+    },
+    [mutateAndReplace],
+  );
+
+  const deleteParamAndPush = useCallback(
     (key: string) => {
       mutateAndNavigate(params => {
         params.delete(key);
@@ -43,8 +60,27 @@ export const useMutateSearchParams = () => {
     [mutateAndNavigate],
   );
 
+  const deleteParamAndReplace = useCallback(
+    (key: string) => {
+      mutateAndReplace(params => {
+        params.delete(key);
+      });
+    },
+    [mutateAndReplace],
+  );
+
   return useMemo(
-    () => ({ appendParam, deleteParam }),
-    [appendParam, deleteParam],
+    () => ({
+      appendParamAndPush,
+      appendParamAndReplace,
+      deleteParamAndPush,
+      deleteParamAndReplace,
+    }),
+    [
+      appendParamAndPush,
+      appendParamAndReplace,
+      deleteParamAndPush,
+      deleteParamAndReplace,
+    ],
   );
 };

@@ -29,11 +29,10 @@ export const TabsContextProvider = <T extends Tab>({
   children,
   options,
   onChange,
+  defaultTab = options[0]?.value ?? "",
 }: Props<T>) => {
   const panelID = useId();
-  const [activeTab, setActiveTab] = useState<
-    ExtractValues<Props<T>["options"]>
-  >(options[0]?.value ?? "");
+  const [activeTab, setActiveTab] = useState(defaultTab);
 
   const ariaLabel = useMemo(
     () => options.find(v => v.value === activeTab)?.label ?? "",
@@ -50,11 +49,7 @@ export const TabsContextProvider = <T extends Tab>({
     onChange?.(activeTab);
   }, [activeTab, onChange]);
 
-  const getActiveTab = useCallback(() => {
-    return activeTab;
-  }, [activeTab]);
-
-  useImperativeHandle(ref, () => getActiveTab, [getActiveTab]);
+  useImperativeHandle(ref, () => setActiveTab, []);
 
   const value = useMemo(
     () => ({
@@ -74,9 +69,12 @@ export const TabsContextProvider = <T extends Tab>({
 
 interface Props<T extends Tab> extends OptionalChildren {
   options: T[];
-  ref?: RefObject<Callback | null>;
+  defaultTab?: ExtractValues<Props<T>["options"]>;
   onChange?: Callback<[ExtractValues<Props<T>["options"]>]>;
+  ref?: RefObject<TabSetter<T> | null>;
 }
+
+export type TabSetter<T extends Tab> = Dispatch<SetStateAction<T["value"]>>;
 
 export interface Tab {
   value: string;

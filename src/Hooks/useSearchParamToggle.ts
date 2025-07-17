@@ -5,7 +5,7 @@ import { useSearchParam } from "./useSearchParam";
 
 export const useSearchParamToggle = (param: string) => {
   const [open, setOpen] = useState(false);
-  const { deleteParam } = useMutateSearchParams();
+  const { deleteParamAndPush } = useMutateSearchParams();
 
   const openModal = useCallback(() => {
     setOpen(true);
@@ -13,8 +13,8 @@ export const useSearchParamToggle = (param: string) => {
 
   const closeModal = useCallback(() => {
     setOpen(false);
-    deleteParam(param);
-  }, [deleteParam, param]);
+    deleteParamAndPush(param);
+  }, [deleteParamAndPush, param]);
 
   const toggle = useModalToggle(openModal, closeModal);
 
