@@ -1,4 +1,4 @@
-import { TabsWithSearchParamContextProvider } from "Components/Tabs";
+import { TabsContextProvider } from "Components/Tabs";
 import { Feed as FeedContent, Header } from "Layouts/Feed";
 import { Propless } from "Types/React";
 import "./styles.scss";
@@ -16,9 +16,9 @@ const TABS = [
 
 export default function Feed(_: Propless) {
   return (
-    <TabsWithSearchParamContextProvider paramKey="view" options={TABS}>
+    <TabsContextProvider options={TABS}>
       <Header />
       <FeedContent />
-    </TabsWithSearchParamContextProvider>
+    </TabsContextProvider>
   );
 }

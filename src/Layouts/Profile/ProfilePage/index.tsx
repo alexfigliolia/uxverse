@@ -1,7 +1,7 @@
 import { ComponentType, ReactNode, RefObject } from "react";
 import { useClassNames } from "@figliolia/classnames";
 import { MaxHeightObserver } from "Components/MaxHeightObserver";
-import { TabsWithSearchParamContextProvider } from "Components/Tabs";
+import { TabsContextProvider } from "Components/Tabs";
 import { GridFilled, GridStroked } from "Icons/Grid";
 import { PostFilled, PostStroked } from "Icons/Post";
 import { ProfileFeed } from "../ProfileFeed";
@@ -41,7 +41,7 @@ export function ProfilePage({
   const [triggers, cacheHeaderHeight, imageRef] = useScrollingAnimation();
   const classes = useClassNames("profile-page", triggers);
   return (
-    <TabsWithSearchParamContextProvider paramKey="feed-view" options={TABS}>
+    <TabsContextProvider options={TABS}>
       <div className={classes}>
         <BannerSection ref={imageRef} Banner={Banner} />
         <MaxHeightObserver onHeight={cacheHeaderHeight}>
@@ -65,7 +65,7 @@ export function ProfilePage({
         </MaxHeightObserver>
         <ProfileFeed />
       </div>
-    </TabsWithSearchParamContextProvider>
+    </TabsContextProvider>
   );
 }
 
