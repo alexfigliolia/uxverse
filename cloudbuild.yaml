@@ -9,8 +9,8 @@ steps:
       - .
       - '-f'
       - Dockerfile
-      - --set-env-vars NEXT_PUBLIC_MAPS_KEY=$$NEXT_PUBLIC_MAPS_KEY
-      - --set-env-vars NEXT_PUBLIC_URL=$$NEXT_PUBLIC_URL
+      - --build-arg NEXT_PUBLIC_MAPS_KEY=$$NEXT_PUBLIC_MAPS_KEY
+      - --build-arg NEXT_PUBLIC_URL=$$NEXT_PUBLIC_URL
     secretEnv: ['NEXT_PUBLIC_MAPS_KEY', 'NEXT_PUBLIC_URL']
     id: Build
   - name: gcr.io/cloud-builders/docker
@@ -32,6 +32,8 @@ steps:
         --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID
       - '--region=$_DEPLOY_REGION'
       - '--quiet'
+      - --set-env-vars NEXT_PUBLIC_MAPS_KEY=$$NEXT_PUBLIC_MAPS_KEY
+      - --set-env-vars NEXT_PUBLIC_URL=$$NEXT_PUBLIC_URL
     id: Deploy
     entrypoint: gcloud
 images:
