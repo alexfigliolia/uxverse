@@ -9,8 +9,8 @@ steps:
       - .
       - '-f'
       - Dockerfile
-      - --build-arg=NEXT_PUBLIC_MAPS_KEY
-      - --build-arg=NEXT_PUBLIC_URL
+      - --set-env-vars NEXT_PUBLIC_MAPS_KEY=$$NEXT_PUBLIC_MAPS_KEY
+      - --set-env-vars NEXT_PUBLIC_URL=$$NEXT_PUBLIC_URL
     secretEnv: ['NEXT_PUBLIC_MAPS_KEY', 'NEXT_PUBLIC_URL']
     id: Build
   - name: gcr.io/cloud-builders/docker
