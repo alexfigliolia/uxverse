@@ -30,7 +30,7 @@ export default function Explore(_: Propless) {
   }, []);
 
   return (
-    <APIProvider apiKey={API_KEY}>
+    <APIProvider apiKey={process.env.NEXT_PUBLIC_MAPS_KEY!}>
       <div className="explore-page">
         <MapLayout ref={map} recenter={recenter}>
           <button
