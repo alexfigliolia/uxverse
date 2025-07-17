@@ -15,6 +15,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 const nextConfig: NextConfig = withSerwist(
   withBundleAnalyzer({
     /* config options here */
+    output: "standalone",
   }),
 );
 
