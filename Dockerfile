@@ -41,6 +41,9 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
+ENV NEXT_PUBLIC_URL=$_PUBLIC_URL
+ENV NEXT_PUBLIC_MAPS_KEY=$_MAPS_KEY
+
 USER nextjs
 
 EXPOSE 3000
