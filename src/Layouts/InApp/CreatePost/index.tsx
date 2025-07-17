@@ -15,6 +15,7 @@ import { createTrapNodeCache } from "Tools/CreateModalContext";
 import { Propless } from "Types/React";
 import { AboveNavigationBottomSheet } from "../AboveNavigationBottomSheet";
 import { CreatePostContext } from "./Context";
+import { PlaceInput } from "./PlaceInput";
 import { PostInput, TextArea } from "./PostInput";
 import { PreviewMedia } from "./PreviewMedia";
 import { IMediaPreview } from "./PreviewMedia/PreviewItem";
@@ -100,14 +101,7 @@ export const CreatePost = (_: Propless) => {
             remove={removeUploadedItem}
             onMediaLoaded={onMediaLoaded}
           />
-          <PostInput className="venue">
-            <input
-              type="text"
-              name="place"
-              placeholder="Place or Venue (optional)"
-              onChange={onChange}
-            />
-          </PostInput>
+          <PlaceInput />
           {(place || true) && (
             <PostInput>
               <input

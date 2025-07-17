@@ -8,11 +8,6 @@ import { Callback } from "Types/Generics";
 import { Propless } from "Types/React";
 import "./styles.scss";
 
-const API_KEY = process.env.NEXT_PUBLIC_MAPS_KEY!;
-if (!API_KEY) {
-  throw new Error("TODO: redirect somewhere");
-}
-
 export default function Explore(_: Propless) {
   const recenter = useRef<Callback>(null);
   const map = useRef<HTMLDivElement>(null);

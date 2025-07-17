@@ -1,0 +1,5 @@
+@use "Styles/Variables";
+
+.post-input.place-input {
+  border-top: 1px solid Variables.$gray;
+}
