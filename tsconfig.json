@@ -43,6 +43,9 @@
       "Layouts/*": [
         "./Layouts/*"
       ],
+      "PlacesClient/*": [
+        "./PlacesClient/*"
+      ],
       "Styles/*": [
         "./Styles/*"
       ],

@@ -1,0 +1,1975 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: Places API
+    description: |-
+        Service definition for the Places API.
+         Note: every request (except for Autocomplete requests) requires a field mask
+         set outside of the request proto (`all/*`, is not assumed). The field mask
+         can be set via the HTTP header `X-Goog-FieldMask`. See:
+         https://developers.google.com/maps/documentation/places/web-service/choose-fields
+    version: 0.0.1
+servers:
+    - url: https://places.googleapis.com
+paths:
+    /v1/places/{place}:
+        get:
+            tags:
+                - Places
+            description: |-
+                Get the details of a place based on its resource name, which is a string
+                 in the `places/{place_id}` format.
+            operationId: Places_GetPlace
+            parameters:
+                - name: place
+                  in: path
+                  description: The place id.
+                  required: true
+                  schema:
+                    type: string
+                - name: languageCode
+                  in: query
+                  description: |-
+                    Optional. Place details will be displayed with the preferred language if
+                     available.
+
+                     Current list of supported languages:
+                     https://developers.google.com/maps/faq#languagesupport.
+                  schema:
+                    type: string
+                - name: regionCode
+                  in: query
+                  description: |-
+                    Optional. The Unicode country/region code (CLDR) of the location where the
+                     request is coming from. This parameter is used to display the place
+                     details, like region-specific place name, if available. The parameter can
+                     affect results based on applicable law.
+                     For more information, see
+                     https://www.unicode.org/cldr/charts/latest/supplemental/territory_language_information.html.
+
+
+                     Note that 3-digit region codes are not currently supported.
+                  schema:
+                    type: string
+                - name: sessionToken
+                  in: query
+                  description: |-
+                    Optional. A string which identifies an Autocomplete session for billing
+                     purposes. Must be a URL and filename safe base64 string with at most 36
+                     ASCII characters in length. Otherwise an INVALID_ARGUMENT error is
+                     returned.
+
+                     The session begins when the user starts typing a query, and concludes when
+                     they select a place and a call to Place Details or Address Validation is
+                     made. Each session can have multiple queries, followed by one Place Details
+                     or Address Validation request. The credentials used for each request within
+                     a session must belong to the same Google Cloud Console project. Once a
+                     session has concluded, the token is no longer valid; your app must generate
+                     a fresh token for each session. If the `session_token` parameter is
+                     omitted, or if you reuse a session token, the session is charged as if no
+                     session token was provided (each request is billed separately).
+
+                     We recommend the following guidelines:
+
+                     * Use session tokens for all Place Autocomplete calls.
+                     * Generate a fresh token for each session. Using a version 4 UUID is
+                       recommended.
+                     * Ensure that the credentials used for all Place Autocomplete, Place
+                       Details, and Address Validation requests within a session belong to the
+                       same Cloud Console project.
+                     * Be sure to pass a unique session token for each new session. Using the
+                       same token for more than one session will result in each request being
+                       billed individually.
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Place'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/places/{place}/photos/{photo}/media:
+        get:
+            tags:
+                - Places
+            description: Get a photo media with a photo reference string.
+            operationId: Places_GetPhotoMedia
+            parameters:
+                - name: place
+                  in: path
+                  description: The place id.
+                  required: true
+                  schema:
+                    type: string
+                - name: photo
+                  in: path
+                  description: The photo id.
+                  required: true
+                  schema:
+                    type: string
+                - name: maxWidthPx
+                  in: query
+                  description: |-
+                    Optional. Specifies the maximum desired width, in pixels, of the image. If
+                     the image is smaller than the values specified, the original image will be
+                     returned. If the image is larger in either dimension, it will be scaled to
+                     match the smaller of the two dimensions, restricted to its original aspect
+                     ratio. Both the max_height_px and max_width_px properties accept an integer
+                     between 1 and 4800, inclusively. If the value is not within the allowed
+                     range, an INVALID_ARGUMENT error will be returned.
+
+                     At least one of max_height_px or max_width_px needs to be specified. If
+                     neither max_height_px nor max_width_px is specified, an INVALID_ARGUMENT
+                     error will be returned.
+                  schema:
+                    type: integer
+                    format: int32
+                - name: maxHeightPx
+                  in: query
+                  description: |-
+                    Optional. Specifies the maximum desired height, in pixels, of the image. If
+                     the image is smaller than the values specified, the original image will be
+                     returned. If the image is larger in either dimension, it will be scaled to
+                     match the smaller of the two dimensions, restricted to its original aspect
+                     ratio. Both the max_height_px and max_width_px properties accept an integer
+                     between 1 and 4800, inclusively. If the value is not within the allowed
+                     range, an INVALID_ARGUMENT error will be returned.
+
+                     At least one of max_height_px or max_width_px needs to be specified. If
+                     neither max_height_px nor max_width_px is specified, an INVALID_ARGUMENT
+                     error will be returned.
+                  schema:
+                    type: integer
+                    format: int32
+                - name: skipHttpRedirect
+                  in: query
+                  description: |-
+                    Optional. If set, skip the default HTTP redirect behavior and render a text
+                     format (for example, in JSON format for HTTP use case) response. If not
+                     set, an HTTP redirect will be issued to redirect the call to the image
+                     media. This option is ignored for non-HTTP requests.
+                  schema:
+                    type: boolean
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PhotoMedia'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/places:autocomplete:
+        post:
+            tags:
+                - Places
+            description: Returns predictions for the given input.
+            operationId: Places_AutocompletePlaces
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/AutocompletePlacesRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AutocompletePlacesResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/places:searchNearby:
+        post:
+            tags:
+                - Places
+            description: Search for places near locations.
+            operationId: Places_SearchNearby
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/SearchNearbyRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SearchNearbyResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/places:searchText:
+        post:
+            tags:
+                - Places
+            description: Text query based place search.
+            operationId: Places_SearchText
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/SearchTextRequest'
+                required: true
+            parameters:
+                - name: alt
+                  in: query
+                  description: response type.
+                  required: true
+                  schema:
+                    type: string
+                - name: key
+                  in: query
+                  description: your api key.
+                  required: true
+                  schema:
+                    type: string
+                - name: fields
+                  in: query
+                  description: your field mask.
+                  required: true
+                  schema:
+                    type: string
+                - name: pageToken
+                  in: query
+                  description: the token returned from the previous paginated request.
+                  required: false
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SearchTextResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+components:
+    schemas:
+        AuthorAttribution:
+            type: object
+            properties:
+                displayName:
+                    type: string
+                    description: |-
+                        Name of the author of the [Photo][google.maps.places.v1.Photo] or
+                         [Review][google.maps.places.v1.Review].
+                uri:
+                    type: string
+                    description: |-
+                        URI of the author of the [Photo][google.maps.places.v1.Photo] or
+                         [Review][google.maps.places.v1.Review].
+                photoUri:
+                    type: string
+                    description: |-
+                        Profile photo URI of the author of the
+                         [Photo][google.maps.places.v1.Photo] or
+                         [Review][google.maps.places.v1.Review].
+            description: |-
+                Information about the author of the UGC data. Used in
+                 [Photo][google.maps.places.v1.Photo], and
+                 [Review][google.maps.places.v1.Review].
+        AutocompletePlacesRequest:
+            required:
+                - input
+            type: object
+            properties:
+                input:
+                    type: string
+                    description: Required. The text string on which to search.
+                locationBias:
+                    allOf:
+                        - $ref: '#/components/schemas/AutocompletePlacesRequest_LocationBias'
+                    description: |-
+                        Optional. Bias results to a specified location.
+
+                         At most one of `location_bias` or `location_restriction` should be set. If
+                         neither are set, the results will be biased by IP address, meaning the IP
+                         address will be mapped to an imprecise location and used as a biasing
+                         signal.
+                locationRestriction:
+                    allOf:
+                        - $ref: '#/components/schemas/AutocompletePlacesRequest_LocationRestriction'
+                    description: |-
+                        Optional. Restrict results to a specified location.
+
+                         At most one of `location_bias` or `location_restriction` should be set. If
+                         neither are set, the results will be biased by IP address, meaning the IP
+                         address will be mapped to an imprecise location and used as a biasing
+                         signal.
+                includedPrimaryTypes:
+                    type: array
+                    items:
+                        type: string
+                    description: |-
+                        Optional. Included primary Place type (for example, "restaurant" or
+                         "gas_station") in Place Types
+                         (https://developers.google.com/maps/documentation/places/web-service/place-types),
+                         or only `(regions)`, or only `(cities)`. A Place is only returned if its
+                         primary type is included in this list. Up to 5 values can be specified. If
+                         no types are specified, all Place types are returned.
+                includedRegionCodes:
+                    type: array
+                    items:
+                        type: string
+                    description: |-
+                        Optional. Only include results in the specified regions, specified as up to
+                         15 CLDR two-character region codes. An empty set will not restrict the
+                         results. If both `location_restriction` and `included_region_codes` are
+                         set, the results will be located in the area of intersection.
+                languageCode:
+                    type: string
+                    description: |-
+                        Optional. The language in which to return results. Defaults to en-US. The
+                         results may be in mixed languages if the language used in `input` is
+                         different from `language_code` or if the returned Place does not have a
+                         translation from the local language to `language_code`.
+                regionCode:
+                    type: string
+                    description: |-
+                        Optional. The region code, specified as a CLDR two-character region code.
+                         This affects address formatting, result ranking, and may influence what
+                         results are returned. This does not restrict results to the specified
+                         region. To restrict results to a region, use `region_code_restriction`.
+                origin:
+                    allOf:
+                        - $ref: '#/components/schemas/LatLng'
+                    description: |-
+                        Optional. The origin point from which to calculate geodesic distance to the
+                         destination (returned as `distance_meters`). If this value is omitted,
+                         geodesic distance will not be returned.
+                inputOffset:
+                    type: integer
+                    description: |-
+                        Optional. A zero-based Unicode character offset of `input` indicating the
+                         cursor position in `input`. The cursor position may influence what
+                         predictions are returned.
+
+                         If empty, defaults to the length of `input`.
+                    format: int32
+                includeQueryPredictions:
+                    type: boolean
+                    description: |-
+                        Optional. If true, the response will include both Place and query
+                         predictions. Otherwise the response will only return Place predictions.
+                sessionToken:
+                    type: string
+                    description: |-
+                        Optional. A string which identifies an Autocomplete session for billing
+                         purposes. Must be a URL and filename safe base64 string with at most 36
+                         ASCII characters in length. Otherwise an INVALID_ARGUMENT error is
+                         returned.
+
+                         The session begins when the user starts typing a query, and concludes when
+                         they select a place and a call to Place Details or Address Validation is
+                         made. Each session can have multiple queries, followed by one Place Details
+                         or Address Validation request. The credentials used for each request within
+                         a session must belong to the same Google Cloud Console project. Once a
+                         session has concluded, the token is no longer valid; your app must generate
+                         a fresh token for each session. If the `session_token` parameter is
+                         omitted, or if you reuse a session token, the session is charged as if no
+                         session token was provided (each request is billed separately).
+
+                         We recommend the following guidelines:
+
+                         * Use session tokens for all Place Autocomplete calls.
+                         * Generate a fresh token for each session. Using a version 4 UUID is
+                           recommended.
+                         * Ensure that the credentials used for all Place Autocomplete, Place
+                           Details, and Address Validation requests within a session belong to the
+                           same Cloud Console project.
+                         * Be sure to pass a unique session token for each new session. Using the
+                           same token for more than one session will result in each request being
+                           billed individually.
+            description: Request proto for AutocompletePlaces.
+        AutocompletePlacesRequest_LocationBias:
+            type: object
+            properties:
+                rectangle:
+                    allOf:
+                        - $ref: '#/components/schemas/Viewport'
+                    description: A viewport defined by a northeast and a southwest corner.
+                circle:
+                    allOf:
+                        - $ref: '#/components/schemas/Circle'
+                    description: A circle defined by a center point and radius.
+            description: |-
+                The region to search. The results may be biased around the specified
+                 region.
+        AutocompletePlacesRequest_LocationRestriction:
+            type: object
+            properties:
+                rectangle:
+                    allOf:
+                        - $ref: '#/components/schemas/Viewport'
+                    description: A viewport defined by a northeast and a southwest corner.
+                circle:
+                    allOf:
+                        - $ref: '#/components/schemas/Circle'
+                    description: A circle defined by a center point and radius.
+            description: |-
+                The region to search. The results will be restricted to the specified
+                 region.
+        AutocompletePlacesResponse:
+            type: object
+            properties:
+                suggestions:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/AutocompletePlacesResponse_Suggestion'
+                    description: Contains a list of suggestions, ordered in descending order of relevance.
+            description: Response proto for AutocompletePlaces.
+        AutocompletePlacesResponse_Suggestion:
+            type: object
+            properties:
+                placePrediction:
+                    allOf:
+                        - $ref: '#/components/schemas/Suggestion_PlacePrediction'
+                    description: A prediction for a Place.
+                queryPrediction:
+                    allOf:
+                        - $ref: '#/components/schemas/Suggestion_QueryPrediction'
+                    description: A prediction for a query.
+            description: An Autocomplete suggestion result.
+        Circle:
+            required:
+                - center
+                - radius
+            type: object
+            properties:
+                center:
+                    allOf:
+                        - $ref: '#/components/schemas/LatLng'
+                    description: |-
+                        Required. Center latitude and longitude.
+
+                         The range of latitude must be within [-90.0, 90.0]. The range of the
+                         longitude must be within [-180.0, 180.0].
+                radius:
+                    type: number
+                    description: |-
+                        Required. Radius measured in meters. The radius must be within [0.0,
+                         50000.0].
+                    format: double
+            description: Circle with a LatLng as center and radius.
+        ContentBlock:
+            type: object
+            properties:
+                topic:
+                    type: string
+                    description: The topic of the content, for example "overview" or "restaurant".
+                content:
+                    allOf:
+                        - $ref: '#/components/schemas/LocalizedText'
+                    description: Content related to the topic.
+                references:
+                    allOf:
+                        - $ref: '#/components/schemas/References'
+                    description: |-
+                        Experimental: See
+                         https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative
+                         for more details.
+
+                         References that are related to this block of content.
+            description: A block of content that can be served individually.
+        ContextualContent:
+            type: object
+            properties:
+                reviews:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Review'
+                    description: List of reviews about this place, contexual to the place query.
+                photos:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Photo'
+                    description: |-
+                        Information (including references) about photos of this place, contexual to
+                         the place query.
+                justifications:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ContextualContent_Justification'
+                    description: |-
+                        Experimental: See
+                         https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative
+                         for more details.
+
+                         Justifications for the place.
+            description: |-
+                Experimental: See
+                 https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative
+                 for more details.
+
+                 Content that is contextual to the place query.
+        ContextualContent_Justification:
+            type: object
+            properties:
+                reviewJustification:
+                    allOf:
+                        - $ref: '#/components/schemas/Justification_ReviewJustification'
+                    description: |-
+                        Experimental: See
+                         https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative
+                         for more details.
+                businessAvailabilityAttributesJustification:
+                    allOf:
+                        - $ref: '#/components/schemas/Justification_BusinessAvailabilityAttributesJustification'
+                    description: |-
+                        Experimental: See
+                         https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative
+                         for more details.
+            description: |-
+                Experimental: See
+                 https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative
+                 for more details.
+
+                 Justifications for the place. Justifications answers the question of why a
+                 place could interest an end user.
+        EVChargeOptions:
+            type: object
+            properties:
+                connectorCount:
+                    type: integer
+                    description: |-
+                        Number of connectors at this station. However, because some ports can have
+                         multiple connectors but only be able to charge one car at a time (e.g.) the
+                         number of connectors may be greater than the total number of cars which can
+                         charge simultaneously.
+                    format: int32
+                connectorAggregation:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/EVChargeOptions_ConnectorAggregation'
+                    description: |-
+                        A list of EV charging connector aggregations that contain connectors of the
+                         same type and same charge rate.
+            description: |-
+                Information about the EV Charge Station hosted in Place.
+                 Terminology follows
+                 https://afdc.energy.gov/fuels/electricity_infrastructure.html One port
+                 could charge one car at a time. One port has one or more connectors. One
+                 station has one or more ports.
+        EVChargeOptions_ConnectorAggregation:
+            type: object
+            properties:
+                type:
+                    type: integer
+                    description: The connector type of this aggregation.
+                    format: enum
+                maxChargeRateKw:
+                    type: number
+                    description: The static max charging rate in kw of each connector in the aggregation.
+                    format: double
+                count:
+                    type: integer
+                    description: Number of connectors in this aggregation.
+                    format: int32
+                availableCount:
+                    type: integer
+                    description: Number of connectors in this aggregation that are currently available.
+                    format: int32
+                outOfServiceCount:
+                    type: integer
+                    description: |-
+                        Number of connectors in this aggregation that are currently out of
+                         service.
+                    format: int32
+                availabilityLastUpdateTime:
+                    type: string
+                    description: |-
+                        The timestamp when the connector availability information in this
+                         aggregation was last updated.
+                    format: date-time
+            description: |-
+                EV charging information grouped by [type, max_charge_rate_kw].
+                 Shows EV charge aggregation of connectors that have the same type and max
+                 charge rate in kw.
+        FuelOptions:
+            type: object
+            properties:
+                fuelPrices:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/FuelOptions_FuelPrice'
+                    description: |-
+                        The last known fuel price for each type of fuel this station has. There is
+                         one entry per fuel type this station has. Order is not important.
+            description: |-
+                The most recent information about fuel options in a gas station. This
+                 information is updated regularly.
+        FuelOptions_FuelPrice:
+            type: object
+            properties:
+                type:
+                    type: integer
+                    description: The type of fuel.
+                    format: enum
+                price:
+                    allOf:
+                        - $ref: '#/components/schemas/Money'
+                    description: The price of the fuel.
+                updateTime:
+                    type: string
+                    description: The time the fuel price was last updated.
+                    format: date-time
+            description: Fuel price information for a given type.
+        GoogleProtobufAny:
+            type: object
+            properties:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        HighlightedText_HighlightedTextRange:
+            type: object
+            properties:
+                startIndex:
+                    type: integer
+                    format: int32
+                endIndex:
+                    type: integer
+                    format: int32
+            description: The range of highlighted text.
+        Justification_BusinessAvailabilityAttributesJustification:
+            type: object
+            properties:
+                takeout:
+                    type: boolean
+                    description: If a place provides takeout.
+                delivery:
+                    type: boolean
+                    description: If a place provides delivery.
+                dineIn:
+                    type: boolean
+                    description: If a place provides dine-in.
+            description: |-
+                Experimental: See
+                 https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative
+                 for more details.
+                 BusinessAvailabilityAttributes justifications. This shows some attributes
+                 a business has that could interest an end user.
+        Justification_ReviewJustification:
+            type: object
+            properties:
+                highlightedText:
+                    $ref: '#/components/schemas/ReviewJustification_HighlightedText'
+                review:
+                    allOf:
+                        - $ref: '#/components/schemas/Review'
+                    description: The review that the highlighted text is generated from.
+            description: |-
+                Experimental: See
+                 https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative
+                 for more details.
+
+                 User review justifications. This highlights a section of the user review
+                 that would interest an end user. For instance, if the search query is
+                 "firewood pizza", the review justification highlights the text relevant
+                 to the search query.
+        LatLng:
+            type: object
+            properties:
+                latitude:
+                    type: number
+                    description: The latitude in degrees. It must be in the range [-90.0, +90.0].
+                    format: double
+                longitude:
+                    type: number
+                    description: The longitude in degrees. It must be in the range [-180.0, +180.0].
+                    format: double
+            description: |-
+                An object that represents a latitude/longitude pair. This is expressed as a
+                 pair of doubles to represent degrees latitude and degrees longitude. Unless
+                 specified otherwise, this must conform to the
+                 <a href="http://www.unoosa.org/pdf/icg/2012/template/WGS_84.pdf">WGS84
+                 standard</a>. Values must be within normalized ranges.
+        LocalizedText:
+            type: object
+            properties:
+                text:
+                    type: string
+                    description: Localized string in the language corresponding to `language_code' below.
+                languageCode:
+                    type: string
+                    description: |-
+                        The text's BCP-47 language code, such as "en-US" or "sr-Latn".
+
+                         For more information, see
+                         http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.
+            description: Localized variant of a text in a particular language.
+        Money:
+            type: object
+            properties:
+                currencyCode:
+                    type: string
+                    description: The three-letter currency code defined in ISO 4217.
+                units:
+                    type: string
+                    description: |-
+                        The whole units of the amount.
+                         For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar.
+                nanos:
+                    type: integer
+                    description: |-
+                        Number of nano (10^-9) units of the amount.
+                         The value must be between -999,999,999 and +999,999,999 inclusive.
+                         If `units` is positive, `nanos` must be positive or zero.
+                         If `units` is zero, `nanos` can be positive, zero, or negative.
+                         If `units` is negative, `nanos` must be negative or zero.
+                         For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000.
+                    format: int32
+            description: Represents an amount of money with its currency type.
+        OpeningHours_Period:
+            type: object
+            properties:
+                open:
+                    allOf:
+                        - $ref: '#/components/schemas/Period_Point'
+                    description: The time that the place starts to be open.
+                close:
+                    allOf:
+                        - $ref: '#/components/schemas/Period_Point'
+                    description: The time that the place starts to be closed.
+            description: A period the place remains in open_now status.
+        OpeningHours_SpecialDay:
+            type: object
+            properties:
+                date:
+                    type: string
+                    description: The date of this special day.
+                    format: date
+            description: |-
+                Structured information for special days that fall within the period that
+                 the returned opening hours cover. Special days are days that could impact
+                 the business hours of a place, e.g. Christmas day.
+        Period_Point:
+            type: object
+            properties:
+                day:
+                    type: integer
+                    description: |-
+                        A day of the week, as an integer in the range 0-6.  0 is Sunday, 1 is
+                         Monday, etc.
+                    format: int32
+                hour:
+                    type: integer
+                    description: The hour in 2 digits. Ranges from 00 to 23.
+                    format: int32
+                minute:
+                    type: integer
+                    description: The minute in 2 digits. Ranges from 00 to 59.
+                    format: int32
+                date:
+                    type: string
+                    description: Date in the local timezone for the place.
+                    format: date
+                truncated:
+                    type: boolean
+                    description: |-
+                        Whether or not this endpoint was truncated. Truncation occurs when
+                         the real hours are outside the times we are willing to return hours
+                         between, so we truncate the hours back to these boundaries. This
+                         ensures that at most 24 * 7 hours from midnight of the day of the
+                         request are returned.
+            description: Status changing points.
+        Photo:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: |-
+                        Identifier. A reference representing this place photo which may be used to
+                         look up this place photo again (also called the API "resource" name:
+                         `places/{place_id}/photos/{photo}`).
+                widthPx:
+                    type: integer
+                    description: The maximum available width, in pixels.
+                    format: int32
+                heightPx:
+                    type: integer
+                    description: The maximum available height, in pixels.
+                    format: int32
+                authorAttributions:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/AuthorAttribution'
+                    description: This photo's authors.
+            description: Information about a photo of a place.
+        PhotoMedia:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: |-
+                        The resource name of a photo media in the format:
+                         `places/{place_id}/photos/{photo_reference}/media`.
+                photoUri:
+                    type: string
+                    description: A short-lived uri that can be used to render the photo.
+            description: A photo media from Places API.
+        Place:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: |-
+                        This Place's resource name, in `places/{place_id}` format.  Can be used to
+                         look up the Place.
+                id:
+                    type: string
+                    description: The unique identifier of a place.
+                displayName:
+                    allOf:
+                        - $ref: '#/components/schemas/LocalizedText'
+                    description: |-
+                        The localized name of the place, suitable as a short human-readable
+                         description. For example, "Google Sydney", "Starbucks", "Pyrmont", etc.
+                types:
+                    type: array
+                    items:
+                        type: string
+                    description: |-
+                        A set of type tags for this result. For example, "political" and
+                         "locality". For the complete list of possible values, see Table A and Table
+                         B at
+                         https://developers.google.com/maps/documentation/places/web-service/place-types
+                primaryType:
+                    type: string
+                    description: |-
+                        The primary type of the given result. This type must one of the Places API
+                         supported types. For example, "restaurant", "cafe", "airport", etc.  A
+                         place can only have a single primary type.  For the complete list of
+                         possible values, see Table A and Table B at
+                         https://developers.google.com/maps/documentation/places/web-service/place-types
+                primaryTypeDisplayName:
+                    allOf:
+                        - $ref: '#/components/schemas/LocalizedText'
+                    description: |-
+                        The display name of the primary type, localized to the request language if
+                         applicable. For the complete list of possible values, see Table A and Table
+                         B at
+                         https://developers.google.com/maps/documentation/places/web-service/place-types
+                nationalPhoneNumber:
+                    type: string
+                    description: A human-readable phone number for the place, in national format.
+                internationalPhoneNumber:
+                    type: string
+                    description: A human-readable phone number for the place, in international format.
+                formattedAddress:
+                    type: string
+                    description: A full, human-readable address for this place.
+                shortFormattedAddress:
+                    type: string
+                    description: A short, human-readable address for this place.
+                addressComponents:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Place_AddressComponent'
+                    description: |-
+                        Repeated components for each locality level.
+                         Note the following facts about the address_components[] array:
+                         - The array of address components may contain more components than the
+                         formatted_address.
+                         - The array does not necessarily include all the political entities that
+                         contain an address, apart from those included in the formatted_address. To
+                         retrieve all the political entities that contain a specific address, you
+                         should use reverse geocoding, passing the latitude/longitude of the address
+                         as a parameter to the request.
+                         - The format of the response is not guaranteed to remain the same between
+                         requests. In particular, the number of address_components varies based on
+                         the address requested and can change over time for the same address. A
+                         component can change position in the array. The type of the component can
+                         change. A particular component may be missing in a later response.
+                plusCode:
+                    allOf:
+                        - $ref: '#/components/schemas/Place_PlusCode'
+                    description: Plus code of the place location lat/long.
+                location:
+                    allOf:
+                        - $ref: '#/components/schemas/LatLng'
+                    description: The position of this place.
+                viewport:
+                    allOf:
+                        - $ref: '#/components/schemas/Viewport'
+                    description: A viewport suitable for displaying the place on an average-sized map.
+                rating:
+                    type: number
+                    description: A rating between 1.0 and 5.0, based on user reviews of this place.
+                    format: double
+                googleMapsUri:
+                    type: string
+                    description: A URL providing more information about this place.
+                websiteUri:
+                    type: string
+                    description: |-
+                        The authoritative website for this place, e.g. a business' homepage.
+                         Note that for places that are part of a chain (e.g. an IKEA store), this
+                         will usually be the website for the individual store, not the overall
+                         chain.
+                reviews:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Review'
+                    description: |-
+                        List of reviews about this place, sorted by relevance. A maximum of 5
+                         reviews can be returned.
+                regularOpeningHours:
+                    allOf:
+                        - $ref: '#/components/schemas/Place_OpeningHours'
+                    description: The regular hours of operation.
+                utcOffsetMinutes:
+                    type: integer
+                    description: |-
+                        Number of minutes this place's timezone is currently offset from UTC.
+                         This is expressed in minutes to support timezones that are offset by
+                         fractions of an hour, e.g. X hours and 15 minutes.
+                    format: int32
+                photos:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Photo'
+                    description: |-
+                        Information (including references) about photos of this place. A maximum of
+                         10 photos can be returned.
+                adrFormatAddress:
+                    type: string
+                    description: 'The place''s address in adr microformat: http://microformats.org/wiki/adr.'
+                businessStatus:
+                    type: integer
+                    description: The business status for the place.
+                    format: enum
+                priceLevel:
+                    type: integer
+                    description: Price level of the place.
+                    format: enum
+                attributions:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Place_Attribution'
+                    description: A set of data provider that must be shown with this result.
+                userRatingCount:
+                    type: integer
+                    description: The total number of reviews (with or without text) for this place.
+                    format: int32
+                iconMaskBaseUri:
+                    type: string
+                    description: |-
+                        A truncated URL to an icon mask. User can access different icon type by
+                         appending type suffix to the end (eg, ".svg" or ".png").
+                iconBackgroundColor:
+                    type: string
+                    description: 'Background color for icon_mask in hex format, e.g. #909CE1.'
+                takeout:
+                    type: boolean
+                    description: Specifies if the business supports takeout.
+                delivery:
+                    type: boolean
+                    description: Specifies if the business supports delivery.
+                dineIn:
+                    type: boolean
+                    description: Specifies if the business supports indoor or outdoor seating options.
+                curbsidePickup:
+                    type: boolean
+                    description: Specifies if the business supports curbside pickup.
+                reservable:
+                    type: boolean
+                    description: Specifies if the place supports reservations.
+                servesBreakfast:
+                    type: boolean
+                    description: Specifies if the place serves breakfast.
+                servesLunch:
+                    type: boolean
+                    description: Specifies if the place serves lunch.
+                servesDinner:
+                    type: boolean
+                    description: Specifies if the place serves dinner.
+                servesBeer:
+                    type: boolean
+                    description: Specifies if the place serves beer.
+                servesWine:
+                    type: boolean
+                    description: Specifies if the place serves wine.
+                servesBrunch:
+                    type: boolean
+                    description: Specifies if the place serves brunch.
+                servesVegetarianFood:
+                    type: boolean
+                    description: Specifies if the place serves vegetarian food.
+                currentOpeningHours:
+                    allOf:
+                        - $ref: '#/components/schemas/Place_OpeningHours'
+                    description: |-
+                        The hours of operation for the next seven days (including today). The time
+                         period starts at midnight on the date of the request and ends at 11:59 pm
+                         six days later. This field includes the special_days subfield of all hours,
+                         set for dates that have exceptional hours.
+                currentSecondaryOpeningHours:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Place_OpeningHours'
+                    description: |-
+                        Contains an array of entries for the next seven days including information
+                         about secondary hours of a business. Secondary hours are different from a
+                         business's main hours. For example, a restaurant can specify drive through
+                         hours or delivery hours as its secondary hours. This field populates the
+                         type subfield, which draws from a predefined list of opening hours types
+                         (such as DRIVE_THROUGH, PICKUP, or TAKEOUT) based on the types of the
+                         place. This field includes the special_days subfield of all hours, set for
+                         dates that have exceptional hours.
+                regularSecondaryOpeningHours:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Place_OpeningHours'
+                    description: |-
+                        Contains an array of entries for information about regular secondary hours
+                         of a business. Secondary hours are different from a business's main hours.
+                         For example, a restaurant can specify drive through hours or delivery hours
+                         as its secondary hours. This field populates the type subfield, which draws
+                         from a predefined list of opening hours types (such as DRIVE_THROUGH,
+                         PICKUP, or TAKEOUT) based on the types of the place.
+                editorialSummary:
+                    allOf:
+                        - $ref: '#/components/schemas/LocalizedText'
+                    description: |-
+                        Contains a summary of the place. A summary is comprised of a textual
+                         overview, and also includes the language code for these if applicable.
+                         Summary text must be presented as-is and can not be modified or altered.
+                outdoorSeating:
+                    type: boolean
+                    description: Place provides outdoor seating.
+                liveMusic:
+                    type: boolean
+                    description: Place provides live music.
+                menuForChildren:
+                    type: boolean
+                    description: Place has a children's menu.
+                servesCocktails:
+                    type: boolean
+                    description: Place serves cocktails.
+                servesDessert:
+                    type: boolean
+                    description: Place serves dessert.
+                servesCoffee:
+                    type: boolean
+                    description: Place serves coffee.
+                goodForChildren:
+                    type: boolean
+                    description: Place is good for children.
+                allowsDogs:
+                    type: boolean
+                    description: Place allows dogs.
+                restroom:
+                    type: boolean
+                    description: Place has restroom.
+                goodForGroups:
+                    type: boolean
+                    description: Place accommodates groups.
+                goodForWatchingSports:
+                    type: boolean
+                    description: Place is suitable for watching sports.
+                paymentOptions:
+                    allOf:
+                        - $ref: '#/components/schemas/Place_PaymentOptions'
+                    description: |-
+                        Payment options the place accepts. If a payment option data is not
+                         available, the payment option field will be unset.
+                parkingOptions:
+                    allOf:
+                        - $ref: '#/components/schemas/Place_ParkingOptions'
+                    description: Options of parking provided by the place.
+                subDestinations:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Place_SubDestination'
+                    description: A list of sub destinations related to the place.
+                accessibilityOptions:
+                    allOf:
+                        - $ref: '#/components/schemas/Place_AccessibilityOptions'
+                    description: Information about the accessibility options a place offers.
+                fuelOptions:
+                    allOf:
+                        - $ref: '#/components/schemas/FuelOptions'
+                    description: |-
+                        The most recent information about fuel options in a gas station. This
+                         information is updated regularly.
+                evChargeOptions:
+                    allOf:
+                        - $ref: '#/components/schemas/EVChargeOptions'
+                    description: Information of ev charging options.
+                generativeSummary:
+                    allOf:
+                        - $ref: '#/components/schemas/Place_GenerativeSummary'
+                    description: |-
+                        Experimental: See
+                         https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative
+                         for more details.
+
+                         AI-generated summary of the place.
+                areaSummary:
+                    allOf:
+                        - $ref: '#/components/schemas/Place_AreaSummary'
+                    description: |-
+                        Experimental: See
+                         https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative
+                         for more details.
+
+                         AI-generated summary of the area that the place is in.
+            description: All the information representing a Place.
+        Place_AccessibilityOptions:
+            type: object
+            properties:
+                wheelchairAccessibleParking:
+                    type: boolean
+                    description: Place offers wheelchair accessible parking.
+                wheelchairAccessibleEntrance:
+                    type: boolean
+                    description: Places has wheelchair accessible entrance.
+                wheelchairAccessibleRestroom:
+                    type: boolean
+                    description: Place has wheelchair accessible restroom.
+                wheelchairAccessibleSeating:
+                    type: boolean
+                    description: Place has wheelchair accessible seating.
+            description: Information about the accessibility options a place offers.
+        Place_AddressComponent:
+            type: object
+            properties:
+                longText:
+                    type: string
+                    description: |-
+                        The full text description or name of the address component. For example,
+                         an address component for the country Australia may have a long_name of
+                         "Australia".
+                shortText:
+                    type: string
+                    description: |-
+                        An abbreviated textual name for the address component, if available. For
+                         example, an address component for the country of Australia may have a
+                         short_name of "AU".
+                types:
+                    type: array
+                    items:
+                        type: string
+                    description: An array indicating the type(s) of the address component.
+                languageCode:
+                    type: string
+                    description: The language used to format this components, in CLDR notation.
+            description: |-
+                The structured components that form the formatted address, if this
+                 information is available.
+        Place_AreaSummary:
+            type: object
+            properties:
+                contentBlocks:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ContentBlock'
+                    description: |-
+                        Content blocks that compose the area summary. Each block has a separate
+                         topic about the area.
+            description: |-
+                Experimental: See
+                 https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative
+                 for more details.
+
+                 AI-generated summary of the area that the place is in.
+        Place_Attribution:
+            type: object
+            properties:
+                provider:
+                    type: string
+                    description: Name of the Place's data provider.
+                providerUri:
+                    type: string
+                    description: URI to the Place's data provider.
+            description: Information about data providers of this place.
+        Place_GenerativeSummary:
+            type: object
+            properties:
+                overview:
+                    allOf:
+                        - $ref: '#/components/schemas/LocalizedText'
+                    description: The overview of the place.
+                description:
+                    allOf:
+                        - $ref: '#/components/schemas/LocalizedText'
+                    description: The detailed description of the place.
+                references:
+                    allOf:
+                        - $ref: '#/components/schemas/References'
+                    description: References that are used to generate the summary description.
+            description: |-
+                Experimental: See
+                 https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative
+                 for more details.
+
+                 AI-generated summary of the place.
+        Place_OpeningHours:
+            type: object
+            properties:
+                openNow:
+                    type: boolean
+                    description: |-
+                        Is this place open right now?  Always present unless we lack time-of-day
+                         or timezone data for these opening hours.
+                periods:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/OpeningHours_Period'
+                    description: |-
+                        The periods that this place is open during the week. The periods are in
+                         chronological order, starting with Sunday in the place-local timezone. An
+                         empty (but not absent) value indicates a place that is never open, e.g.
+                         because it is closed temporarily for renovations.
+                weekdayDescriptions:
+                    type: array
+                    items:
+                        type: string
+                    description: |-
+                        Localized strings describing the opening hours of this place, one string
+                         for each day of the week.  Will be empty if the hours are unknown or
+                         could not be converted to localized text. Example: "Sun: 18:00–06:00"
+                secondaryHoursType:
+                    type: integer
+                    description: A type string used to identify the type of secondary hours.
+                    format: enum
+                specialDays:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/OpeningHours_SpecialDay'
+                    description: |-
+                        Structured information for special days that fall within the period that
+                         the returned opening hours cover. Special days are days that could impact
+                         the business hours of a place, e.g. Christmas day. Set for
+                         current_opening_hours and current_secondary_opening_hours if there are
+                         exceptional hours.
+            description: Information about business hour of the place.
+        Place_ParkingOptions:
+            type: object
+            properties:
+                freeParkingLot:
+                    type: boolean
+                    description: Place offers free parking lots.
+                paidParkingLot:
+                    type: boolean
+                    description: Place offers paid parking lots.
+                freeStreetParking:
+                    type: boolean
+                    description: Place offers free street parking.
+                paidStreetParking:
+                    type: boolean
+                    description: Place offers paid street parking.
+                valetParking:
+                    type: boolean
+                    description: Place offers valet parking.
+                freeGarageParking:
+                    type: boolean
+                    description: Place offers free garage parking.
+                paidGarageParking:
+                    type: boolean
+                    description: Place offers paid garage parking.
+            description: |-
+                Information about parking options for the place. A parking lot could
+                 support more than one option at the same time.
+        Place_PaymentOptions:
+            type: object
+            properties:
+                acceptsCreditCards:
+                    type: boolean
+                    description: Place accepts credit cards as payment.
+                acceptsDebitCards:
+                    type: boolean
+                    description: Place accepts debit cards as payment.
+                acceptsCashOnly:
+                    type: boolean
+                    description: |-
+                        Place accepts cash only as payment. Places with this attribute may still
+                         accept other payment methods.
+                acceptsNfc:
+                    type: boolean
+                    description: Place accepts NFC payments.
+            description: Payment options the place accepts.
+        Place_PlusCode:
+            type: object
+            properties:
+                globalCode:
+                    type: string
+                    description: |-
+                        Place's global (full) code, such as "9FWM33GV+HQ", representing an
+                         1/8000 by 1/8000 degree area (~14 by 14 meters).
+                compoundCode:
+                    type: string
+                    description: |-
+                        Place's compound code, such as "33GV+HQ, Ramberg, Norway", containing
+                         the suffix of the global code and replacing the prefix with a formatted
+                         name of a reference entity.
+            description: |-
+                Plus code (http://plus.codes) is a location reference with two formats:
+                 global code defining a 14mx14m (1/8000th of a degree) or smaller rectangle,
+                 and compound code, replacing the prefix with a reference location.
+        Place_SubDestination:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: The resource name of the sub destination.
+                id:
+                    type: string
+                    description: The place id of the sub destination.
+            description: |-
+                Place resource name and id of sub destinations that relate to the place.
+                 For example, different terminals are different destinations of an airport.
+        References:
+            type: object
+            properties:
+                reviews:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Review'
+                    description: Reviews that serve as references.
+                places:
+                    type: array
+                    items:
+                        type: string
+                    description: |-
+                        The list of resource names of the referenced places. This name can be used
+                         in other APIs that accept Place resource names.
+            description: |-
+                Experimental: See
+                 https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative
+                 for more details.
+
+                 Reference that the generative content is related to.
+        Review:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: |-
+                        A reference representing this place review which may be used to look up
+                         this place review again (also called the API "resource" name:
+                         `places/{place_id}/reviews/{review}`).
+                relativePublishTimeDescription:
+                    type: string
+                    description: |-
+                        A string of formatted recent time, expressing the review time relative
+                         to the current time in a form appropriate for the language and country.
+                text:
+                    allOf:
+                        - $ref: '#/components/schemas/LocalizedText'
+                    description: The localized text of the review.
+                originalText:
+                    allOf:
+                        - $ref: '#/components/schemas/LocalizedText'
+                    description: The review text in its original language.
+                rating:
+                    type: number
+                    description: A number between 1.0 and 5.0, also called the number of stars.
+                    format: double
+                authorAttribution:
+                    allOf:
+                        - $ref: '#/components/schemas/AuthorAttribution'
+                    description: This review's author.
+                publishTime:
+                    type: string
+                    description: Timestamp for the review.
+                    format: date-time
+            description: Information about a review of a place.
+        ReviewJustification_HighlightedText:
+            type: object
+            properties:
+                text:
+                    type: string
+                highlightedTextRanges:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/HighlightedText_HighlightedTextRange'
+                    description: The list of the ranges of the highlighted text.
+            description: |-
+                The text highlighted by the justification. This is a subset of the
+                 review itself. The exact word to highlight is marked by the
+                 HighlightedTextRange. There could be several words in the text being
+                 highlighted.
+        SearchNearbyRequest:
+            required:
+                - locationRestriction
+            type: object
+            properties:
+                languageCode:
+                    type: string
+                    description: |-
+                        Place details will be displayed with the preferred language if available.
+                         If the language code is unspecified or unrecognized, place details of any
+                         language may be returned, with a preference for English if such details
+                         exist.
+
+                         Current list of supported languages:
+                         https://developers.google.com/maps/faq#languagesupport.
+                regionCode:
+                    type: string
+                    description: |-
+                        The Unicode country/region code (CLDR) of the location where the
+                         request is coming from. This parameter is used to display the place
+                         details, like region-specific place name, if available. The parameter can
+                         affect results based on applicable law.
+
+                         For more information, see
+                         https://www.unicode.org/cldr/charts/latest/supplemental/territory_language_information.html.
+
+
+                         Note that 3-digit region codes are not currently supported.
+                includedTypes:
+                    type: array
+                    items:
+                        type: string
+                    description: |-
+                        Included Place type (eg, "restaurant" or "gas_station") from
+                         https://developers.google.com/maps/documentation/places/web-service/place-types.
+
+                         Up to 50 types from [Table
+                         A](https://developers.google.com/maps/documentation/places/web-service/place-types#table-a)
+                         may be specified.
+
+                         If there are any conflicting types, i.e. a type appears in both
+                         included_types and excluded_types, an INVALID_ARGUMENT error is
+                         returned.
+
+                         If a Place type is specified with multiple type restrictions, only places
+                         that satisfy all of the restrictions are returned. For example, if we
+                         have {included_types = ["restaurant"], excluded_primary_types =
+                         ["restaurant"]}, the returned places provide "restaurant"
+                         related services but do not operate primarily as "restaurants".
+                excludedTypes:
+                    type: array
+                    items:
+                        type: string
+                    description: |-
+                        Excluded Place type (eg, "restaurant" or "gas_station") from
+                         https://developers.google.com/maps/documentation/places/web-service/place-types.
+
+                         Up to 50 types from [Table
+                         A](https://developers.google.com/maps/documentation/places/web-service/place-types#table-a)
+                         may be specified.
+
+                         If the client provides both included_types (e.g. restaurant) and
+                         excluded_types (e.g. cafe), then the response should include places that
+                         are restaurant but not cafe. The response includes places that match at
+                         least one of the included_types and none of the excluded_types.
+
+                         If there are any conflicting types, i.e. a type appears in both
+                         included_types and excluded_types, an INVALID_ARGUMENT error is returned.
+
+                         If a Place type is specified with multiple type restrictions, only places
+                         that satisfy all of the restrictions are returned. For example, if we
+                         have {included_types = ["restaurant"], excluded_primary_types =
+                         ["restaurant"]}, the returned places provide "restaurant"
+                         related services but do not operate primarily as "restaurants".
+                includedPrimaryTypes:
+                    type: array
+                    items:
+                        type: string
+                    description: |-
+                        Included primary Place type (e.g. "restaurant" or "gas_station") from
+                         https://developers.google.com/maps/documentation/places/web-service/place-types.
+                         A place can only have a single primary type from the supported types table
+                         associated with it.
+
+                         Up to 50 types from [Table
+                         A](https://developers.google.com/maps/documentation/places/web-service/place-types#table-a)
+                         may be specified.
+
+                         If there are any conflicting primary types, i.e. a type appears in both
+                         included_primary_types and excluded_primary_types, an INVALID_ARGUMENT
+                         error is returned.
+
+                         If a Place type is specified with multiple type restrictions, only places
+                         that satisfy all of the restrictions are returned. For example, if we
+                         have {included_types = ["restaurant"], excluded_primary_types =
+                         ["restaurant"]}, the returned places provide "restaurant"
+                         related services but do not operate primarily as "restaurants".
+                excludedPrimaryTypes:
+                    type: array
+                    items:
+                        type: string
+                    description: |-
+                        Excluded primary Place type (e.g. "restaurant" or "gas_station") from
+                         https://developers.google.com/maps/documentation/places/web-service/place-types.
+
+                         Up to 50 types from [Table
+                         A](https://developers.google.com/maps/documentation/places/web-service/place-types#table-a)
+                         may be specified.
+
+                         If there are any conflicting primary types, i.e. a type appears in both
+                         included_primary_types and excluded_primary_types, an INVALID_ARGUMENT
+                         error is returned.
+
+                         If a Place type is specified with multiple type restrictions, only places
+                         that satisfy all of the restrictions are returned. For example, if we
+                         have {included_types = ["restaurant"], excluded_primary_types =
+                         ["restaurant"]}, the returned places provide "restaurant"
+                         related services but do not operate primarily as "restaurants".
+                maxResultCount:
+                    type: integer
+                    description: |-
+                        Maximum number of results to return. It must be between 1 and 20 (default),
+                         inclusively. If the number is unset, it falls back to the upper limit. If
+                         the number is set to negative or exceeds the upper limit, an
+                         INVALID_ARGUMENT error is returned.
+                    format: int32
+                locationRestriction:
+                    allOf:
+                        - $ref: '#/components/schemas/SearchNearbyRequest_LocationRestriction'
+                    description: Required. The region to search.
+                rankPreference:
+                    type: integer
+                    description: How results will be ranked in the response.
+                    format: enum
+            description: Request proto for Search Nearby.
+        SearchNearbyRequest_LocationRestriction:
+            type: object
+            properties:
+                circle:
+                    allOf:
+                        - $ref: '#/components/schemas/Circle'
+                    description: A circle defined by center point and radius.
+            description: The region to search.
+        SearchNearbyResponse:
+            type: object
+            properties:
+                places:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Place'
+                    description: |-
+                        A list of places that meets user's requirements like places
+                         types, number of places and specific location restriction.
+            description: Response proto for Search Nearby.
+        SearchTextRequest:
+            required:
+                - textQuery
+            type: object
+            properties:
+                textQuery:
+                    type: string
+                    description: Required. The text query for textual search.
+                languageCode:
+                    type: string
+                    description: |-
+                        Place details will be displayed with the preferred language if available.
+                         If the language code is unspecified or unrecognized, place details of any
+                         language may be returned, with a preference for English if such details
+                         exist.
+
+                         Current list of supported languages:
+                         https://developers.google.com/maps/faq#languagesupport.
+                regionCode:
+                    type: string
+                    description: |-
+                        The Unicode country/region code (CLDR) of the location where the
+                         request is coming from. This parameter is used to display the place
+                         details, like region-specific place name, if available. The parameter can
+                         affect results based on applicable law.
+
+                         For more information, see
+                         https://www.unicode.org/cldr/charts/latest/supplemental/territory_language_information.html.
+
+
+                         Note that 3-digit region codes are not currently supported.
+                rankPreference:
+                    type: integer
+                    description: How results will be ranked in the response.
+                    format: enum
+                includedType:
+                    type: string
+                    description: |-
+                        The requested place type. Full list of types supported:
+                         https://developers.google.com/maps/documentation/places/web-service/place-types.
+                         Only support one included type.
+                openNow:
+                    type: boolean
+                    description: |-
+                        Used to restrict the search to places that are currently open.  The default
+                         is false.
+                minRating:
+                    type: number
+                    description: |-
+                        Filter out results whose average user rating is strictly less than this
+                         limit. A valid value must be a float between 0 and 5 (inclusively) at a
+                         0.5 cadence i.e. [0, 0.5, 1.0, ... , 5.0] inclusively. The input rating
+                         will round up to the nearest 0.5(ceiling). For instance, a rating of 0.6
+                         will eliminate all results with a less than 1.0 rating.
+                    format: double
+                maxResultCount:
+                    type: integer
+                    description: |-
+                        Maximum number of results to return. It must be between 1 and 20,
+                         inclusively. The default is 20.  If the number is unset, it falls back to
+                         the upper limit. If the number is set to negative or exceeds the upper
+                         limit, an INVALID_ARGUMENT error is returned.
+                    format: int32
+                priceLevels:
+                    type: array
+                    items:
+                        type: integer
+                        format: enum
+                    description: |-
+                        Used to restrict the search to places that are marked as certain price
+                         levels. Users can choose any combinations of price levels. Default to
+                         select all price levels.
+                strictTypeFiltering:
+                    type: boolean
+                    description: |-
+                        Used to set strict type filtering for included_type. If set to true, only
+                         results of the same type will be returned. Default to false.
+                locationBias:
+                    allOf:
+                        - $ref: '#/components/schemas/SearchTextRequest_LocationBias'
+                    description: |-
+                        The region to search. This location serves as a bias which means results
+                         around given location might be returned. Cannot be set along with
+                         location_restriction.
+                locationRestriction:
+                    allOf:
+                        - $ref: '#/components/schemas/SearchTextRequest_LocationRestriction'
+                    description: |-
+                        The region to search. This location serves as a restriction which means
+                         results outside given location will not be returned. Cannot be set along
+                         with location_bias.
+                evOptions:
+                    allOf:
+                        - $ref: '#/components/schemas/SearchTextRequest_EVOptions'
+                    description: Optional. Set the searchable EV options of a place search request.
+            description: Request proto for SearchText.
+        SearchTextRequest_EVOptions:
+            type: object
+            properties:
+                minimumChargingRateKw:
+                    type: number
+                    description: |-
+                        Optional. Minimum required charging rate in kilowatts. A place with a
+                         charging rate less than the specified rate is filtered out.
+                    format: double
+                connectorTypes:
+                    type: array
+                    items:
+                        type: integer
+                        format: enum
+                    description: |-
+                        Optional. The list of preferred EV connector types. A place that does not
+                         support any of the listed connector types is filtered out.
+            description: Searchable EV options of a place search request.
+        SearchTextRequest_LocationBias:
+            type: object
+            properties:
+                rectangle:
+                    allOf:
+                        - $ref: '#/components/schemas/Viewport'
+                    description: |-
+                        A rectangle box defined by northeast and southwest corner.
+                         `rectangle.high()` must be the northeast point of the rectangle
+                         viewport. `rectangle.low()` must be the southwest point of the
+                         rectangle viewport. `rectangle.low().latitude()` cannot be greater than
+                         `rectangle.high().latitude()`. This will result in an empty latitude
+                         range. A rectangle viewport cannot be wider than 180 degrees.
+                circle:
+                    allOf:
+                        - $ref: '#/components/schemas/Circle'
+                    description: A circle defined by center point and radius.
+            description: |-
+                The region to search. This location serves as a bias which means results
+                 around given location might be returned.
+        SearchTextRequest_LocationRestriction:
+            type: object
+            properties:
+                rectangle:
+                    allOf:
+                        - $ref: '#/components/schemas/Viewport'
+                    description: |-
+                        A rectangle box defined by northeast and southwest corner.
+                         `rectangle.high()` must be the northeast point of the rectangle
+                         viewport. `rectangle.low()` must be the southwest point of the
+                         rectangle viewport. `rectangle.low().latitude()` cannot be greater than
+                         `rectangle.high().latitude()`. This will result in an empty latitude
+                         range. A rectangle viewport cannot be wider than 180 degrees.
+            description: |-
+                The region to search. This location serves as a restriction which means
+                 results outside given location will not be returned.
+        SearchTextResponse:
+            type: object
+            properties:
+                places:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Place'
+                    description: A list of places that meet the user's text search criteria.
+                nextPageToken:
+                    type: string
+                    description: A token to fetch the following page
+                contextualContents:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ContextualContent'
+                    description: |-
+                        Experimental: See
+                         https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative
+                         for more details.
+
+                         A list of contextual contents where each entry associates to the
+                         corresponding place in the same index in the places field. The contents
+                         that are relevant to the `text_query` in the request are preferred. If the
+                         contextual content is not available for one of the places, it will return
+                         non-contextual content. It will be empty only when the content is
+                         unavailable for this place. This list should have as many entries as the
+                         list of places if requested.
+            description: Response proto for SearchText.
+        Status:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+                    format: int32
+                message:
+                    type: string
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+        Suggestion_FormattableText:
+            type: object
+            properties:
+                text:
+                    type: string
+                    description: Text that may be used as is or formatted with `matches`.
+                matches:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Suggestion_StringRange'
+                    description: |-
+                        A list of string ranges identifying where the input request matched in
+                         `text`. The ranges can be used to format specific parts of `text`. The
+                         substrings may not be exact matches of `input` if the matching was
+                         determined by criteria other than string matching (for example, spell
+                         corrections or transliterations).
+
+                         These values are Unicode character offsets of `text`. The ranges are
+                         guaranteed to be ordered in increasing offset values.
+            description: |-
+                Text representing a Place or query prediction. The text may be used as is
+                 or formatted.
+        Suggestion_PlacePrediction:
+            type: object
+            properties:
+                place:
+                    type: string
+                    description: |-
+                        The resource name of the suggested Place. This name can be used in
+                         other APIs that accept Place names.
+                placeId:
+                    type: string
+                    description: |-
+                        The unique identifier of the suggested Place. This identifier can be
+                         used in other APIs that accept Place IDs.
+                text:
+                    allOf:
+                        - $ref: '#/components/schemas/Suggestion_FormattableText'
+                    description: |-
+                        Contains the human-readable name for the returned result. For
+                         establishment results, this is usually the business name and address.
+
+                         `text` is recommended for developers who wish to show a single UI
+                         element. Developers who wish to show two separate, but related, UI
+                         elements may want to use `structured_format` instead. They are two
+                         different ways to represent a Place prediction. Users should not try to
+                         parse `structured_format` into `text` or vice versa.
+
+                         This text may be different from the `display_name` returned by
+                         GetPlace.
+
+                         May be in mixed languages if the request `input` and `language_code`
+                         are in different languages or if the Place does not have a translation
+                         from the local language to `language_code`.
+                structuredFormat:
+                    allOf:
+                        - $ref: '#/components/schemas/Suggestion_StructuredFormat'
+                    description: |-
+                        A breakdown of the Place prediction into main text containing the name
+                         of the Place and secondary text containing additional disambiguating
+                         features (such as a city or region).
+
+                         `structured_format` is recommended for developers who wish to show two
+                         separate, but related, UI elements. Developers who wish to show a
+                         single UI element may want to use `text` instead. They are two
+                         different ways to represent a Place prediction. Users should not try to
+                         parse `structured_format` into `text` or vice versa.
+                types:
+                    type: array
+                    items:
+                        type: string
+                    description: |-
+                        List of types that apply to this Place from Table A or Table B in
+                         https://developers.google.com/maps/documentation/places/web-service/place-types.
+
+                         A type is a categorization of a Place. Places with shared types will
+                         share similar characteristics.
+                distanceMeters:
+                    type: integer
+                    description: |-
+                        The length of the geodesic in meters from `origin` if `origin` is
+                         specified. Certain predictions such as routes may not populate this
+                         field.
+                    format: int32
+            description: Prediction results for a Place Autocomplete prediction.
+        Suggestion_QueryPrediction:
+            type: object
+            properties:
+                text:
+                    allOf:
+                        - $ref: '#/components/schemas/Suggestion_FormattableText'
+                    description: |-
+                        The predicted text. This text does not represent a Place, but rather a
+                         text query that could be used in a search endpoint (for example,
+                         Text Search).
+
+                         `text` is recommended for developers who wish to show a single UI
+                         element. Developers who wish to show two separate, but related, UI
+                         elements may want to use `structured_format` instead. They are two
+                         different ways to represent a query prediction. Users should not try to
+                         parse `structured_format` into `text` or vice versa.
+
+                         May be in mixed languages if the request `input` and `language_code`
+                         are in different languages or if part of the query does not have a
+                         translation from the local language to `language_code`.
+                structuredFormat:
+                    allOf:
+                        - $ref: '#/components/schemas/Suggestion_StructuredFormat'
+                    description: |-
+                        A breakdown of the query prediction into main text containing the query
+                         and secondary text containing additional disambiguating features (such
+                         as a city or region).
+
+                         `structured_format` is recommended for developers who wish to show two
+                         separate, but related, UI elements. Developers who wish to show a
+                         single UI element may want to use `text` instead. They are two
+                         different ways to represent a query prediction. Users should not try to
+                         parse `structured_format` into `text` or vice versa.
+            description: Prediction results for a Query Autocomplete prediction.
+        Suggestion_StringRange:
+            type: object
+            properties:
+                startOffset:
+                    type: integer
+                    description: |-
+                        Zero-based offset of the first Unicode character of the string
+                         (inclusive).
+                    format: int32
+                endOffset:
+                    type: integer
+                    description: Zero-based offset of the last Unicode character (exclusive).
+                    format: int32
+            description: Identifies a substring within a given text.
+        Suggestion_StructuredFormat:
+            type: object
+            properties:
+                mainText:
+                    allOf:
+                        - $ref: '#/components/schemas/Suggestion_FormattableText'
+                    description: Represents the name of the Place or query.
+                secondaryText:
+                    allOf:
+                        - $ref: '#/components/schemas/Suggestion_FormattableText'
+                    description: |-
+                        Represents additional disambiguating features (such as a city or
+                         region) to further identify the Place or refine the query.
+            description: |-
+                Contains a breakdown of a Place or query prediction into main text
+                 and secondary text.
+
+                 For Place predictions, the main text contains the specific name of the
+                 Place. For query predictions, the main text contains the query.
+
+                 The secondary text contains additional disambiguating features (such as a
+                 city or region) to further identify the Place or refine the query.
+        Viewport:
+            type: object
+            properties:
+                low:
+                    allOf:
+                        - $ref: '#/components/schemas/LatLng'
+                    description: Required. The low point of the viewport.
+                high:
+                    allOf:
+                        - $ref: '#/components/schemas/LatLng'
+                    description: Required. The high point of the viewport.
+            description: |-
+                A latitude-longitude viewport, represented as two diagonally opposite `low`
+                 and `high` points. A viewport is considered a closed region, i.e. it includes
+                 its boundary. The latitude bounds must range between -90 to 90 degrees
+                 inclusive, and the longitude bounds must range between -180 to 180 degrees
+                 inclusive. Various cases include:
+
+                  - If `low` = `high`, the viewport consists of that single point.
+
+                  - If `low.longitude` > `high.longitude`, the longitude range is inverted
+                    (the viewport crosses the 180 degree longitude line).
+
+                  - If `low.longitude` = -180 degrees and `high.longitude` = 180 degrees,
+                    the viewport includes all longitudes.
+
+                  - If `low.longitude` = 180 degrees and `high.longitude` = -180 degrees,
+                    the longitude range is empty.
+
+                  - If `low.latitude` > `high.latitude`, the latitude range is empty.
+
+                 Both `low` and `high` must be populated, and the represented box cannot be
+                 empty (as specified by the definitions above). An empty viewport will result
+                 in an error.
+
+                 For example, this viewport fully encloses New York City:
+
+                 {
+                     "low": {
+                         "latitude": 40.477398,
+                         "longitude": -74.259087
+                     },
+                     "high": {
+                         "latitude": 40.91618,
+                         "longitude": -73.70018
+                     }
+                 }
+tags:
+    - name: Places
