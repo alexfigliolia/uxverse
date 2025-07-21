@@ -1,20 +1,24 @@
 "use client";
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { IOptions, PageSwitch } from "@figliolia/page-switch";
+import { useClientLibrary } from "./useClientLibrary";
+
+const loader = () => import("@figliolia/page-switch").then(v => v.PageSwitch);
 
 export const usePageSwitch = <T extends HTMLElement = HTMLDivElement>(
   images: string[],
   options: Partial<IOptions> = {},
 ) => {
   const node = useRef<T>(null);
+  const library = useClientLibrary(loader);
 
-  useLayoutEffect(() => {
-    let PW: PageSwitch | undefined = undefined;
-    void import("@figliolia/page-switch").then(({ PageSwitch }) => {
+  useEffect(() => {
+    let slider: PageSwitch | null = null;
+    library?.onLoad?.(PageSwitch => {
       if (!node.current) {
         return;
       }
-      PW = new PageSwitch(node.current, {
+      slider = new PageSwitch(node.current, {
         arrowKey: true,
         autoplay: false,
         direction: 1,
@@ -30,9 +34,9 @@ export const usePageSwitch = <T extends HTMLElement = HTMLDivElement>(
       });
     });
     return () => {
-      PW?.destroy?.();
+      slider?.destroy?.();
     };
-  }, [options, images]);
+  }, [images, options, library]);
 
   return node;
 };
