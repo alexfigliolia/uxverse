@@ -1472,7 +1472,14 @@ export interface operations {
   };
   Places_AutocompletePlaces: {
     parameters: {
-      query?: never;
+      query: {
+        /** @description response type. */
+        alt: string;
+        /** @description your api key. */
+        key: string;
+        /** @description your field mask. */
+        fields: string;
+      };
       header?: never;
       path?: never;
       cookie?: never;

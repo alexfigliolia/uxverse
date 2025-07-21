@@ -26,9 +26,9 @@ export interface Props<
   multiple?: M;
   selections: SelectionSet<M>;
   children: ListBoxChildrenFN<I>;
-  onItemFocused?: Callback<[string]>;
   onSelection: OnListBoxSelectionFN<M>;
   controller: RefObject<ListBoxControls | null>;
+  onItemFocused?: Callback<[string | undefined]>;
   onItemClick?: MouseEventHandler<HTMLLIElement>;
 }
 
@@ -60,8 +60,15 @@ export interface ListBoxItem {
 }
 
 export type ListBoxEvents<M extends boolean = false> =
-  | {
-      event: "focus";
-      data: { index: number; nodeID: string };
-    }
-  | { event: "selection"; data: SelectionSet<M> };
+  | ListBoxFocusEvent
+  | ListBoxSelectionEvent<M>;
+
+export interface ListBoxFocusEvent {
+  event: "focus";
+  data: { index: number; nodeID: string | undefined };
+}
+
+export interface ListBoxSelectionEvent<M extends boolean = false> {
+  event: "selection";
+  data: SelectionSet<M>;
+}

@@ -17,6 +17,7 @@ import {
   SelectionSet,
 } from "Components/ListBox";
 import { ToolTip } from "Components/ToolTip";
+import { OptionalChildren } from "Types/React";
 import { ComboBoxInput, type Props as InputProps } from "./ComboBoxInput";
 import { ComboBoxContext, withComboBoxContext } from "./Context";
 import { ComboBoxControls } from "./types";
@@ -34,11 +35,12 @@ function ComboBoxImpl<
   ref,
   items,
   onChange,
-  children,
   multiple,
   onSelect,
   onScroll,
+  children,
   className,
+  renderItem,
   selections,
   ...rest
 }: Props<I, M>) {
@@ -92,6 +94,7 @@ function ComboBoxImpl<
         items={items}
         onChange={onChangeInternal}
       />
+      {children}
       <ToolTip
         className="combo-box-list"
         arrowPosition="left"
@@ -102,7 +105,7 @@ function ComboBoxImpl<
           items={items}
           id={popoverID}
           multiple={multiple}
-          children={children}
+          children={renderItem}
           onSelection={onSelect}
           selections={selections}
           controller={controller}
@@ -115,12 +118,13 @@ function ComboBoxImpl<
 }
 
 interface Props<I extends ListBoxItem = ListBoxItem, M extends boolean = false>
-  extends Omit<InputProps, "focusedItem" | "ref"> {
+  extends Omit<InputProps, "focusedItem" | "ref">,
+    OptionalChildren {
   items: I[];
   multiple: M;
   className?: string;
   selections: SelectionSet<M>;
-  children: ListBoxChildrenFN<I>;
+  renderItem: ListBoxChildrenFN<I>;
   onSelect: OnListBoxSelectionFN<M>;
   ref?: RefObject<ComboBoxControls | null>;
   onScroll?: UIEventHandler<HTMLDivElement>;

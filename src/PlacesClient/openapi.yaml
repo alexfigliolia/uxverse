@@ -184,6 +184,25 @@ paths:
                         schema:
                             $ref: '#/components/schemas/AutocompletePlacesRequest'
                 required: true
+            parameters:
+                - name: alt
+                  in: query
+                  description: response type.
+                  required: true
+                  schema:
+                    type: string
+                - name: key
+                  in: query
+                  description: your api key.
+                  required: true
+                  schema:
+                    type: string
+                - name: fields
+                  in: query
+                  description: your field mask.
+                  required: true
+                  schema:
+                    type: string
             responses:
                 "200":
                     description: OK

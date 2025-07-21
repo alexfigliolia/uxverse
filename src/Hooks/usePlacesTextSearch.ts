@@ -1,17 +1,19 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useDebouncer } from "@figliolia/react-hooks";
-import { GooglePlaces } from "PlacesClient";
+import { GooglePlaces, IPlace } from "PlacesClient";
 import { usePlacesAPIErrorHandling } from "./usePlacesAPIErrorHandling";
 
-export const useAutoCompletePlaces = () => {
+export const usePlacesTextSearch = <T extends keyof IPlace>(mask: string) => {
   const query = useRef("");
   const signal = useRef<AbortController>(null);
   const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState<PlaceSuggestion[]>([]);
+  const [results, setResults] = useState<Pick<IPlace, T>[]>([]);
+  const [pageToken, setPageToken] = useState<string | null>(null);
+
   const { error, notifyError } = usePlacesAPIErrorHandling();
 
   const googleSearch = useCallback(
-    (textQuery: string = query.current) => {
+    (textQuery: string = query.current, replace = false) => {
       query.current = textQuery;
       if (!textQuery) {
         return;
@@ -22,38 +24,28 @@ export const useAutoCompletePlaces = () => {
       setLoading(true);
       notifyError(undefined);
       signal.current = new AbortController();
-      void GooglePlaces.POST("/v1/places:autocomplete", {
+      void GooglePlaces.POST(`/v1/places:searchText`, {
         body: {
-          input: textQuery,
+          textQuery,
         },
         params: {
           query: {
             alt: "json",
             key: process.env.NEXT_PUBLIC_MAPS_KEY!,
-            fields:
-              "suggestions.placePrediction.placeId,suggestions.placePrediction.types,suggestions.placePrediction.structuredFormat.mainText.text,suggestions.placePrediction.structuredFormat.secondaryText.text",
+            fields: `nextPageToken,${mask}`,
+            ...(pageToken ? { pageToken: pageToken } : undefined),
           },
         },
         signal: signal.current.signal,
       })
         .then(res => {
-          if (res.data?.suggestions) {
-            const results: PlaceSuggestion[] = [];
-            for (const entry of res.data.suggestions) {
-              if (entry.placePrediction) {
-                results.push({
-                  id: entry.placePrediction?.placeId ?? "-1",
-                  name:
-                    entry.placePrediction?.structuredFormat?.mainText?.text ??
-                    "",
-                  address:
-                    entry.placePrediction?.structuredFormat?.secondaryText
-                      ?.text ?? "",
-                  types: entry.placePrediction?.types ?? [],
-                });
-              }
-            }
-            setResults(results);
+          if (res.data) {
+            setPageToken(res.data.nextPageToken ?? null);
+            setResults(s =>
+              replace
+                ? (res.data.places ?? [])
+                : [...s, ...(res.data.places ?? [])],
+            );
           } else if (res.error) {
             notifyError("UNKNOWN_ERROR");
           }
@@ -64,17 +56,24 @@ export const useAutoCompletePlaces = () => {
           setLoading(false);
         });
     },
-    [notifyError],
+    [pageToken, mask, notifyError],
   );
 
   const debouncer = useDebouncer(googleSearch, 500);
 
   const onSearch = useCallback(
     (search: string) => {
-      void debouncer.execute(search);
+      setPageToken(null);
+      void debouncer.execute(search, true);
     },
     [debouncer],
   );
+
+  const fetchNextPage = useCallback(() => {
+    if (pageToken) {
+      googleSearch();
+    }
+  }, [googleSearch, pageToken]);
 
   return useMemo(
     () => ({
@@ -82,14 +81,11 @@ export const useAutoCompletePlaces = () => {
       loading,
       results,
       onSearch,
+      fetchNextPage,
+      hasNextPage: !!pageToken,
     }),
-    [error, loading, results, onSearch],
+    [error, loading, results, onSearch, fetchNextPage, pageToken],
   );
 };
 
-export interface PlaceSuggestion {
-  id: string;
-  name: string;
-  address: string;
-  types: string[];
-}
+export type PlacesError = "NETWORK_ERROR" | "UNKNOWN_ERROR";

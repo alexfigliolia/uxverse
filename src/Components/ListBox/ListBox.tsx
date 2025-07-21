@@ -10,8 +10,14 @@ import {
 import { useController } from "@figliolia/react-hooks";
 import { useMergedRefs } from "Hooks/useMergedRefs";
 import { useReactScheduler } from "Hooks/useReactScheduler";
-import { ListBoxController } from "./Controller";
-import { ListBoxItem, ListBoxItemProps, ListElement, Props } from "./types";
+import { ListBoxController } from "./ListBoxController";
+import {
+  ListBoxFocusEvent,
+  ListBoxItem,
+  ListBoxItemProps,
+  ListElement,
+  Props,
+} from "./types";
 
 export const ListBox = <
   T extends "ul" | "ol",
@@ -50,10 +56,10 @@ export const ListBox = <
   );
 
   const onFocus = useCallback(
-    (data: { index: number; nodeID: string }) => {
+    (data: ListBoxFocusEvent["data"]) => {
       setFocusedIndex(data.index);
       onItemFocused?.(data.nodeID);
-      if (listbox.current) {
+      if (listbox.current && data.nodeID) {
         listbox.current.querySelector(`#${data.nodeID}`)!.scrollIntoView();
       }
     },

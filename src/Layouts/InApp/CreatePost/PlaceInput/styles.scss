@@ -2,6 +2,35 @@
 
 .post-input.place-input {
   border-top: 1px solid Variables.$gray;
+  & [role='status'] {
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    @include Variables.center;
+    &[aria-busy='true'] > div {
+      scale: 1;
+      opacity: 1;
+      visibility: visible;
+      transition: scale 0.5s, opacity 0.5s, visibility 0s;
+    }
+    &>div {
+      opacity: 0;
+      scale: 0.5;
+      visibility: hidden;
+      @include Variables.center;
+      transition: scale 0.5s, opacity 0.5s, visibility 0s 0.5s;
+      &>svg {
+        width: 60%;
+        height: 60%;
+        --duration: 1.75s;
+        &>circle {
+          stroke: url(#themeGradient);
+        }
+      }
+    }
+  }
   & .combo-box-list {
     bottom: calc(100% + 0.5em);
     & button {

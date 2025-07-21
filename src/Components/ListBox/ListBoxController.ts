@@ -55,9 +55,9 @@ export class ListBoxController<
 
   public destroy = () => {
     this.active = false;
-    this.focusIndex = -1;
     this.shifting = false;
     this.holdingControl = false;
+    this.resetFocusIndex();
     document.removeEventListener("keydown", this.onKeyUp);
     document.removeEventListener("keydown", this.onKeyDown);
   };
@@ -82,8 +82,8 @@ export class ListBoxController<
   };
 
   public resetFocusIndex = () => {
-    if (this.focusIndex > 0) {
-      this.setFocusIndex(0);
+    if (this.focusIndex >= 0) {
+      this.setFocusIndex(-1);
     }
   };
 

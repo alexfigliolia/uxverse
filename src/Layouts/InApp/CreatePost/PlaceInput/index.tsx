@@ -10,7 +10,9 @@ import {
 import { useDebouncer } from "@figliolia/react-hooks";
 import { ComboBox, ComboBoxControls } from "Components/ComboBox";
 import { Rating } from "Components/Rating";
-import { useAutoCompletePlaces } from "Hooks/useAutoCompletePlaces";
+import { Spinner } from "Components/Spinner";
+import { VisuallyHiddenText } from "Components/VisuallyHiddenText";
+import { usePlacesTextSearch } from "Hooks/usePlacesTextSearch";
 import { IPlace } from "PlacesClient";
 import { Callback } from "Types/Generics";
 import { Propless } from "Types/React";
@@ -26,19 +28,20 @@ type PlaceKeys =
   | "photos";
 
 const FIELD_MASK =
-  "places.id,places.displayName,places.rating,places.formattedAddress,places.shortFormattedAddress,places.websiteUri,places.photos";
+  "places.id,places.displayName,places.rating,places.formattedAddress,places.shortFormattedAddress";
 
 export const PlaceInput = (_: Propless) => {
   const [selectedID, setSelectedID] = useState("");
   const controls = useRef<ComboBoxControls | null>(null);
-  const { onSearch, results, hasNextPage, fetchNextPage, loading, error } =
-    useAutoCompletePlaces<PlaceKeys>(FIELD_MASK);
+  const { onSearch, results, hasNextPage, fetchNextPage, loading } =
+    usePlacesTextSearch<PlaceKeys>(FIELD_MASK);
 
   const hashedItems = useMemo(
     () =>
       results.reduce(
         (acc, next) => {
           if (typeof next.id === "string") {
+            // @ts-ignore
             acc[next.id] = next;
           }
           return acc;
@@ -95,6 +98,13 @@ export const PlaceInput = (_: Propless) => {
     [hasNextPage, debouncer],
   );
 
+  const renderItem = useCallback(
+    (item: PlaceProps) => (
+      <Option key={item.id} tabIndex={-1} onSelected={selectItem} {...item} />
+    ),
+    [selectItem],
+  );
+
   return (
     <ComboBox
       type="text"
@@ -102,20 +112,26 @@ export const PlaceInput = (_: Propless) => {
       ref={controls}
       multiple={false}
       onChange={onChange}
+      renderItem={renderItem}
       selections={selectedID}
       onSelect={onListBoxSelect}
       onScroll={onListBoxScroll}
       items={results as PlaceProps[]}
       className="post-input place-input"
       placeholder="Place or Venue (optional)">
-      {item => (
-        <Option
-          key={item.id}
-          tabIndex={-1}
-          onSelected={selectItem}
-          {...(item as PlaceProps)}
-        />
-      )}
+      {/* TODO - test on screen reader */}
+      <div
+        role="status"
+        aria-live="polite"
+        aria-busy={loading}
+        className="loading-indicator">
+        <div>
+          <Spinner aria-hidden />
+        </div>
+        <VisuallyHiddenText>
+          Loading more suggestions from google
+        </VisuallyHiddenText>
+      </div>
     </ComboBox>
   );
 };
@@ -124,11 +140,9 @@ function Option({
   onSelected,
   id,
   rating,
-  websiteUri,
   displayName,
   formattedAddress,
   shortFormattedAddress,
-  photos,
   ...rest
 }: Props) {
   const userFacingName = useMemo(() => displayName?.text ?? "", [displayName]);
@@ -145,7 +159,11 @@ function Option({
           {typeof rating === "number" && <Rating stars={rating} />}
         </span>
       </div>
-      <address>{shortFormattedAddress || formattedAddress}</address>
+      <address>
+        {shortFormattedAddress && shortFormattedAddress !== userFacingName
+          ? shortFormattedAddress
+          : formattedAddress}
+      </address>
     </button>
   );
 }
