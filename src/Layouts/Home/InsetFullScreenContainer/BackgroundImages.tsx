@@ -1,36 +1,32 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
+import { IOptions } from "@figliolia/page-switch";
 import { useWindowSize } from "@figliolia/react-hooks";
 import { ImageRotator } from "Components/ImageRotator";
 import { Propless } from "Types/React";
 
 export const BackgroundImages = (_: Propless) => {
   const { width } = useWindowSize();
-  const [images, setImages] = useState<string[]>([]);
+  const useSmallImages = useMemo(() => width <= 670, [width]);
 
-  useEffect(() => {
-    if (width <= 670) {
-      setImages(["/background-pink-small.webp", "/background-neon-small.webp"]);
+  const images = useMemo(() => {
+    if (useSmallImages) {
+      return ["/background-pink-small.webp", "/background-neon-small.webp"];
     }
-    setImages(["/background-pink.webp", "/background-neon.webp"]);
-  }, [width]);
+    return ["/background-pink.webp", "/background-neon.webp"];
+  }, [useSmallImages]);
 
-  return (
-    <ImageRotator
-      images={images}
-      options={{
-        arrowKey: false,
-        autoplay: true,
-        direction: 1,
-        draggable: false,
-        duration: 750,
-        ease: "ease-out",
-        interval: 10000,
-        loop: true,
-        mousewheel: false,
-        start: 0,
-        transition: "bombCoverIn",
-      }}
-    />
+  const options: Partial<IOptions> = useMemo(
+    () => ({
+      arrowKey: false,
+      autoplay: true,
+      draggable: false,
+      interval: 10000,
+      mousewheel: false,
+      transition: "bombCoverIn",
+    }),
+    [],
   );
+
+  return <ImageRotator images={images} options={options} />;
 };
