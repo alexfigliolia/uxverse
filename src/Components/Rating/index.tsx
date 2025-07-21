@@ -1,12 +1,15 @@
 import { StarFilled } from "Icons/Star";
-import { Propless } from "Types/React";
 import "./styles.scss";
 
-export const Rating = (_: Propless) => {
+export const Rating = ({ stars = 5 }: Props) => {
   return (
     <div className="result-rating" aria-label="5 Stars">
       <StarFilled aria-hidden />
-      <span>5</span>
+      <span>{stars}</span>
     </div>
   );
 };
+
+interface Props {
+  stars?: number;
+}

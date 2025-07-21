@@ -1,13 +1,15 @@
+import { HTMLProps } from "react";
 import { classnames } from "@figliolia/classnames";
-import { OptionalChildren } from "Types/React";
 import "./styles.scss";
 
-export const PostInput = ({ className, children }: Props) => {
+export const PostInput = ({
+  className,
+  children,
+  ...rest
+}: HTMLProps<HTMLLabelElement>) => {
   return (
-    <label className={classnames("post-input", className)}>{children}</label>
+    <label className={classnames("post-input", className)} {...rest}>
+      {children}
+    </label>
   );
 };
-
-interface Props extends OptionalChildren {
-  className?: string;
-}

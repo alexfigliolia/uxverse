@@ -12,7 +12,7 @@ import {
 } from "react";
 import { useClassNames } from "@figliolia/classnames";
 import { PopoverToggle } from "@figliolia/modal-stack";
-import { withPopoverContext } from "HOCs/WithPopoverContext";
+import { withPopoverContext } from "Components/Popover";
 import { Callback } from "Types/Generics";
 import { SVGComponent } from "Types/React";
 import { FeedBack, InputValidity } from "./Feedback";
@@ -38,6 +38,7 @@ export const Input = withPopoverContext(
   }: Props) => {
     const input = useRef<HTMLInputElement>(null);
     const [focused, setFocused] = useState(false);
+    const container = useRef<HTMLDivElement>(null);
     const popoverToggle = useRef<PopoverToggle>(null);
     const [valid, setValid] = useState<InputValidity>("UNKNOWN");
 
@@ -112,8 +113,9 @@ export const Input = withPopoverContext(
       focused,
     });
 
+    // TODO - label containers with hidden text
     return (
-      <div className={classes}>
+      <div ref={container} className={classes}>
         <div role="button" onClick={focusInput} className="visitor-input__icon">
           <IconStroked aria-hidden />
           <IconFilled aria-hidden />
@@ -131,7 +133,12 @@ export const Input = withPopoverContext(
         />
         {children}
         {feedback && (
-          <FeedBack text={feedbackText} valid={valid} ref={popoverToggle} />
+          <FeedBack
+            valid={valid}
+            text={feedbackText}
+            ref={popoverToggle}
+            container={container}
+          />
         )}
       </div>
     );

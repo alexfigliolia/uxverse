@@ -7,15 +7,15 @@ import {
   useRef,
 } from "react";
 import { useClassNames } from "@figliolia/classnames";
+import { ToolTip } from "Components/ToolTip";
 import { useMergedRefs } from "Hooks/useMergedRefs";
-import { TriangleIcon } from "Icons/Triangle";
 import { PopoverContext } from "./Context";
-import "./styles.scss";
 
 export const Popover = ({
   ref,
   className,
   children,
+  retainFocusNodes,
   arrowPosition = "center",
 }: Props) => {
   const { toggle, triggerID, visible, popoverID } = use(PopoverContext);
@@ -25,9 +25,22 @@ export const Popover = ({
     visible,
   });
 
-  const softClose = useCallback(() => {
-    toggle.close(false);
-  }, [toggle]);
+  const softClose = useCallback(
+    (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (
+        e.target === node.current ||
+        node.current?.contains?.(target) ||
+        retainFocusNodes?.some?.(
+          ref => ref?.current === target || ref?.current?.contains?.(target),
+        )
+      ) {
+        return;
+      }
+      toggle.close(false);
+    },
+    [toggle, retainFocusNodes],
+  );
 
   useEffect(() => {
     if (!visible) {
@@ -42,23 +55,22 @@ export const Popover = ({
   }, [visible, softClose]);
 
   return (
-    <div
+    <ToolTip
       role="region"
       id={popoverID}
       ref={nodeCache}
       className={classes}
       aria-hidden={!visible}
+      // TODO - test this on a screen reader
       aria-labelledby={triggerID}
       tabIndex={visible ? 0 : -1}>
-      <div>
-        <div>{children}</div>
-        <TriangleIcon aria-hidden />
-      </div>
-    </div>
+      {children}
+    </ToolTip>
   );
 };
 
 interface Props extends Omit<HTMLAttributes<HTMLDivElement>, "id"> {
   ref?: RefObject<HTMLDivElement | null>;
   arrowPosition?: "left" | "right" | "center";
+  retainFocusNodes?: RefObject<HTMLElement | null>[];
 }

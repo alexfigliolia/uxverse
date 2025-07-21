@@ -1,43 +1,162 @@
-import { useCallback } from "react";
+import {
+  ButtonHTMLAttributes,
+  ChangeEvent,
+  UIEvent,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useDebouncer } from "@figliolia/react-hooks";
+import { ComboBox, ComboBoxControls } from "Components/ComboBox";
+import { Rating } from "Components/Rating";
+import { useAutoCompletePlaces } from "Hooks/useAutoCompletePlaces";
+import { IPlace } from "PlacesClient";
+import { Callback } from "Types/Generics";
 import { Propless } from "Types/React";
-import { PostInput } from "../PostInput";
 import "./styles.scss";
 
-// google.maps.places.Place[]
+type PlaceKeys =
+  | "id"
+  | "displayName"
+  | "rating"
+  | "formattedAddress"
+  | "shortFormattedAddress"
+  | "websiteUri"
+  | "photos";
+
+const FIELD_MASK =
+  "places.id,places.displayName,places.rating,places.formattedAddress,places.shortFormattedAddress,places.websiteUri,places.photos";
 
 export const PlaceInput = (_: Propless) => {
-  // https://places.googleapis.com/v1/places:searchText
+  const [selectedID, setSelectedID] = useState("");
+  const controls = useRef<ComboBoxControls | null>(null);
+  const { onSearch, results, hasNextPage, fetchNextPage, loading, error } =
+    useAutoCompletePlaces<PlaceKeys>(FIELD_MASK);
 
-  const googleSearch = useCallback(() => {
-    void fetch(
-      `https://content-places.googleapis.com/v1/places:searchText?fields=*&alt=json&key=${process.env.NEXT_PUBLIC_MAPS_KEY}`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          textQuery: "Rosas Pizza",
-        }),
-      },
-    )
-      .then(res => res.json())
-      .then(console.log)
-      .catch(console.log);
-  }, []);
+  const hashedItems = useMemo(
+    () =>
+      results.reduce(
+        (acc, next) => {
+          if (typeof next.id === "string") {
+            acc[next.id] = next;
+          }
+          return acc;
+        },
+        {} as Record<string, PlaceProps>,
+      ),
+    [results],
+  );
 
-  const debouncer = useDebouncer(googleSearch, 500);
+  const onChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      onSearch(e.target.value);
+    },
+    [onSearch],
+  );
 
-  const search = useCallback(() => {
-    debouncer.execute();
-  }, [debouncer]);
+  const selectItem = useCallback(
+    (id: string) => {
+      setSelectedID(id);
+      controls.current?.setInputValue?.(
+        hashedItems[id]?.displayName?.text ?? "",
+      );
+    },
+    [hashedItems],
+  );
+
+  const onListBoxSelect = useCallback(
+    (id: string | number) => {
+      if (typeof id === "number") {
+        return;
+      }
+      selectItem(id);
+    },
+    [selectItem],
+  );
+
+  const onScroll = useCallback(
+    (e: UIEvent<HTMLDivElement>) => {
+      const listbox = e.target as HTMLDivElement;
+      if (
+        hasNextPage &&
+        listbox.scrollTop > listbox.scrollHeight - listbox.clientHeight - 50
+      ) {
+        fetchNextPage();
+      }
+    },
+    [hasNextPage, fetchNextPage],
+  );
+
+  const debouncer = useDebouncer(onScroll, 250);
+
+  const onListBoxScroll = useMemo(
+    () => (hasNextPage ? debouncer.execute : undefined),
+    [hasNextPage, debouncer],
+  );
 
   return (
-    <PostInput className="place-input">
-      <input
-        type="text"
-        name="place"
-        placeholder="Place or Venue (optional)"
-        onChange={search}
-      />
-    </PostInput>
+    <ComboBox
+      type="text"
+      name="place"
+      ref={controls}
+      multiple={false}
+      onChange={onChange}
+      selections={selectedID}
+      onSelect={onListBoxSelect}
+      onScroll={onListBoxScroll}
+      items={results as PlaceProps[]}
+      className="post-input place-input"
+      placeholder="Place or Venue (optional)">
+      {item => (
+        <Option
+          key={item.id}
+          tabIndex={-1}
+          onSelected={selectItem}
+          {...(item as PlaceProps)}
+        />
+      )}
+    </ComboBox>
   );
 };
+
+function Option({
+  onSelected,
+  id,
+  rating,
+  websiteUri,
+  displayName,
+  formattedAddress,
+  shortFormattedAddress,
+  photos,
+  ...rest
+}: Props) {
+  const userFacingName = useMemo(() => displayName?.text ?? "", [displayName]);
+
+  const onClick = useCallback(() => {
+    onSelected(id);
+  }, [onSelected, id]);
+
+  return (
+    <button onClick={onClick} {...rest}>
+      <div className="option-title">
+        <span>
+          {userFacingName}{" "}
+          {typeof rating === "number" && <Rating stars={rating} />}
+        </span>
+      </div>
+      <address>{shortFormattedAddress || formattedAddress}</address>
+    </button>
+  );
+}
+
+type PlaceProps = Omit<Pick<IPlace, PlaceKeys>, "id"> & {
+  id: string;
+};
+
+interface Props
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "id" | "onClick">,
+    PlaceProps {
+  id: string;
+  onSelected: Callback<[string]>;
+}

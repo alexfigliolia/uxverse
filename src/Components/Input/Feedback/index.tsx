@@ -1,16 +1,25 @@
 "use client";
-import { Fragment, RefObject, use, useImperativeHandle } from "react";
+import { Fragment, RefObject, use, useImperativeHandle, useMemo } from "react";
 import { PopoverToggle } from "@figliolia/modal-stack";
-import { Popover, PopoverContext } from "Components/Popover";
+import { IPopoverContext, Popover, PopoverContext } from "Components/Popover";
 import { CheckCircleStroked } from "Icons/CheckCircle";
 import { WarningStroked } from "Icons/Warning";
 import "./styles.scss";
 
-export const FeedBack = ({ ref, text, valid }: Props) => {
+export const FeedBack = ({ ref, text, container, valid }: Props) => {
   const { visible, triggerID, popoverID, targetRef, togglePopover, toggle } =
-    use(PopoverContext);
+    use(PopoverContext) as IPopoverContext<HTMLButtonElement>;
 
   useImperativeHandle(ref, () => toggle, [toggle]);
+
+  const ariaLabel = useMemo(() => {
+    if (valid === "INVALID") {
+      return "See how to fix your entry";
+    }
+    return "You entry is currently valid";
+  }, [valid]);
+
+  const popoverVisibilityRetainers = useMemo(() => [container], [container]);
 
   return (
     <Fragment>
@@ -18,6 +27,7 @@ export const FeedBack = ({ ref, text, valid }: Props) => {
         type="button"
         id={triggerID}
         ref={targetRef}
+        aria-label={ariaLabel}
         onClick={togglePopover}
         aria-expanded={visible}
         aria-controls={popoverID}
@@ -30,7 +40,8 @@ export const FeedBack = ({ ref, text, valid }: Props) => {
       <Popover
         arrowPosition="right"
         className="visitor-input__popover"
-        aria-live={visible ? "polite" : "off"}>
+        aria-live={visible ? "polite" : "off"}
+        retainFocusNodes={popoverVisibilityRetainers}>
         {text}
       </Popover>
     </Fragment>
@@ -41,6 +52,7 @@ interface Props {
   text: string;
   valid: InputValidity;
   ref?: RefObject<PopoverToggle | null>;
+  container: RefObject<HTMLDivElement | null>;
 }
 
 export type InputValidity = "UNKNOWN" | "VALID" | "INVALID";

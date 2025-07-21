@@ -1,6 +1,6 @@
 @use "Styles/Variables";
 
-.popover {
+.tooltip {
   --padding: 0.75em;
   --background-color: #fff;
   bottom: calc(100% + 0.5em);
@@ -41,7 +41,7 @@
     right: 0.55em;
   }
   &.left > div > .triangle-icon {
-    left: 0.55em;
+    left: 1.5em;
   }
   &.visible {
     opacity: 1;
