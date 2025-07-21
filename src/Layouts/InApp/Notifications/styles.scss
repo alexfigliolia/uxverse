@@ -5,9 +5,10 @@
   top: 0;
   right: 0;
   width: 100%;
-  z-index: 90;
+  z-index: 201;
   max-height: 100%;
   overflow-y: scroll;
+  overflow-x: hidden;
   max-width: 450px;
   position: fixed;
   padding: 1em;

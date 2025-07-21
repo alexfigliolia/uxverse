@@ -10,6 +10,7 @@ import {
   useState,
 } from "react";
 import { useClassNames } from "@figliolia/classnames";
+import { usePopoverToggle } from "@figliolia/modal-stack";
 import { useTimeout } from "@figliolia/react-hooks";
 import { CloserButton } from "Components/CloserButton";
 import { NotificationsContext } from "../Context";
@@ -26,22 +27,28 @@ export const Notification = ({ ID, title, message, type, deleting }: Props) => {
   const [visible, setVisible] = useState(false);
   const [scrollHeight, setScrollHeight] = useState<number>();
 
-  const onClose = useCallback(() => {
+  const close = useCallback(() => {
     setVisible(false);
     timeout.execute(() => {
       stack.delete(ID);
     }, 800);
   }, [ID, stack, timeout]);
 
-  useEffect(() => {
-    if (deleting) {
-      onClose();
-    }
-  }, [deleting, onClose]);
+  const open = useCallback(() => {
+    setVisible(true);
+  }, []);
+
+  const toggle = usePopoverToggle(open, close);
 
   useEffect(() => {
-    timeout.execute(() => setVisible(true), 10);
-  }, [timeout]);
+    if (deleting) {
+      toggle.close();
+    }
+  }, [deleting, toggle]);
+
+  useEffect(() => {
+    timeout.execute(() => toggle.open(), 10);
+  }, [timeout, toggle]);
 
   useEffect(() => {
     if (!node.current) {
@@ -50,16 +57,21 @@ export const Notification = ({ ID, title, message, type, deleting }: Props) => {
     setScrollHeight(node.current.scrollHeight);
   }, [title, message, type]);
 
+  const closeNotification = useCallback(() => {
+    toggle.close();
+  }, [toggle]);
+
   const Icon = useMemo(() => Controller.getIcon(type), [type]);
   const themeColor = useMemo(() => Controller.themeColor(type), [type]);
   const themeGradient = useMemo(() => Controller.themeGradient(type), [type]);
   const typeClassName = useMemo(() => type.toLowerCase(), [type]);
   const classes = useClassNames("notification", typeClassName, { visible });
 
+  // TODO - test announcement on screen reader
   return (
     <div
       ref={node}
-      role="alertdialog"
+      role="alert"
       className={classes}
       aria-labelledby={labelID}
       aria-describedby={descriptionID}
@@ -69,7 +81,7 @@ export const Notification = ({ ID, title, message, type, deleting }: Props) => {
         "--theme-gradient": themeGradient,
       }}>
       <div>
-        <CloserButton onClick={onClose} />
+        <CloserButton onClick={closeNotification} />
         {type !== "CUSTOM" && (
           <Fragment>
             <div className="notification-icon">

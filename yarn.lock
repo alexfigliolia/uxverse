@@ -317,10 +317,10 @@
   resolved "https://registry.yarnpkg.com/@figliolia/event-emitter/-/event-emitter-1.1.6.tgz#77657da153875904f959aa9efe040a5874623274"
   integrity sha512-v8wNRuqTnYAsw89dxbWKKJT0E4TWP2rP7BRTE5PC2kBleQl9urfancLTWie3QdjMBGbs/sY+5XdTYoHyG1117w==
 
-"@figliolia/modal-stack@^2.6.0":
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/@figliolia/modal-stack/-/modal-stack-2.6.0.tgz#5b9c0060451a4282f7a72a1464c06c5a8546de99"
-  integrity sha512-g6GQToV91yd9v9zRqiNUTmfiSdiZR4U9itIhGoeR1nNDDM2Q1AHYnEWeUepfBC7yUezTEEO19p4cSD+5v8e/vg==
+"@figliolia/modal-stack@^2.7.0":
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/@figliolia/modal-stack/-/modal-stack-2.7.0.tgz#c35dbbf56ed372270733234e9d99e166a7840d1f"
+  integrity sha512-zx1SDlxmQ5YoqAB7xDZwsZWzBvN942LAxG/G1MWWS7NIGkIJe8vdgqT0tYlzOScPl4CvsDJAKdXnpgVJiKmsAg==
   dependencies:
     "@figliolia/data-structures" "^1.2.1"
     "@figliolia/event-emitter" "^1.1.6"

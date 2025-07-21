@@ -1,6 +1,7 @@
 "use client";
 import { use } from "react";
 import { useClassNames } from "@figliolia/classnames";
+import { Portal } from "Components/Portal";
 import { Propless } from "Types/React";
 import { NotificationsContext } from "./Context";
 import { Notification } from "./Notification";
@@ -12,10 +13,12 @@ export const Notifications = (_: Propless) => {
     empty: notifications.size === 0,
   });
   return (
-    <div className={classes}>
-      {notifications.map((entry, id) => {
-        return <Notification key={id} ID={id} {...entry} />;
-      })}
-    </div>
+    <Portal>
+      <div className={classes}>
+        {notifications.map((entry, id) => {
+          return <Notification key={id} ID={id} {...entry} />;
+        })}
+      </div>
+    </Portal>
   );
 };

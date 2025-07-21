@@ -16,7 +16,7 @@
     "@figliolia/classnames": "^1.0.1",
     "@figliolia/data-structures": "^1.1.1",
     "@figliolia/event-emitter": "^1.1.6",
-    "@figliolia/modal-stack": "^2.6.0",
+    "@figliolia/modal-stack": "^2.7.0",
     "@figliolia/page-switch": "^1.0.8",
     "@figliolia/react-hooks": "^1.7.0",
     "@figliolia/size-observer": "^2.2.0",
