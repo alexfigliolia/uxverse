@@ -12,7 +12,7 @@
     "create-client": "tsx devtools/create-open-api-client/CLI.ts"
   },
   "dependencies": {
-    "@figliolia/bottom-sheet": "^1.6.3",
+    "@figliolia/bottom-sheet": "^1.7.0",
     "@figliolia/classnames": "^1.0.1",
     "@figliolia/data-structures": "^1.1.1",
     "@figliolia/event-emitter": "^1.1.6",
