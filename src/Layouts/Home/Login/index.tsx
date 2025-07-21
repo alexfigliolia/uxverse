@@ -1,21 +1,18 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useCallback, useId, useMemo } from "react";
+import { use, useCallback, useId, useMemo } from "react";
 import { BottomSheet } from "Components/BottomSheet";
-import { Suspended } from "HOCs/Suspended";
-import { useSearchParamToggle } from "Hooks/useSearchParamToggle";
 import { AppleIcon } from "Icons/AppleIcon";
 import { GoogleIcon } from "Icons/Google";
 import { createTrapNodeCache } from "Tools/CreateModalContext";
 import { Propless } from "Types/React";
+import { LoginContext } from "../LoginContext";
 import "./styles.scss";
 
-export const LOGIN_QUERY_PARAM = "login";
-
-export const Login = Suspended((_: Propless) => {
+export const Login = (_: Propless) => {
   const titleID = useId();
   const router = useRouter();
-  const { open, toggle } = useSearchParamToggle(LOGIN_QUERY_PARAM);
+  const { open, toggle } = use(LoginContext);
 
   const toFeed = useCallback(() => {
     router.push("/feed");
@@ -44,4 +41,4 @@ export const Login = Suspended((_: Propless) => {
       </div>
     </BottomSheet>
   );
-});
+};
