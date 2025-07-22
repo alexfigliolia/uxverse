@@ -1,13 +1,5 @@
 "use client";
-import {
-  ChangeEvent,
-  FormEvent,
-  use,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { FormEvent, use, useCallback, useMemo, useRef, useState } from "react";
 import { CaptureTheMoment } from "Components/CaptureTheMoment";
 import { GradientBorderButton } from "Components/GradientBorderButton";
 import { UserAvatarWithInfo } from "Components/UserAvatarWithInfo";
@@ -16,30 +8,22 @@ import { Propless } from "Types/React";
 import { AboveNavigationBottomSheet } from "../AboveNavigationBottomSheet";
 import { CreatePostContext } from "./Context";
 import { PlaceInput } from "./PlaceInput";
-import { PostInput, TextArea } from "./PostInput";
+import { TextArea } from "./PostInput";
 import { PreviewMedia } from "./PreviewMedia";
 import { IMediaPreview } from "./PreviewMedia/PreviewItem";
+import { RatingInput } from "./RatingInput";
 import "./styles.scss";
 
 export const CreatePost = (_: Propless) => {
   const { toggle, open } = use(CreatePostContext);
   const fileUploader = useRef<HTMLInputElement>(null);
   const [place, setPlace] = useState("");
+  const [rating, setRating] = useState("");
   const [loading, setLoading] = useState(0);
   const [_files, setFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<IMediaPreview[]>([]);
 
   const trapCache = useMemo(() => createTrapNodeCache(toggle), [toggle]);
-
-  const onChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const { value, name } = e.target;
-      if (name === "place") {
-        return setPlace(value);
-      }
-    },
-    [],
-  );
 
   const onMediaLoaded = useCallback(() => {
     setLoading(l => l - 1);
@@ -101,16 +85,9 @@ export const CreatePost = (_: Propless) => {
             remove={removeUploadedItem}
             onMediaLoaded={onMediaLoaded}
           />
-          <PlaceInput />
-          {(place || true) && (
-            <PostInput>
-              <input
-                type="text"
-                name="rating"
-                placeholder="How would you rate your experience?"
-                onChange={onChange}
-              />
-            </PostInput>
+          <PlaceInput selectedID={place} setSelectedID={setPlace} />
+          {place && (
+            <RatingInput selectedID={rating} setSelectedID={setRating} />
           )}
         </form>
       </div>

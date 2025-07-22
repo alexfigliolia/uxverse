@@ -1,0 +1,61 @@
+@use "Styles/Variables";
+
+.post-input.rating-input {
+  & .combo-box-list {
+    bottom: calc(100% + 0.5em);
+    --focus-background: #f3f3f3;
+    &> div > div {
+      --padding: 0.25em;
+      position: relative;
+    }
+  }
+  & [role="listbox"] {
+    display: flex;
+  }
+  & [role='option'] {
+    border: none;
+    padding: 0.25em;
+    border-radius: 0.5em;
+    &[aria-selected='true'] {
+      & button > .stars > svg:last-of-type {
+        opacity: 1;
+      }
+    }
+    & button {
+      width: 2.5em;
+      height: 2.5em;
+      position: relative;
+      z-index: 4;
+      @include Variables.center;
+      &>svg[class*='face'] {
+        top: 29%;
+        left: 25%;
+        width: 50%;
+        height: 50%;
+        position: absolute;
+        fill: #fff;
+        z-index: 2;
+      }
+      &>.stars {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        @include Variables.center;
+        &>svg {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          &:first-of-type {
+            fill: Variables.$gray-text-secondary;
+          }
+          &:last-of-type {
+            fill: url(#warning);
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.5s;
+          }
+        }
+      }
+    }
+  }
+}

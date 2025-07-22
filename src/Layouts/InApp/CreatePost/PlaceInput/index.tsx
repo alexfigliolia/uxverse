@@ -1,11 +1,12 @@
 import {
   ButtonHTMLAttributes,
   ChangeEvent,
+  Dispatch,
+  SetStateAction,
   UIEvent,
   useCallback,
   useMemo,
   useRef,
-  useState,
 } from "react";
 import { useDebouncer } from "@figliolia/react-hooks";
 import { ComboBox, ComboBoxControls } from "Components/ComboBox";
@@ -15,7 +16,6 @@ import { VisuallyHiddenText } from "Components/VisuallyHiddenText";
 import { usePlacesTextSearch } from "Hooks/usePlacesTextSearch";
 import { IPlace } from "PlacesClient";
 import { Callback } from "Types/Generics";
-import { Propless } from "Types/React";
 import "./styles.scss";
 
 type PlaceKeys =
@@ -30,8 +30,7 @@ type PlaceKeys =
 const FIELD_MASK =
   "places.id,places.displayName,places.rating,places.formattedAddress,places.shortFormattedAddress";
 
-export const PlaceInput = (_: Propless) => {
-  const [selectedID, setSelectedID] = useState("");
+export const PlaceInput = ({ selectedID, setSelectedID }: Props) => {
   const controls = useRef<ComboBoxControls | null>(null);
   const { onSearch, results, hasNextPage, fetchNextPage, loading } =
     usePlacesTextSearch<PlaceKeys>(FIELD_MASK);
@@ -65,7 +64,7 @@ export const PlaceInput = (_: Propless) => {
         hashedItems[id]?.displayName?.text ?? "",
       );
     },
-    [hashedItems],
+    [hashedItems, setSelectedID],
   );
 
   const onListBoxSelect = useCallback(
@@ -136,6 +135,11 @@ export const PlaceInput = (_: Propless) => {
   );
 };
 
+interface Props {
+  selectedID: string;
+  setSelectedID: Dispatch<SetStateAction<string>>;
+}
+
 function Option({
   onSelected,
   id,
@@ -144,7 +148,7 @@ function Option({
   formattedAddress,
   shortFormattedAddress,
   ...rest
-}: Props) {
+}: OptionProps) {
   const userFacingName = useMemo(() => displayName?.text ?? "", [displayName]);
 
   const onClick = useCallback(() => {
@@ -172,7 +176,7 @@ type PlaceProps = Omit<Pick<IPlace, PlaceKeys>, "id"> & {
   id: string;
 };
 
-interface Props
+interface OptionProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "id" | "onClick">,
     PlaceProps {
   id: string;

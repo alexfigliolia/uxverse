@@ -1,5 +1,6 @@
 import {
   ChangeEvent,
+  FocusEvent as ReactFocusEvent,
   HTMLProps,
   KeyboardEvent,
   use,
@@ -16,6 +17,7 @@ export const ComboBoxInput = <I extends ListBoxItem = ListBoxItem>({
   type,
   name,
   items,
+  onFocus,
   onChange,
   placeholder,
   readonlyInput = false,
@@ -33,11 +35,15 @@ export const ComboBoxInput = <I extends ListBoxItem = ListBoxItem>({
     }
   }, [visible, controller]);
 
-  const onFocus = useCallback(() => {
-    if (!toggle.isOpen && items.length) {
-      toggle.open();
-    }
-  }, [toggle, items]);
+  const onFocusInternal = useCallback(
+    (e: ReactFocusEvent<HTMLInputElement>) => {
+      onFocus?.(e);
+      if (!toggle.isOpen && items.length) {
+        toggle.open();
+      }
+    },
+    [toggle, items, onFocus],
+  );
 
   const search = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -108,13 +114,13 @@ export const ComboBoxInput = <I extends ListBoxItem = ListBoxItem>({
       name={name}
       role="combobox"
       onChange={search}
-      onFocus={onFocus}
       autoComplete="off"
       onKeyDown={onKeyDown}
       aria-expanded={visible}
       readOnly={readonlyInput}
       aria-controls={popoverID}
       placeholder={placeholder}
+      onFocus={onFocusInternal}
       aria-autocomplete={autoComplete}
       aria-activedescendant={visible ? focusedItem : undefined}
     />
@@ -124,7 +130,7 @@ export const ComboBoxInput = <I extends ListBoxItem = ListBoxItem>({
 export interface Props<I extends ListBoxItem = ListBoxItem>
   extends Pick<
     HTMLProps<HTMLInputElement>,
-    "type" | "name" | "placeholder" | "ref" | "onChange"
+    "type" | "name" | "placeholder" | "ref" | "onChange" | "onFocus"
   > {
   items: I[];
   readonlyInput?: boolean;

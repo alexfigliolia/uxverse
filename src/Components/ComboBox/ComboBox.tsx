@@ -45,18 +45,23 @@ function ComboBoxImpl<
   orientation,
   ...rest
 }: Props<I, M>) {
+  const hasBeenFocused = useRef(false);
   const input = useRef<HTMLInputElement>(null);
   const { popoverState, setFocusedItem, containerRef, controller } =
     use(ComboBoxContext);
   const { visible, popoverID, toggle } = popoverState;
 
   useEffect(() => {
-    if (items.length && !toggle.isOpen) {
+    if (items.length && !toggle.isOpen && hasBeenFocused.current) {
       toggle.open();
     } else if (!items.length && toggle.isOpen) {
       toggle.close(false);
     }
   }, [items, toggle]);
+
+  const onFocusInternal = useCallback(() => {
+    hasBeenFocused.current = true;
+  }, []);
 
   const onChangeInternal = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -93,6 +98,7 @@ function ComboBoxImpl<
         {...rest}
         ref={input}
         items={items}
+        onFocus={onFocusInternal}
         onChange={onChangeInternal}
       />
       {children}
@@ -120,7 +126,7 @@ function ComboBoxImpl<
 }
 
 interface Props<I extends ListBoxItem = ListBoxItem, M extends boolean = false>
-  extends Omit<InputProps, "focusedItem" | "ref">,
+  extends Omit<InputProps, "focusedItem" | "ref" | "onFocus">,
     OptionalChildren {
   items: I[];
   multiple: M;
