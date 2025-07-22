@@ -5,6 +5,7 @@ import {
   useCallback,
   useRef,
 } from "react";
+import { useClassNames } from "@figliolia/classnames";
 import { ComboBox, ComboBoxControls } from "Components/ComboBox";
 import { VisuallyHiddenText } from "Components/VisuallyHiddenText";
 import {
@@ -15,6 +16,7 @@ import {
   SadFace,
 } from "Icons/Faces";
 import { StarFilled } from "Icons/Star";
+import { Devices } from "Tools/Devices";
 import "./styles.scss";
 
 const RATING_OPTIONS = [
@@ -83,6 +85,10 @@ export const RatingInput = ({ selectedID, setSelectedID }: Props) => {
     [],
   );
 
+  const classes = useClassNames("post-input rating-input", {
+    "on-mobile": Devices.IS_MOBILE,
+  });
+
   return (
     <ComboBox
       type="text"
@@ -90,13 +96,13 @@ export const RatingInput = ({ selectedID, setSelectedID }: Props) => {
       readonlyInput
       ref={controls}
       multiple={false}
+      className={classes}
       autoComplete="none"
       items={RATING_OPTIONS}
       renderItem={renderItem}
       selections={selectedID}
       orientation="horizontal"
       onSelect={onListBoxSelect}
-      className="post-input rating-input"
       placeholder="How would you rate your experience?"
     />
   );

@@ -2,6 +2,11 @@
 
 .post-input.place-input {
   border-top: 1px solid Variables.$gray;
+  &.on-mobile {
+    & .combo-box-list {
+      @include Variables.comboBoxOutline(none);
+    }
+  }
   & [role='status'] {
     top: 0;
     right: 0;
@@ -33,6 +38,7 @@
   }
   & .combo-box-list {
     bottom: calc(100% + 0.5em);
+    @include Variables.comboBoxOutline(1.5px solid #29a9ff3f);
     & button {
       width: 100%;
       text-align: left;

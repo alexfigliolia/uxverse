@@ -22,9 +22,15 @@
 }
 
 .post-input.rating-input {
+  &.on-mobile {
+    & .combo-box-list {
+      @include Variables.comboBoxOutline(none);
+    }
+  }
   & .combo-box-list {
     bottom: calc(100% + 0.5em);
     --focus-background: #f3f3f3;
+    @include Variables.comboBoxOutline(1.5px solid #29a9ff3f);
     &> div > div {
       --padding: 0.25em;
       position: relative;

@@ -8,6 +8,7 @@ import {
   useMemo,
   useRef,
 } from "react";
+import { useClassNames } from "@figliolia/classnames";
 import { useDebouncer } from "@figliolia/react-hooks";
 import { ComboBox, ComboBoxControls } from "Components/ComboBox";
 import { Rating } from "Components/Rating";
@@ -15,6 +16,7 @@ import { Spinner } from "Components/Spinner";
 import { VisuallyHiddenText } from "Components/VisuallyHiddenText";
 import { usePlacesTextSearch } from "Hooks/usePlacesTextSearch";
 import { IPlace } from "PlacesClient";
+import { Devices } from "Tools/Devices";
 import "./styles.scss";
 
 type PlaceKeys =
@@ -99,19 +101,23 @@ export const PlaceInput = ({ selectedID, setSelectedID }: Props) => {
     [],
   );
 
+  const classes = useClassNames("post-input", "place-input", {
+    "on-mobile": Devices.IS_MOBILE,
+  });
+
   return (
     <ComboBox
       type="text"
       name="place"
       ref={controls}
       multiple={false}
+      className={classes}
       onChange={onChange}
       renderItem={renderItem}
       selections={selectedID}
       onSelect={onListBoxSelect}
       onScroll={onListBoxScroll}
       items={results as PlaceProps[]}
-      className="post-input place-input"
       placeholder="Place or Venue">
       {/* TODO - test on screen reader */}
       <div
