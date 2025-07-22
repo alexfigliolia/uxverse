@@ -1,6 +1,11 @@
 import { Subscriptable } from "@figliolia/event-emitter";
 import { Callback } from "Types/Generics";
-import { ListBoxEvents, ListBoxItem, SelectionSet } from "./types";
+import {
+  ListBoxEvents,
+  ListBoxItem,
+  ListBoxOrientation,
+  SelectionSet,
+} from "./types";
 
 export class ListBoxController<
   I extends ListBoxItem,
@@ -14,8 +19,8 @@ export class ListBoxController<
   public holdingControl = false;
   public nodeIds: string[] = [];
   public selections: SelectionSet<M>;
-
-  public static readonly MAPPED_KEYS = new Set([
+  public orientation: ListBoxOrientation;
+  private static readonly MAPPED_KEYS_COMMON = [
     "A",
     " ",
     "End",
@@ -23,13 +28,32 @@ export class ListBoxController<
     "Shift",
     "Enter",
     "Control",
+  ];
+  public static readonly MAPPED_KEYS_VERTICAL = new Set([
+    ...this.MAPPED_KEYS_COMMON,
     "ArrowUp",
     "ArrowDown",
   ]);
-  constructor(selections: SelectionSet<M>, multiple?: M) {
+  public static readonly MAPPED_KEYS_HORIZONTAL = new Set([
+    ...this.MAPPED_KEYS_COMMON,
+    "ArrowLeft",
+    "ArrowRight",
+  ]);
+  constructor(
+    selections: SelectionSet<M>,
+    multiple?: M,
+    orientation: ListBoxOrientation = "vertical",
+  ) {
     super();
     this.multiple = multiple;
     this.selections = selections;
+    this.orientation = orientation;
+  }
+
+  public getMappedKeys() {
+    return this.orientation === "horizontal"
+      ? ListBoxController.MAPPED_KEYS_HORIZONTAL
+      : ListBoxController.MAPPED_KEYS_VERTICAL;
   }
 
   public cacheRef(index: number) {
@@ -40,9 +64,14 @@ export class ListBoxController<
     };
   }
 
-  public setScope(items: I[], selections: SelectionSet<M>) {
+  public setScope(
+    items: I[],
+    selections: SelectionSet<M>,
+    orientation: ListBoxOrientation,
+  ) {
     this.items = items;
     this.selections = selections;
+    this.orientation = orientation;
     if (this.focusIndex > this.items.length) {
       this.setFocusIndex(0);
     }
@@ -149,21 +178,29 @@ export class ListBoxController<
         this.shifting = true;
         return;
       }
-      case "ArrowDown": {
-        const next =
-          this.focusIndex + 1 >= this.items.length ? 0 : this.focusIndex + 1;
-        if (this.shifting && this.multiple) {
-          this.toggleSelection(this.items[next].id);
+      case "ArrowRight": {
+        if (this.orientation === "vertical") {
+          return;
         }
-        return this.setFocusIndex(next);
+        return this.focusNext();
+      }
+      case "ArrowLeft": {
+        if (this.orientation === "vertical") {
+          return;
+        }
+        return this.focusPrevious();
+      }
+      case "ArrowDown": {
+        if (this.orientation === "horizontal") {
+          return;
+        }
+        return this.focusNext();
       }
       case "ArrowUp": {
-        const next =
-          this.focusIndex - 1 < 0 ? this.items.length - 1 : this.focusIndex - 1;
-        if (this.shifting && this.multiple) {
-          this.toggleSelection(this.items[next].id);
+        if (this.orientation === "horizontal") {
+          return;
         }
-        return this.setFocusIndex(next);
+        return this.focusPrevious();
       }
       case "Home": {
         if (this.holdingControl && this.shifting && this.multiple) {
@@ -202,6 +239,24 @@ export class ListBoxController<
         return;
     }
   };
+
+  private focusNext() {
+    const next =
+      this.focusIndex + 1 >= this.items.length ? 0 : this.focusIndex + 1;
+    if (this.shifting && this.multiple) {
+      this.toggleSelection(this.items[next].id);
+    }
+    return this.setFocusIndex(next);
+  }
+
+  private focusPrevious() {
+    const next =
+      this.focusIndex - 1 < 0 ? this.items.length - 1 : this.focusIndex - 1;
+    if (this.shifting && this.multiple) {
+      this.toggleSelection(this.items[next].id);
+    }
+    return this.setFocusIndex(next);
+  }
 
   private setFocusIndex(index: number) {
     this.focusIndex = index;

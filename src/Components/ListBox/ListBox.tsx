@@ -27,23 +27,24 @@ export const ListBox = <
   ref,
   Tag,
   items,
-  children,
   multiple,
+  renderItem,
   selections,
   controller,
   onItemClick,
   onSelection,
   onItemFocused,
+  orientation = "vertical",
   ...rest
 }: Props<T, I, M>) => {
   const queueTask = useReactScheduler();
   const listController = useController(
-    new ListBoxController(selections, multiple),
+    new ListBoxController(selections, multiple, orientation),
   );
   const listbox = useRef<ListElement<T>>(null);
   const [focusedIndex, setFocusedIndex] = useState(-1);
 
-  listController.setScope(items, selections);
+  listController.setScope(items, selections, orientation);
 
   useImperativeHandle(
     controller,
@@ -51,6 +52,7 @@ export const ListBox = <
       exit: listController.destroy,
       enter: listController.enterListBox,
       resetFocus: listController.resetFocusIndex,
+      getMappedKeys: listController.getMappedKeys,
     }),
     [listController],
   );
@@ -104,6 +106,7 @@ export const ListBox = <
       tabIndex={-1}
       role="listbox"
       ref={mergedRefs}
+      aria-orientation={orientation}
       aria-multiselectable={multiple}
       {...rest}>
       {items.map((item, i) => {
@@ -115,7 +118,7 @@ export const ListBox = <
             ref={listController.cacheRef(i)}
             data-focused={i === focusedIndex}
             selected={listController.isSelected(item.id)}>
-            {children(item, i, items)}
+            {renderItem(item, i, items)}
           </ListItem>
         );
       })}

@@ -13,6 +13,7 @@ import {
   ListBox,
   ListBoxChildrenFN,
   ListBoxItem,
+  ListBoxOrientation,
   OnListBoxSelectionFN,
   SelectionSet,
 } from "Components/ListBox";
@@ -22,7 +23,6 @@ import { ComboBoxInput, type Props as InputProps } from "./ComboBoxInput";
 import { ComboBoxContext, withComboBoxContext } from "./Context";
 import { ComboBoxControls } from "./types";
 import "./styles.scss";
-/* eslint-disable react/no-children-prop */
 
 export const ComboBox = withComboBoxContext(
   ComboBoxImpl,
@@ -42,6 +42,7 @@ function ComboBoxImpl<
   className,
   renderItem,
   selections,
+  orientation,
   ...rest
 }: Props<I, M>) {
   const input = useRef<HTMLInputElement>(null);
@@ -59,7 +60,7 @@ function ComboBoxImpl<
 
   const onChangeInternal = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      onChange(e);
+      onChange?.(e);
       controller.current?.resetFocus?.();
     },
     [onChange, controller],
@@ -105,11 +106,12 @@ function ComboBoxImpl<
           items={items}
           id={popoverID}
           multiple={multiple}
-          children={renderItem}
           onSelection={onSelect}
+          renderItem={renderItem}
           selections={selections}
           controller={controller}
           onItemClick={onItemClick}
+          orientation={orientation}
           onItemFocused={setFocusedItem}
         />
       </ToolTip>
@@ -124,6 +126,7 @@ interface Props<I extends ListBoxItem = ListBoxItem, M extends boolean = false>
   multiple: M;
   className?: string;
   selections: SelectionSet<M>;
+  orientation?: ListBoxOrientation;
   renderItem: ListBoxChildrenFN<I>;
   onSelect: OnListBoxSelectionFN<M>;
   ref?: RefObject<ComboBoxControls | null>;

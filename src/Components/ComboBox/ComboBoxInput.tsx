@@ -1,6 +1,5 @@
 import {
   ChangeEvent,
-  ChangeEventHandler,
   HTMLProps,
   KeyboardEvent,
   use,
@@ -9,7 +8,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { ListBoxController, ListBoxItem } from "Components/ListBox";
+import { ListBoxItem } from "Components/ListBox";
 import { ComboBoxContext } from "./Context";
 
 export const ComboBoxInput = <I extends ListBoxItem = ListBoxItem>({
@@ -19,6 +18,8 @@ export const ComboBoxInput = <I extends ListBoxItem = ListBoxItem>({
   items,
   onChange,
   placeholder,
+  readonlyInput = false,
+  autoComplete = "list",
 }: Props<I>) => {
   const [inListBox, setInListBox] = useState(false);
   const { popoverState, focusedItem, controller, containerRef } =
@@ -63,11 +64,14 @@ export const ComboBoxInput = <I extends ListBoxItem = ListBoxItem>({
     [toggle, controller],
   );
 
-  const onKeyDownInside = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
-    if (ListBoxController.MAPPED_KEYS.has(e.key)) {
-      e.preventDefault();
-    }
-  }, []);
+  const onKeyDownInside = useCallback(
+    (e: KeyboardEvent<HTMLInputElement>) => {
+      if (controller?.current?.getMappedKeys?.()?.has?.(e.key)) {
+        e.preventDefault();
+      }
+    },
+    [controller],
+  );
 
   const onKeyDown = useMemo(
     () => (inListBox ? onKeyDownInside : onKeyDownOutside),
@@ -108,9 +112,10 @@ export const ComboBoxInput = <I extends ListBoxItem = ListBoxItem>({
       autoComplete="off"
       onKeyDown={onKeyDown}
       aria-expanded={visible}
-      aria-autocomplete="list"
+      readOnly={readonlyInput}
       aria-controls={popoverID}
       placeholder={placeholder}
+      aria-autocomplete={autoComplete}
       aria-activedescendant={visible ? focusedItem : undefined}
     />
   );
@@ -122,5 +127,6 @@ export interface Props<I extends ListBoxItem = ListBoxItem>
     "type" | "name" | "placeholder" | "ref" | "onChange"
   > {
   items: I[];
-  onChange: ChangeEventHandler<HTMLInputElement>;
+  readonlyInput?: boolean;
+  autoComplete?: "none" | "inline" | "list" | "both";
 }

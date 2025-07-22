@@ -25,7 +25,8 @@ export interface Props<
   items: I[];
   multiple?: M;
   selections: SelectionSet<M>;
-  children: ListBoxChildrenFN<I>;
+  orientation?: ListBoxOrientation;
+  renderItem: ListBoxChildrenFN<I>;
   onSelection: OnListBoxSelectionFN<M>;
   controller: RefObject<ListBoxControls | null>;
   onItemFocused?: Callback<[string | undefined]>;
@@ -53,6 +54,7 @@ export interface ListBoxControls {
   exit: Callback;
   enter: Callback;
   resetFocus: Callback;
+  getMappedKeys: Callback<[], Set<string>>;
 }
 
 export interface ListBoxItem {
@@ -72,3 +74,5 @@ export interface ListBoxSelectionEvent<M extends boolean = false> {
   event: "selection";
   data: SelectionSet<M>;
 }
+
+export type ListBoxOrientation = "horizontal" | "vertical";
