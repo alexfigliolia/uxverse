@@ -1,6 +1,6 @@
 import {
   HTMLProps,
-  MouseEventHandler,
+  MouseEvent,
   ReactNode,
   RefCallback,
   RefObject,
@@ -30,7 +30,7 @@ export interface Props<
   onSelection: OnListBoxSelectionFN<M>;
   controller: RefObject<ListBoxControls | null>;
   onItemFocused?: Callback<[string | undefined]>;
-  onItemClick?: MouseEventHandler<HTMLLIElement>;
+  onItemClick?: Callback<[string | number, MouseEvent<HTMLLIElement>]>;
 }
 
 export type OnListBoxSelectionFN<M extends boolean = false> = Callback<
@@ -67,7 +67,11 @@ export type ListBoxEvents<M extends boolean = false> =
 
 export interface ListBoxFocusEvent {
   event: "focus";
-  data: { index: number; nodeID: string | undefined };
+  data: {
+    index: number;
+    nodeID: string | undefined;
+    scrollTo: boolean;
+  };
 }
 
 export interface ListBoxSelectionEvent<M extends boolean = false> {

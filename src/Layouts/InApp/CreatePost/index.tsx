@@ -86,9 +86,7 @@ export const CreatePost = (_: Propless) => {
             onMediaLoaded={onMediaLoaded}
           />
           <PlaceInput selectedID={place} setSelectedID={setPlace} />
-          {place && (
-            <RatingInput selectedID={rating} setSelectedID={setRating} />
-          )}
+          <RatingInput selectedID={rating} setSelectedID={setRating} />
         </form>
       </div>
     </AboveNavigationBottomSheet>

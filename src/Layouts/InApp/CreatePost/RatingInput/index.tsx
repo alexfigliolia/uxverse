@@ -15,7 +15,6 @@ import {
   SadFace,
 } from "Icons/Faces";
 import { StarFilled } from "Icons/Star";
-import { Callback } from "Types/Generics";
 import "./styles.scss";
 
 const RATING_OPTIONS = [
@@ -53,10 +52,16 @@ export const RatingInput = ({ selectedID, setSelectedID }: Props) => {
 
   const selectItem = useCallback(
     (id: string) => {
-      setSelectedID(id);
-      controls?.current?.setInputValue(
-        RATING_OPTIONS.find(f => f.id === id)?.ariaLabel ?? "",
-      );
+      setSelectedID(current => {
+        if (current === id) {
+          controls?.current?.setInputValue("");
+          return "";
+        }
+        controls?.current?.setInputValue(
+          RATING_OPTIONS.find(f => f.id === id)?.ariaLabel ?? "",
+        );
+        return id;
+      });
     },
     [setSelectedID],
   );
@@ -73,9 +78,9 @@ export const RatingInput = ({ selectedID, setSelectedID }: Props) => {
 
   const renderItem = useCallback(
     (item: (typeof RATING_OPTIONS)[number]) => (
-      <Option key={item.id} tabIndex={-1} onSelected={selectItem} {...item} />
+      <Option key={item.id} tabIndex={-1} {...item} />
     ),
-    [selectItem],
+    [],
   );
 
   return (
@@ -102,20 +107,9 @@ interface Props {
   setSelectedID: Dispatch<SetStateAction<string>>;
 }
 
-function Option({
-  id,
-  Face,
-  ariaLabel,
-  onSelected,
-  animate,
-  ...rest
-}: OptionProps) {
-  const onClick = useCallback(() => {
-    onSelected(id);
-  }, [onSelected, id]);
-
+function Option({ Face, ariaLabel, animate, ...rest }: OptionProps) {
   return (
-    <button onClick={onClick} data-animate={animate} {...rest}>
+    <button data-animate={animate} {...rest}>
       <div className="stars">
         <StarFilled />
         <StarFilled />
@@ -137,6 +131,5 @@ function Option({
 type OptionProps = Omit<
   ButtonHTMLAttributes<HTMLButtonElement>,
   "id" | "onClick" | "aria-label"
-> & {
-  onSelected: Callback<[string]>;
-} & (typeof RATING_OPTIONS)[number];
+> &
+  (typeof RATING_OPTIONS)[number];

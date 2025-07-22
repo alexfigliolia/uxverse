@@ -110,6 +110,12 @@ export class ListBoxController<
     this.bind();
   };
 
+  public enterAtIndex(index: number) {
+    this.active = true;
+    this.setFocusIndex(index, false);
+    this.bind();
+  }
+
   public resetFocusIndex = () => {
     if (this.focusIndex >= 0) {
       this.setFocusIndex(-1);
@@ -122,12 +128,12 @@ export class ListBoxController<
     return this.multiple === true;
   };
 
-  public isSelected = (id: string | number) => {
-    if (this.selections instanceof Set) {
-      return this.selections.has(id);
+  public isSelected(id: string | number, selections = this.selections) {
+    if (selections instanceof Set) {
+      return selections.has(id);
     }
-    return id === this.selections;
-  };
+    return id === selections;
+  }
 
   public toggleSelection = (ID: string | number | undefined) => {
     if (typeof ID === "undefined") {
@@ -258,11 +264,11 @@ export class ListBoxController<
     return this.setFocusIndex(next);
   }
 
-  private setFocusIndex(index: number) {
+  private setFocusIndex(index: number, scrollTo = true) {
     this.focusIndex = index;
     this.execute({
       event: "focus",
-      data: { index, nodeID: this.nodeIds[index] },
+      data: { index, nodeID: this.nodeIds[index], scrollTo },
     });
   }
 

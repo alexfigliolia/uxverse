@@ -15,7 +15,6 @@ import { Spinner } from "Components/Spinner";
 import { VisuallyHiddenText } from "Components/VisuallyHiddenText";
 import { usePlacesTextSearch } from "Hooks/usePlacesTextSearch";
 import { IPlace } from "PlacesClient";
-import { Callback } from "Types/Generics";
 import "./styles.scss";
 
 type PlaceKeys =
@@ -96,10 +95,8 @@ export const PlaceInput = ({ selectedID, setSelectedID }: Props) => {
   );
 
   const renderItem = useCallback(
-    (item: PlaceProps) => (
-      <Option key={item.id} tabIndex={-1} onSelected={selectItem} {...item} />
-    ),
-    [selectItem],
+    (item: PlaceProps) => <Option key={item.id} tabIndex={-1} {...item} />,
+    [],
   );
 
   return (
@@ -115,7 +112,7 @@ export const PlaceInput = ({ selectedID, setSelectedID }: Props) => {
       onScroll={onListBoxScroll}
       items={results as PlaceProps[]}
       className="post-input place-input"
-      placeholder="Place or Venue (optional)">
+      placeholder="Place or Venue">
       {/* TODO - test on screen reader */}
       <div
         role="status"
@@ -139,8 +136,6 @@ interface Props {
 }
 
 function Option({
-  onSelected,
-  id,
   rating,
   displayName,
   formattedAddress,
@@ -149,12 +144,8 @@ function Option({
 }: OptionProps) {
   const userFacingName = useMemo(() => displayName?.text ?? "", [displayName]);
 
-  const onClick = useCallback(() => {
-    onSelected(id);
-  }, [onSelected, id]);
-
   return (
-    <button onClick={onClick} {...rest}>
+    <button {...rest}>
       <div className="option-title">
         <span>
           {userFacingName}{" "}
@@ -174,9 +165,8 @@ type PlaceProps = Omit<Pick<IPlace, PlaceKeys>, "id"> & {
   id: string;
 };
 
-interface OptionProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "id" | "onClick">,
-    PlaceProps {
-  id: string;
-  onSelected: Callback<[string]>;
-}
+type OptionProps = Omit<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  "id" | "onClick"
+> &
+  PlaceProps;

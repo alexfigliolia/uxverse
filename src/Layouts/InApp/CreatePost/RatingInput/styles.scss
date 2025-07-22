@@ -3,6 +3,7 @@
 
 @mixin animateTwinkle($i) {
   $offset: math.div(360, 4);
+  animation: twinkle-#{$i} 1s forwards;
   @keyframes twinkle-#{$i} {
     0% {
       transform: rotate(#{($offset * $i) + math.div($offset, 2)}deg) translate(0%, -50%);
@@ -18,7 +19,6 @@
       transform: rotate(#{($offset * $i) + math.div($offset, 2)}deg) translate(0%, -200%) scaleY(0);
     }
   }
-  animation: twinkle-#{$i} 1s forwards;
 }
 
 .post-input.rating-input {
