@@ -23,12 +23,10 @@ type PlaceKeys =
   | "displayName"
   | "rating"
   | "formattedAddress"
-  | "shortFormattedAddress"
-  | "websiteUri"
-  | "photos";
+  | "shortFormattedAddress";
 
 const FIELD_MASK =
-  "places.id,places.displayName,places.rating,places.formattedAddress,places.shortFormattedAddress";
+  "places.id,places.displayName.text,places.rating,places.formattedAddress,places.shortFormattedAddress";
 
 export const PlaceInput = ({ selectedID, setSelectedID }: Props) => {
   const controls = useRef<ComboBoxControls | null>(null);

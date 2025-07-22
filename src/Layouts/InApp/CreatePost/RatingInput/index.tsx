@@ -38,11 +38,13 @@ const RATING_OPTIONS = [
     id: "4",
     ariaLabel: "Good experience",
     Face: HappyFace,
+    animate: true,
   },
   {
     id: "5",
     ariaLabel: "Great experience",
     Face: ExcitedFace,
+    animate: true,
   },
 ];
 
@@ -100,19 +102,34 @@ interface Props {
   setSelectedID: Dispatch<SetStateAction<string>>;
 }
 
-function Option({ id, Face, ariaLabel, onSelected, ...rest }: OptionProps) {
+function Option({
+  id,
+  Face,
+  ariaLabel,
+  onSelected,
+  animate,
+  ...rest
+}: OptionProps) {
   const onClick = useCallback(() => {
     onSelected(id);
   }, [onSelected, id]);
 
   return (
-    <button onClick={onClick} {...rest}>
+    <button onClick={onClick} data-animate={animate} {...rest}>
       <div className="stars">
         <StarFilled />
         <StarFilled />
       </div>
       <Face aria-hidden />
       <VisuallyHiddenText Tag="span">{ariaLabel}</VisuallyHiddenText>
+      {animate && (
+        <div aria-hidden className="twinkle">
+          <div />
+          <div />
+          <div />
+          <div />
+        </div>
+      )}
     </button>
   );
 }

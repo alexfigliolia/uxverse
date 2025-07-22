@@ -1,4 +1,25 @@
 @use "Styles/Variables";
+@use "sass:math";
+
+@mixin animateTwinkle($i) {
+  $offset: math.div(360, 4);
+  @keyframes twinkle-#{$i} {
+    0% {
+      transform: rotate(#{($offset * $i) + math.div($offset, 2)}deg) translate(0%, -50%);
+    }
+    50% {
+      transform: rotate(#{($offset * $i) + math.div($offset, 2)}deg) translate(0%, -200%);
+    }
+    75% {
+      transform: rotate(#{($offset * $i) + math.div($offset, 2)}deg) translate(0%, -200%) scaleY(0.5);
+    }
+    100% {
+      opacity: 0;
+      transform: rotate(#{($offset * $i) + math.div($offset, 2)}deg) translate(0%, -200%) scaleY(0);
+    }
+  }
+  animation: twinkle-#{$i} 1s forwards;
+}
 
 .post-input.rating-input {
   & .combo-box-list {
@@ -17,8 +38,21 @@
     padding: 0.25em;
     border-radius: 0.5em;
     &[aria-selected='true'] {
-      & button > .stars > svg:last-of-type {
-        opacity: 1;
+      & button {
+        &[data-animate='true'] {
+          animation: selected 1s 0.25s forwards;
+        }
+        &> .stars > svg:last-of-type {
+          opacity: 1;
+        }
+        &>.twinkle > div {
+          opacity: 1;
+          @for $i from 1 through 4 {
+            &:nth-of-type(#{$i}) {
+              @include animateTwinkle($i);
+            }
+          }
+        }
       }
     }
     & button {
@@ -34,11 +68,12 @@
         height: 50%;
         position: absolute;
         fill: #fff;
-        z-index: 2;
+        z-index: 3;
       }
       &>.stars {
         width: 100%;
         height: 100%;
+        z-index: 2;
         position: relative;
         @include Variables.center;
         &>svg {
@@ -56,6 +91,49 @@
           }
         }
       }
+      &>.twinkle {
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+        position: absolute;
+        @include Variables.center;
+        &>div {
+          width: 0.15em;
+          height: 0.5em;
+          border-radius: 2px;
+          position: absolute;
+          translate: 0 -10%;
+          opacity: 0;
+          transform-origin: 50% 100%;
+          background-color: Variables.$warning-yellow;
+          @for $i from 1 through 4 {
+            &:nth-of-type(#{$i}) {
+              $offset: math.div(360, 4);
+              transform: rotate(#{($offset * $i) + math.div($offset, 2)}deg) translate(0%, -100%);
+            }
+          }
+        }
+      }
     }
   }
 }
+
+@keyframes selected {
+  0% {
+    scale: 1;
+    rotate: 0deg;
+  }
+  20% {
+    scale: 1.2;
+    rotate: 0deg;
+  }
+  40% {
+    scale: 1;
+    rotate: 0deg;
+  }
+  100% {
+    rotate: 360deg;
+  }
+}
+
