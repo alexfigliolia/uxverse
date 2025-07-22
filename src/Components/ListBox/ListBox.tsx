@@ -96,6 +96,7 @@ export const ListBox = <
           return;
         }
         onItemClick?.(id, e);
+        setFocusInside(true);
         listController.enterAtIndex(index);
         listController.toggleSelection(id);
       };
