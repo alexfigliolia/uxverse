@@ -4,7 +4,6 @@
   --offset: -2em;
   width: 100%;
   margin: 0 auto;
-  max-width: Variables.$max-content-width;
   overflow: hidden;
   @media(min-width: Variables.$max-content-width) {
     --offset: 0em;
@@ -12,6 +11,8 @@
   &>.map-layout {
     height: 50vh;
     height: 50svh;
+    margin: 0 auto;
+    max-width: Variables.$max-content-width;
     @media (min-width: 670px) {
       height: 42.5vh;
       height: 42.5svh;

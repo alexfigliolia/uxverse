@@ -4,16 +4,17 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 1em;
+  row-gap: 0.35em;
+  column-gap: 0.5em;
   &>ul {
     display: flex;
     flex-wrap: wrap;
     row-gap: 0.5em;
     list-style-type: none;
     & .avatar {
-      height: 40px;
-      width: 40px;
-      padding: 1.5px;
+      height: 2.5em;
+      width: 2.5em;
+      padding: 0.1em;
       margin: 0 -0.5em;
       position: relative;
       box-shadow: none;
@@ -43,10 +44,10 @@
     outline: none;
     border: none;
     font-size: 0.8em;
-    font-weight: 300;
+    font-weight: 400;
     color: Variables.$gray-text;
     &>strong {
-      font-weight: 700;
+      font-weight: 500;
     }
   }
 }

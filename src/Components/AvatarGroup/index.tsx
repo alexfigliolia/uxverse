@@ -37,6 +37,15 @@ export const AvatarGroup = (_: Propless) => {
 
   return (
     <div className="avatar-group">
+      {remaining && (
+        <button>
+          visited by{" "}
+          <ReducedLetterSpacing Tag="strong">
+            {Formatting.formatCompact(45)} people
+          </ReducedLetterSpacing>{" "}
+          you follow
+        </button>
+      )}
       <ul>
         {visibleWindow.map((_, i) => {
           const active = i === index;
@@ -55,15 +64,6 @@ export const AvatarGroup = (_: Propless) => {
           );
         })}
       </ul>
-      {remaining && (
-        <button>
-          and{" "}
-          <ReducedLetterSpacing Tag="strong">
-            {Formatting.formatCompact(45)} others
-          </ReducedLetterSpacing>{" "}
-          you follow
-        </button>
-      )}
     </div>
   );
 };

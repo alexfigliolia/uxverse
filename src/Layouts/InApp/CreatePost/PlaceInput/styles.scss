@@ -38,6 +38,7 @@
   }
   & .combo-box-list {
     bottom: calc(100% + 0.5em);
+    font-size: 1.05em;
     @include Variables.comboBoxOutline(1.5px solid #29a9ff3f);
     & button {
       width: 100%;

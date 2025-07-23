@@ -32,7 +32,7 @@ export const useNearBySearch = <T extends keyof IPlace>(
     signal.current = new AbortController();
     void GooglePlaces.POST("/v1/places:searchNearby", {
       body: {
-        maxResultCount: 20,
+        maxResultCount: 18,
         locationRestriction: {
           circle: {
             center: location,

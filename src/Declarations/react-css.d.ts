@@ -10,5 +10,6 @@ declare module "react" {
     "--theme-gradient"?: string;
     "--scroll-height"?: string;
     "--client-height"?: string;
+    "--transition-duration"?: string;
   }
 }

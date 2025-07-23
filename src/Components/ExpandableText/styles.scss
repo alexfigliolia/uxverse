@@ -2,6 +2,7 @@
 
 .expandable-text {
   --lines: 3;
+  --transition-duration: 500ms;
   width: 100%;
   margin: 0;
   line-height: 1.5;
@@ -19,13 +20,13 @@
   }
   &.overscroll {
     max-height: var(--client-height);
-    transition: max-height 0.5s;
+    transition: max-height var(--transition-duration);
     cursor: pointer; 
     &.expand {
       line-clamp: unset;
       -webkit-line-clamp: unset;
       max-height: 1000px;
-      transition: max-height 1s;
+      transition: max-height calc(var(--transition-duration) * 2);
     }
   }
 }

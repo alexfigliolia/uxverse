@@ -28,6 +28,7 @@ export const usePlacesTextSearch = <T extends keyof IPlace>(mask: string) => {
       void GooglePlaces.POST(`/v1/places:searchText`, {
         body: {
           textQuery,
+          maxResultCount: 18,
         },
         params: {
           query: {

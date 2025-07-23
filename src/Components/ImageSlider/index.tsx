@@ -127,7 +127,7 @@ interface Props
   role?: "region" | "group";
   children: ReactNode[];
   onChange?: Callback<[number]>;
-  fixedChildren: ReactNode;
+  fixedChildren?: ReactNode;
   onScrollProgress?: Callback<[ScrollProgress]>;
 }
 

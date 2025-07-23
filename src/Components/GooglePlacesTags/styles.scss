@@ -1,0 +1,27 @@
+@use "Styles/Variables";
+
+.google-places-tags {
+  &>button {
+    font-size: 0.8em;
+    border-radius: 2em;
+    padding: 0.3em 0.6em;
+    transition: all 0.25s;
+    color: Variables.$orange;
+    background-color: rgba(from Variables.$orange r g b / 10%);
+    &:hover,
+    &:focus-visible {
+      background-color: rgba(from Variables.$orange r g b / 25%);
+    }
+    &>.reduced-letter-spacing {
+      font-size: 1.1em;
+      @include Variables.center;
+      gap: 0.25em;
+      &>svg {
+        width: 1em;
+        height: 1em;
+        scale: 1.25;
+        stroke: Variables.$orange;
+      }
+    }
+  }
+}

@@ -21,18 +21,20 @@
   }
   &__controls {
     top: 50%;
-    left: 5%;
-    width: 90%;
+    left: 0.75em;
+    width: calc(100% - 1.5em);
     translate: 0 -50%;
     position: absolute;
     display: flex;
     z-index: 2;
     justify-content: space-between;
+    pointer-events: none;
     &>button {
       width: 2em;
       height: 2em;
       border-radius: 50%;
-      background-color: rgba(#fff, 0.5);
+      pointer-events: auto;
+      background-color: rgba(#fff, 0.75);
       backdrop-filter: blur(2.5px);
       @include Variables.center;
       &>svg {

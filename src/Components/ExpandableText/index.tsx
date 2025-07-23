@@ -12,6 +12,7 @@ export const ExpandableText = ({
   children,
   onExpand,
   onCollapse,
+  transitionDuration = 500,
 }: Props) => {
   const timeout = useTimeout();
   const node = useRef<HTMLDivElement>(null);
@@ -23,7 +24,10 @@ export const ExpandableText = ({
       setExpand(e => {
         if (e) {
           onCollapse?.(node.current);
-          timeout.execute(() => setDisableTruncation(false), 500);
+          timeout.execute(
+            () => setDisableTruncation(false),
+            transitionDuration,
+          );
         } else {
           onExpand?.(node.current);
           setDisableTruncation(true);
@@ -31,7 +35,7 @@ export const ExpandableText = ({
         return !e;
       });
     }
-  }, [timeout, onExpand, onCollapse]);
+  }, [timeout, onExpand, onCollapse, transitionDuration]);
 
   return (
     <OverscrollDetector ref={node}>
@@ -41,6 +45,7 @@ export const ExpandableText = ({
           style={{
             "--client-height": `${clientHeight}px`,
             "--scroll-height": `${scrollHeight}px`,
+            "--transition-duration": `${transitionDuration}ms`,
           }}
           role={isTruncated ? "button" : undefined}
           onClick={isTruncated ? onClick : undefined}
@@ -60,6 +65,7 @@ export const ExpandableText = ({
 
 interface Props extends OptionalChildren {
   className?: string;
+  transitionDuration?: number;
   onExpand?: Callback<[HTMLDivElement | null]>;
   onCollapse?: Callback<[HTMLDivElement | null]>;
 }

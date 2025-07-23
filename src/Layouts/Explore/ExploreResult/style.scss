@@ -7,4 +7,54 @@
   border-radius: 0.5em;
   padding: 0.75em;
   @include Variables.columnLayout;
+  &__content {
+    width: calc(100% - 1em);
+    margin: 0 auto;
+    @include Variables.columnLayout;
+    background-color: #fff;
+    border-radius: 0.5em;
+    z-index: 2;
+    position: relative;
+  }
+  &__headline {
+    @include Variables.columnLayout(0.25em);
+    & h2 {
+      margin: 0;
+      font-weight: 400;
+      font-size: 1.15em;
+      color: Variables.$black-text-secondary;
+    }
+  }
+  &__distance {
+    display: flex;
+    gap: 0.25em;
+    align-items: center;
+    font-size: 0.9em;
+    &>svg {
+      width: 1.35em;
+      height: 1.35em;
+      stroke: url(#themeGradient);
+      & path,
+      & circle {
+        stroke-width: 2;
+      }
+    }
+    &>span {
+      color: Variables.$gray-text;
+    }
+  }
+  &__summary {
+    &>div {
+      transition: margin 1s;
+      & .expandable-text {
+        --lines: 2;
+        --transition-duration: 2s;
+      }
+      & p {
+        margin: 0;
+        text-wrap: balance;
+        color: Variables.$gray-text;
+      }
+    }
+  }
 }

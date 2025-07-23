@@ -107,6 +107,12 @@ export const ComboBoxInput = <I extends ListBoxItem = ListBoxItem>({
     };
   }, [visible, onFocusIn]);
 
+  const onClick = useCallback(() => {
+    if (!visible && items.length) {
+      toggle.open();
+    }
+  }, [visible, toggle, items.length]);
+
   return (
     <input
       ref={ref}
@@ -114,6 +120,7 @@ export const ComboBoxInput = <I extends ListBoxItem = ListBoxItem>({
       name={name}
       role="combobox"
       onChange={search}
+      onClick={onClick}
       autoComplete="off"
       onKeyDown={onKeyDown}
       aria-expanded={visible}
