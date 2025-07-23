@@ -18,6 +18,9 @@
     margin: 0 auto;
     padding-top: 1.5em;
     @include Variables.columnLayout(1.5em);
+    @media(min-width: 1300px) {
+      padding: 1.5em 0 0;
+    }
     &>search {
       width: 100%;
       @include Variables.center;
