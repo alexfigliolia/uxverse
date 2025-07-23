@@ -22,12 +22,15 @@ const serwist = new Serwist({
   runtimeCaching: [
     ...defaultCache,
     {
-      matcher: /\.(?:hdr|exr|glb)$/i,
+      matcher: ({ url }) => {
+        const urlString = url.toString();
+        return /\photos\//.test(urlString) && /\media?/.test(urlString);
+      },
       handler: new CacheFirst({
-        cacheName: "static-3d-assets",
+        cacheName: "google-place-images",
         plugins: [
           new ExpirationPlugin({
-            maxEntries: 64,
+            maxEntries: 300,
             maxAgeSeconds: 30 * 24 * 60 * 60,
             maxAgeFrom: "last-used",
           }),

@@ -1,0 +1,56 @@
+@use "Styles/Variables";
+
+.image-slider {
+  width: 100%;
+  position: relative;
+  &__scroll-view {
+    width: 100%;
+    overflow-x: scroll;
+    white-space: nowrap;
+    scroll-snap-type: x mandatory;
+    &>div {
+      width: 100%;
+      display: inline-block;
+      scroll-snap-align: start;
+      &>figure {
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 1.5 / 1;
+      }
+    }
+  }
+  &__controls {
+    top: 50%;
+    left: 5%;
+    width: 90%;
+    translate: 0 -50%;
+    position: absolute;
+    display: flex;
+    z-index: 2;
+    justify-content: space-between;
+    &>button {
+      width: 2em;
+      height: 2em;
+      border-radius: 50%;
+      background-color: rgba(#fff, 0.5);
+      backdrop-filter: blur(2.5px);
+      @include Variables.center;
+      &>svg {
+        width: 80%;
+        height: 80%;
+        fill: Variables.$black-text;
+      }
+    }
+  }
+  &__fixed-children {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    position: absolute;
+    display: flex;
+    align-items: flex-end;
+    padding: 0.75em;
+  }
+}
