@@ -24,7 +24,13 @@ const serwist = new Serwist({
     {
       matcher: ({ url }) => {
         const urlString = url.toString();
-        return /\photos\//.test(urlString) && /\media?/.test(urlString);
+        return (
+          urlString.startsWith(
+            "https://content-places.googleapis.com/v1/places/",
+          ) &&
+          /\photos\//.test(urlString) &&
+          /\media?/.test(urlString)
+        );
       },
       handler: new CacheFirst({
         cacheName: "google-place-images",

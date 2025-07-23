@@ -5,6 +5,7 @@ import serwist from "@serwist/next";
 const withSerwist = serwist({
   swSrc: "src/app/sw.ts",
   swDest: "public/sw.js",
+  cacheOnNavigation: true,
   disable: process.env.NODE_ENV !== "production",
 });
 
