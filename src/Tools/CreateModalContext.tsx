@@ -2,7 +2,7 @@
 import { createContext } from "react";
 import { ISheetController } from "@figliolia/bottom-sheet";
 import { ModalToggle } from "@figliolia/modal-stack";
-import { useToggle } from "Hooks/useToggle";
+import { useBasicModalToggle } from "Hooks/useBasicModalToggle";
 import { OptionalChildren } from "Types/React";
 
 export const createModalContext = () => {
@@ -15,7 +15,7 @@ export const createModalContext = () => {
   });
 
   const Provider = ({ children }: OptionalChildren) => {
-    const value = useToggle();
+    const value = useBasicModalToggle();
     return <Context value={value}>{children}</Context>;
   };
 

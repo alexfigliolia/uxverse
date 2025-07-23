@@ -1,15 +1,8 @@
 "use client";
 import { ButtonHTMLAttributes, useCallback } from "react";
-import { classnames } from "@figliolia/classnames";
-import { ShareIcon } from "Icons/Share";
-import "./styles.scss";
+import { ShareIconButton } from "Components/ShareIconButton";
 
-export const ShareButton = ({
-  shareData,
-  children,
-  className,
-  ...rest
-}: Props) => {
+export const ShareButton = ({ shareData, ...rest }: Props) => {
   const onClick = useCallback(() => {
     if (typeof window === "undefined" || !navigator.share) {
       return;
@@ -17,15 +10,7 @@ export const ShareButton = ({
     void navigator.share(shareData).catch(() => {});
   }, [shareData]);
 
-  return (
-    <button
-      {...rest}
-      onClick={onClick}
-      className={classnames("share-button", className)}>
-      {children}
-      <ShareIcon aria-hidden />
-    </button>
-  );
+  return <ShareIconButton {...rest} onClick={onClick} />;
 };
 
 interface Props

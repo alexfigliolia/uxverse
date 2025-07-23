@@ -4,14 +4,15 @@
   display: flex;
   gap: 0.15em;
   align-items: center;
+  --color: #ffcb48;
   &>svg {
     width: 1.15em;
     height: 1.15em;
-    fill: #ffcb48;
+    fill: var(--color);
     filter: drop-shadow(0em 0em 0.2em rgba(#000, 0.1));
   }
   &>span {
-    color: #ffcb48;
+    color: var(--color);
     font-weight: 500;
     font-size: 1em;
     margin-top: 0.05em;

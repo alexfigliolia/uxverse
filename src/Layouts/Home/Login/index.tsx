@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { use, useCallback, useId, useMemo } from "react";
 import { BottomSheet } from "Components/BottomSheet";
 import { AppleIcon } from "Icons/AppleIcon";
-import { GoogleIcon } from "Icons/Google";
+import { GoogleColored } from "Icons/Google";
 import { createTrapNodeCache } from "Tools/CreateModalContext";
 import { Propless } from "Types/React";
 import { LoginContext } from "../LoginContext";
@@ -36,7 +36,7 @@ export const Login = (_: Propless) => {
           Apple <AppleIcon />
         </button>
         <button onClick={toFeed} aria-label="Login with Google">
-          Google <GoogleIcon />
+          Google <GoogleColored />
         </button>
       </div>
     </BottomSheet>

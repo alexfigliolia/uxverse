@@ -580,6 +580,8 @@ export interface components {
       rating?: number;
       /** @description A URL providing more information about this place. */
       googleMapsUri?: string;
+      /** @description Google maps links. */
+      googleMapsLinks?: components["schemas"]["Place_MapsLinks"];
       /** @description The authoritative website for this place, e.g. a business' homepage.
        *      Note that for places that are part of a chain (e.g. an IKEA store), this
        *      will usually be the website for the individual store, not the overall
@@ -589,7 +591,7 @@ export interface components {
        *      reviews can be returned. */
       reviews?: components["schemas"]["Review"][];
       /** @description Text summarizing existing reviews of the current place */
-      reviewSummary?: Record<string, never>;
+      reviewSummary?: components["schemas"]["ReviewSummary"];
       /** @description The regular hours of operation. */
       regularOpeningHours?: components["schemas"]["Place_OpeningHours"];
       /**
@@ -734,6 +736,19 @@ export interface components {
       wheelchairAccessibleRestroom?: boolean;
       /** @description Place has wheelchair accessible seating. */
       wheelchairAccessibleSeating?: boolean;
+    };
+    /** @description Information about the accessibility options a place offers. */
+    Place_MapsLinks: {
+      /** @description A link to google map directions. */
+      directionsUri?: string;
+      /** @description A link to google maps photos. */
+      photosUri?: string;
+      /** @description A link to google maps. */
+      placeUri?: string;
+      /** @description A link to google reviews. */
+      reviewsUri?: string;
+      /** @description A link to write a google review. */
+      writeAReviewUri?: string;
     };
     /** @description The structured components that form the formatted address, if this
      *      information is available. */

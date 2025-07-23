@@ -1,0 +1,51 @@
+@use "Styles/Variables";
+
+.post-about-button {
+  gap: 0.25em;
+  @include Variables.center;
+  &:hover {
+    &>span>span:first-of-type,
+    &>div > svg:first-of-type {
+      opacity: 1;
+    }
+  }
+  &>span {
+    font-size: 0.9em;
+    position: relative;
+    &>span {
+      &:first-of-type {
+        top: 0;
+        left: 0;
+        opacity: 0;
+        position: absolute;
+        transition: opacity 0.3s;
+        color: Variables.$gray-text-secondary;
+        @include Variables.themeGradient(to bottom right);
+        @include Variables.clipText;
+      }
+      &:last-of-type {
+        color: Variables.$gray-text-secondary;
+      }
+    }
+  }
+  &>div {
+    width: 1.5em;
+    height: 1.5em;
+    position: relative;
+    &>svg {
+      width: 100%;
+      height: 100%;
+      &:first-of-type {
+        top: 0;
+        left: 0;
+        opacity: 0;
+        position: absolute;
+        transition: opacity 0.3s;
+        fill: url(#themeGradient);
+      }
+      &:last-of-type {
+        fill: Variables.$gray-text-secondary;
+      }
+    }
+  }
+}

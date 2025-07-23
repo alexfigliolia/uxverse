@@ -1,6 +1,6 @@
 import { Propless } from "Types/React";
 
-export const GoogleIcon = (_: Propless) => {
+export const GoogleColored = (_: Propless) => {
   return (
     <svg className="google-icon" viewBox="-0.5 0 48 48" version="1.1">
       <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">

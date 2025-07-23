@@ -9,7 +9,7 @@ import { PlaceKeys, useExploreData } from "./useExploreData";
 import "./styles.scss";
 
 const FIELD_MASK =
-  "places.id,places.displayName.text,places.rating,places.formattedAddress,places.shortFormattedAddress,places.types,places.location,places.photos.name,places.reviewSummary.text";
+  "places.id,places.displayName.text,places.rating,places.formattedAddress,places.shortFormattedAddress,places.types,places.location,places.photos.name,places.reviewSummary.text,places.websiteUri,places.googleMapsLinks.directionsUri,places.googleMapsLinks.placeUri,places.googleMapsLinks.reviewsUri";
 
 export const SearchExperience = (_: Propless) => {
   const [search, setSearch] = useState("");
@@ -25,6 +25,8 @@ export const SearchExperience = (_: Propless) => {
     results: nearByResults,
     // loading: nearByLoading
   } = useNearBySearch<PlaceKeys>("*", location);
+
+  console.log(nearByResults);
 
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {

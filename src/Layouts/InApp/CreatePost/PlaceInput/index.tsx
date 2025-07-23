@@ -4,7 +4,9 @@ import {
   Dispatch,
   SetStateAction,
   UIEvent,
+  use,
   useCallback,
+  useImperativeHandle,
   useMemo,
   useRef,
 } from "react";
@@ -17,6 +19,7 @@ import { VisuallyHiddenText } from "Components/VisuallyHiddenText";
 import { usePlacesTextSearch } from "Hooks/usePlacesTextSearch";
 import { IPlace } from "PlacesClient";
 import { Devices } from "Tools/Devices";
+import { CreatePostContext } from "../Context";
 import "./styles.scss";
 
 type PlaceKeys =
@@ -30,6 +33,7 @@ const FIELD_MASK =
   "places.id,places.displayName.text,places.rating,places.formattedAddress,places.shortFormattedAddress";
 
 export const PlaceInput = ({ selectedID, setSelectedID }: Props) => {
+  const { setPlace } = use(CreatePostContext);
   const controls = useRef<ComboBoxControls | null>(null);
   const { onSearch, results, hasNextPage, fetchNextPage, loading } =
     usePlacesTextSearch<PlaceKeys>(FIELD_MASK);
@@ -56,14 +60,29 @@ export const PlaceInput = ({ selectedID, setSelectedID }: Props) => {
     [onSearch],
   );
 
+  const selectPlace = useCallback(
+    (id: string, name: string) => {
+      setSelectedID(id);
+      controls.current?.setInputValue?.(name);
+    },
+    [controls, setSelectedID],
+  );
+
+  const setPlaceAndRefetch = useCallback(
+    (id: string, name: string) => {
+      selectPlace(id, name);
+      onSearch(name);
+    },
+    [selectPlace, onSearch],
+  );
+
+  useImperativeHandle(setPlace, () => setPlaceAndRefetch, [setPlaceAndRefetch]);
+
   const selectItem = useCallback(
     (id: string) => {
-      setSelectedID(id);
-      controls.current?.setInputValue?.(
-        hashedItems[id]?.displayName?.text ?? "",
-      );
+      selectPlace(id, hashedItems[id]?.displayName?.text ?? "");
     },
-    [hashedItems, setSelectedID],
+    [selectPlace, hashedItems],
   );
 
   const onListBoxSelect = useCallback(

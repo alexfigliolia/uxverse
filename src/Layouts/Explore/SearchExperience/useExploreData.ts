@@ -19,13 +19,16 @@ export const useExploreData = (places: Pick<IPlace, PlaceKeys>[]) => {
       results.push({
         photos,
         id: place.id,
+        rating: place.rating,
+        website: place.websiteUri,
         location: place.location as unknown as GeoCoordinate,
         types: place.types ?? [],
         name: place.displayName?.text ?? "",
         address: place.shortFormattedAddress ?? place.formattedAddress ?? "",
-        // TODO - fix openapi file
-        // @ts-ignore
         reviewSummary: place.reviewSummary?.text?.text ?? "",
+        googleURL: place.googleMapsLinks?.placeUri ?? "",
+        directionsURL: place.googleMapsLinks?.directionsUri ?? "",
+        reviewsURL: place.googleMapsLinks?.reviewsUri ?? "",
       });
     }
     return results;
@@ -41,7 +44,9 @@ export type PlaceKeys =
   | "shortFormattedAddress"
   | "types"
   | "photos"
-  | "reviewSummary";
+  | "reviewSummary"
+  | "websiteUri"
+  | "googleMapsLinks";
 
 export interface FormattedPlace {
   id: string;
@@ -51,5 +56,9 @@ export interface FormattedPlace {
   rating?: number;
   location?: GeoCoordinate;
   address: string;
+  website?: string;
   reviewSummary?: string;
+  googleURL: string;
+  reviewsURL: string;
+  directionsURL: string;
 }

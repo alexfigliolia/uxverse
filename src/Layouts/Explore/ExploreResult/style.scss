@@ -18,6 +18,12 @@
   }
   &__headline {
     @include Variables.columnLayout(0.25em);
+  }
+  &__title {
+    display: flex;
+    gap: 0.5em;
+    align-items: flex-start;
+    justify-content: space-between;
     & h2 {
       margin: 0;
       font-weight: 400;
@@ -54,6 +60,32 @@
         margin: 0;
         text-wrap: balance;
         color: Variables.$gray-text;
+      }
+    }
+  }
+  &__footer {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.75em;
+    border-top: 1px solid Variables.$light-gray;
+    &>div {
+      gap: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    & .result-rating {
+      font-size: 1.1em;
+      --color: #{Variables.$gray-text-secondary};
+      &>span {
+        font-size: 0.9em;
+        @include Variables.systemFont;
+        @include Variables.reducedLetterSpacing;
+      }
+      &>svg {
+        filter: none;
       }
     }
   }

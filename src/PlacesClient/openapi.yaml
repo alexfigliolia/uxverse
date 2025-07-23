@@ -974,6 +974,10 @@ components:
                 googleMapsUri:
                     type: string
                     description: A URL providing more information about this place.
+                googleMapsLinks:
+                    allOf:
+                        - $ref: '#/components/schemas/Place_MapsLinks'
+                    description: Google maps links.
                 websiteUri:
                     type: string
                     description: |-
@@ -989,9 +993,8 @@ components:
                         List of reviews about this place, sorted by relevance. A maximum of 5
                          reviews can be returned.
                 reviewSummary:
-                    type: object
-                    items:
-                        $ref: '#/components/schemas/ReviewSummary'
+                    allOf:
+                        - $ref: '#/components/schemas/ReviewSummary'
                     description: |-
                         Text summarizing existing reviews of the current place
                 regularOpeningHours:
@@ -1211,6 +1214,25 @@ components:
                 wheelchairAccessibleSeating:
                     type: boolean
                     description: Place has wheelchair accessible seating.
+            description: Information about the accessibility options a place offers.
+        Place_MapsLinks:
+            type: object
+            properties:
+                directionsUri:
+                    type: string
+                    description: A link to google map directions.
+                photosUri:
+                    type: string
+                    description: A link to google maps photos.
+                placeUri:
+                    type: string
+                    description: A link to google maps.
+                reviewsUri:
+                    type: string
+                    description: A link to google reviews.
+                writeAReviewUri:
+                    type: string
+                    description: A link to write a google review.
             description: Information about the accessibility options a place offers.
         Place_AddressComponent:
             type: object

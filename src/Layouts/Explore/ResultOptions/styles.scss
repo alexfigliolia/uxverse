@@ -1,0 +1,79 @@
+@use "Styles/Variables";
+
+.explore-result__more {
+  position: relative;
+  & .list-container {
+    bottom: calc(100% + 0.5em);
+    right: 0;
+    position: absolute;
+    border-radius: 0.5em;
+    box-shadow: none;
+    transition: box-shadow 0.3s;
+    &.open {
+       box-shadow: 0em 0.1em 0.4em rgba(#000, 0.2);
+       transition: box-shadow 0.5s 0.5s;
+      & .circle {
+        scale: 2;
+        transition: all 0.75s;
+        translate: -100% -100%;
+        background-color: #fff;
+      }
+      & [role='listbox'] {
+        opacity: 1;
+        transition: opacity 0.3s 0.5s;
+      }
+    }
+    &>div {
+      position: relative;
+      overflow: hidden;
+      border-radius: inherit;
+    }
+    & .circle {
+      height: auto;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      bottom: -100%;
+      right: -100%;
+      scale: 0;
+      position: absolute;
+      border-radius: 50%;
+      transition: all 1s;
+      background-color: Variables.$lighter-gray;
+    }
+  }
+  & [role='listbox'] {
+    list-style-type: none;
+    opacity: 0;
+    position: relative;
+    z-index: 2;
+    transition: opacity 0.3s;
+    & [role='option'] {
+      transition: background-color 0.3s;
+      &[data-focused='true'],
+      &:hover {
+        background-color: Variables.$lighter-gray;
+      }
+    }
+    & a {
+      display: flex;
+      gap: 0.5em;
+      padding: 0.5em;
+      align-items: center;
+      white-space: nowrap;
+      color: Variables.$gray-text;
+      text-decoration: none;
+      &:visited {
+        color: Variables.$gray-text;
+        text-decoration: none;
+      }
+      &>span {
+        font-size: 0.9em;
+      }
+      &>svg {
+        width: 1.6em;
+        height: 1.6em;
+        fill: Variables.$gray-text-secondary;
+      }
+    }
+  }
+}
