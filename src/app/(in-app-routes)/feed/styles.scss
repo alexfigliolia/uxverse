@@ -16,7 +16,7 @@
       @media (min-width: 670px) {
         width: calc(50% - 0.5em);
       }
-      @media (min-width: 1300px) {
+      @media (min-width: Variables.$max-content-width) {
         width: calc(33.3333% - 0.66666em);
       }
     }

@@ -1,11 +1,12 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useDebouncer } from "@figliolia/react-hooks";
 import { GooglePlaces } from "PlacesClient";
+import { useAbortOnUmount } from "./useAbortOnUmount";
 import { usePlacesAPIErrorHandling } from "./usePlacesAPIErrorHandling";
 
 export const useAutoCompletePlaces = () => {
   const query = useRef("");
-  const signal = useRef<AbortController>(null);
+  const signal = useAbortOnUmount();
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<PlaceSuggestion[]>([]);
   const { error, notifyError } = usePlacesAPIErrorHandling();
@@ -58,13 +59,17 @@ export const useAutoCompletePlaces = () => {
             notifyError("UNKNOWN_ERROR");
           }
         })
-        .catch(() => notifyError("NETWORK_ERROR"))
+        .catch(e => {
+          if (e !== "request overridden") {
+            notifyError("NETWORK_ERROR");
+          }
+        })
         .finally(() => {
           signal.current = null;
           setLoading(false);
         });
     },
-    [notifyError],
+    [notifyError, signal],
   );
 
   const debouncer = useDebouncer(googleSearch, 500);

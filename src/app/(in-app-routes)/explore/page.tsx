@@ -3,7 +3,11 @@ import { useCallback, useRef } from "react";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import { useScrollAnimation } from "Hooks/useScrollAnimation";
 import { TargetFilled } from "Icons/Target";
-import { ExploreResult, MapLayout, SearchInput } from "Layouts/Explore";
+import {
+  MapLayout,
+  MapLayoutProvider,
+  SearchExperience,
+} from "Layouts/Explore";
 import { Callback } from "Types/Generics";
 import { Propless } from "Types/React";
 import "./styles.scss";
@@ -31,30 +35,19 @@ export default function Explore(_: Propless) {
 
   return (
     <APIProvider apiKey={process.env.NEXT_PUBLIC_MAPS_KEY!}>
-      <div className="explore-page">
-        <MapLayout ref={map} recenter={recenter}>
-          <button
-            className="recenter"
-            onClick={recenterMap}
-            aria-label="Center around your current position">
-            <TargetFilled aria-hidden />
-          </button>
-        </MapLayout>
-        <div className="explore-page__feed">
-          <div>
-            <search>
-              <SearchInput />
-            </search>
-            <section className="explore-page__feed-results">
-              <ExploreResult />
-              <ExploreResult />
-              <ExploreResult />
-              <ExploreResult />
-              <ExploreResult />
-            </section>
-          </div>
+      <MapLayoutProvider>
+        <div className="explore-page">
+          <MapLayout ref={map} recenter={recenter}>
+            <button
+              className="recenter"
+              onClick={recenterMap}
+              aria-label="Center around your current position">
+              <TargetFilled aria-hidden />
+            </button>
+          </MapLayout>
+          <SearchExperience />
         </div>
-      </div>
+      </MapLayoutProvider>
     </APIProvider>
   );
 }

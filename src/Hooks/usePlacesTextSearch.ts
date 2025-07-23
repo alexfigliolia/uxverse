@@ -1,11 +1,12 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useDebouncer } from "@figliolia/react-hooks";
 import { GooglePlaces, IPlace } from "PlacesClient";
+import { useAbortOnUmount } from "./useAbortOnUmount";
 import { usePlacesAPIErrorHandling } from "./usePlacesAPIErrorHandling";
 
 export const usePlacesTextSearch = <T extends keyof IPlace>(mask: string) => {
   const query = useRef("");
-  const signal = useRef<AbortController>(null);
+  const signal = useAbortOnUmount();
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<Pick<IPlace, T>[]>([]);
   const [pageToken, setPageToken] = useState<string | null>(null);
@@ -32,7 +33,7 @@ export const usePlacesTextSearch = <T extends keyof IPlace>(mask: string) => {
           query: {
             alt: "json",
             key: process.env.NEXT_PUBLIC_MAPS_KEY!,
-            fields: `nextPageToken,${mask}`,
+            fields: mask === "*" ? "*" : `nextPageToken,${mask}`,
             ...(pageToken ? { pageToken: pageToken } : undefined),
           },
         },
@@ -50,13 +51,17 @@ export const usePlacesTextSearch = <T extends keyof IPlace>(mask: string) => {
             notifyError("UNKNOWN_ERROR");
           }
         })
-        .catch(() => notifyError("NETWORK_ERROR"))
+        .catch(e => {
+          if (e !== "request overridden") {
+            notifyError("NETWORK_ERROR");
+          }
+        })
         .finally(() => {
           signal.current = null;
           setLoading(false);
         });
     },
-    [pageToken, mask, notifyError],
+    [pageToken, mask, notifyError, signal],
   );
 
   const debouncer = useDebouncer(googleSearch, 500);
@@ -87,5 +92,3 @@ export const usePlacesTextSearch = <T extends keyof IPlace>(mask: string) => {
     [error, loading, results, onSearch, fetchNextPage, pageToken],
   );
 };
-
-export type PlacesError = "NETWORK_ERROR" | "UNKNOWN_ERROR";

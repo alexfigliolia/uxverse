@@ -1,0 +1,31 @@
+@use "Styles/Variables";
+
+.expandable-text {
+  --lines: 3;
+  width: 100%;
+  margin: 0;
+  line-height: 1.5;
+  font-size: 0.9em;
+  color: Variables.$black-text-secondary;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  line-clamp: var(--lines);
+  -webkit-line-clamp: var(--lines);
+  -webkit-box-orient: vertical;
+  &.disable-truncation {
+    line-clamp: unset;
+    -webkit-line-clamp: unset;
+  }
+  &.overscroll {
+    max-height: var(--client-height);
+    transition: max-height 0.5s;
+    cursor: pointer; 
+    &.expand {
+      line-clamp: unset;
+      -webkit-line-clamp: unset;
+      max-height: 1000px;
+      transition: max-height 1s;
+    }
+  }
+}

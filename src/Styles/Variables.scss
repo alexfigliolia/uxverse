@@ -94,3 +94,9 @@ $profile-horizontal-layout: 900px;
   flex-direction: column;
   gap: $gap;
 }
+
+@mixin comboBoxOutline($value) {
+  &:has(ol[role='listbox'][data-focused='true']) > div > div {
+    outline: $value;
+  }
+}

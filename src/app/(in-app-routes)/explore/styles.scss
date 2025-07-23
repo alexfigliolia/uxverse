@@ -35,45 +35,4 @@
       }
     }
   }
-  &__feed {
-    width: 100%;
-    margin-top: var(--offset);
-    position: relative;
-    background-color: Variables.$lighter-gray;
-    z-index: 2;
-    border-top-left-radius: 0.75em;
-    border-top-right-radius: 0.75em;
-    box-shadow: 0em -0.1em 0.3em rgba(#000, 0.1);
-    @media(min-width: Variables.$max-content-width) {
-      border-radius: 0;
-    }
-    &>div {
-      width: 100%;
-      padding: 1em;
-      margin: 0 auto;
-      padding-top: 1.5em;
-      @include Variables.columnLayout(1.5em);
-      &>search {
-        width: 100%;
-        @include Variables.center;
-        max-width: 700px;
-        margin: 0 auto;
-      }
-      &>.explore-page__feed-results {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 1em;
-        &>.explore-result {
-          @media (min-width: 760px) {
-            width: calc(50% - 0.5em);
-          }
-          @media (min-width: Variables.$max-content-width) {
-            width: calc(33.33333% - 0.6666em);
-          }
-        }
-      }
-    }
-  }
 }

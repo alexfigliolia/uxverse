@@ -588,6 +588,8 @@ export interface components {
       /** @description List of reviews about this place, sorted by relevance. A maximum of 5
        *      reviews can be returned. */
       reviews?: components["schemas"]["Review"][];
+      /** @description Text summarizing existing reviews of the current place */
+      reviewSummary?: Record<string, never>;
       /** @description The regular hours of operation. */
       regularOpeningHours?: components["schemas"]["Place_OpeningHours"];
       /**
@@ -867,6 +869,11 @@ export interface components {
        *      in other APIs that accept Place resource names. */
       places?: string[];
     };
+    /** @description A summary of existing reviews about a place. */
+    ReviewSummary: {
+      /** @description A summary of existing reviews about a place. */
+      text?: components["schemas"]["LocalizedText"];
+    };
     /** @description Information about a review of a place. */
     Review: {
       /** @description A reference representing this place review which may be used to look up
@@ -1007,11 +1014,8 @@ export interface components {
       maxResultCount?: number;
       /** @description Required. The region to search. */
       locationRestriction: components["schemas"]["SearchNearbyRequest_LocationRestriction"];
-      /**
-       * Format: enum
-       * @description How results will be ranked in the response.
-       */
-      rankPreference?: number;
+      /** @description How results will be ranked in the response. */
+      rankPreference?: string;
     };
     /** @description The region to search. */
     SearchNearbyRequest_LocationRestriction: {
@@ -1512,7 +1516,16 @@ export interface operations {
   };
   Places_SearchNearby: {
     parameters: {
-      query?: never;
+      query: {
+        /** @description response type. */
+        alt: string;
+        /** @description your api key. */
+        key: string;
+        /** @description your field mask. */
+        fields: string;
+        /** @description the token returned from the previous paginated request. */
+        pageToken?: string;
+      };
       header?: never;
       path?: never;
       cookie?: never;

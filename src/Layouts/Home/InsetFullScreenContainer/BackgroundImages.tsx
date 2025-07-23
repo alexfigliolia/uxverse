@@ -1,5 +1,5 @@
 "use client";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { IOptions } from "@figliolia/page-switch";
 import { useWindowSize } from "@figliolia/react-hooks";
 import { ImageRotator } from "Components/ImageRotator";
@@ -7,13 +7,20 @@ import { Propless } from "Types/React";
 
 export const BackgroundImages = (_: Propless) => {
   const { width } = useWindowSize();
+  const [images, setImages] = useState([
+    "/background-pink.webp",
+    "/background-neon.webp",
+  ]);
   const useSmallImages = useMemo(() => width <= 670, [width]);
 
-  const images = useMemo(() => {
+  useEffect(() => {
     if (useSmallImages) {
-      return ["/background-pink-small.webp", "/background-neon-small.webp"];
+      return setImages([
+        "/background-pink-small.webp",
+        "/background-neon-small.webp",
+      ]);
     }
-    return ["/background-pink.webp", "/background-neon.webp"];
+    setImages(["/background-pink.webp", "/background-neon.webp"]);
   }, [useSmallImages]);
 
   const options: Partial<IOptions> = useMemo(

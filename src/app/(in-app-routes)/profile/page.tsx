@@ -6,14 +6,14 @@ import {
   EditProfileButton,
   EditProfileIconButton,
   EditProfileProvider,
-  ProfilePage,
+  ProfilePageComponent,
 } from "Layouts/Profile";
 import { Propless } from "Types/React";
 
 export default function Profile(_: Propless) {
   return (
     <EditProfileProvider>
-      <ProfilePage
+      <ProfilePageComponent
         avatar={<AvatarUploader />}
         Banner={BannerWithUploader}
         editButton={<EditProfileButton />}
