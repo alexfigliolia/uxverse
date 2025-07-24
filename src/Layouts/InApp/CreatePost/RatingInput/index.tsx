@@ -7,6 +7,7 @@ import {
 } from "react";
 import { useClassNames } from "@figliolia/classnames";
 import { ComboBox, ComboBoxControls } from "Components/ComboBox";
+import { SelectionSet } from "Components/ListBox";
 import { VisuallyHiddenText } from "Components/VisuallyHiddenText";
 import {
   DisappointedFace,
@@ -53,11 +54,11 @@ export const RatingInput = ({ selectedID, setSelectedID }: Props) => {
   const controls = useRef<ComboBoxControls | null>(null);
 
   const selectItem = useCallback(
-    (id: string) => {
+    (id: string | undefined) => {
       setSelectedID(current => {
-        if (current === id) {
+        if (current === id || id === undefined) {
           controls?.current?.setInputValue("");
-          return "";
+          return;
         }
         controls?.current?.setInputValue(
           RATING_OPTIONS.find(f => f.id === id)?.ariaLabel ?? "",
@@ -69,7 +70,7 @@ export const RatingInput = ({ selectedID, setSelectedID }: Props) => {
   );
 
   const onListBoxSelect = useCallback(
-    (id: string | number) => {
+    (id: SelectionSet<false>) => {
       if (typeof id === "number") {
         return;
       }
@@ -109,8 +110,8 @@ export const RatingInput = ({ selectedID, setSelectedID }: Props) => {
 };
 
 interface Props {
-  selectedID: string;
-  setSelectedID: Dispatch<SetStateAction<string>>;
+  selectedID: string | undefined;
+  setSelectedID: Dispatch<SetStateAction<string | undefined>>;
 }
 
 function Option({ Face, ariaLabel, animate, ...rest }: OptionProps) {

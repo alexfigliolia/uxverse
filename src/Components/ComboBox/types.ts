@@ -5,15 +5,19 @@ import { IPopoverContext } from "Components/Popover";
 import { Callback } from "Types/Generics";
 
 export interface IComboBoxContext {
-  focusedItem: string | undefined;
+  focusedID: string | undefined;
+  listBoxFocused: boolean;
+  enterListBox: Callback;
+  exitListBox: Callback;
+  resetListBoxFocusIndex: Callback;
+  input: RefObject<HTMLInputElement | null>;
   popoverState: IPopoverContext<HTMLElement>;
+  container: RefObject<HTMLLabelElement | null>;
   controller: RefObject<ListBoxControls | null>;
-  containerRef: RefObject<HTMLLabelElement | null>;
-  setFocusedItem: Dispatch<SetStateAction<string | undefined>>;
+  setFocusedID: Dispatch<SetStateAction<string | undefined>>;
 }
 
 export interface ComboBoxControls {
-  focusInput: Callback;
   toggle: PopoverToggle;
   setInputValue: Callback<[string]>;
 }

@@ -17,9 +17,9 @@ import "./styles.scss";
 export const CreatePost = (_: Propless) => {
   const { toggle, open } = use(CreatePostContext);
   const fileUploader = useRef<HTMLInputElement>(null);
-  const [place, setPlace] = useState("");
-  const [rating, setRating] = useState("");
   const [loading, setLoading] = useState(0);
+  const [place, setPlace] = useState<string>();
+  const [rating, setRating] = useState<string>();
   const [_files, setFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<IMediaPreview[]>([]);
 

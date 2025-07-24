@@ -18,6 +18,8 @@ import {
   SelectionSet,
 } from "Components/ListBox";
 import { ToolTip } from "Components/ToolTip";
+import { useFocusOutside } from "Hooks/useFocusOutside";
+import { useMergedRefs } from "Hooks/useMergedRefs";
 import { OptionalChildren } from "Types/React";
 import { ComboBoxInput, type Props as InputProps } from "./ComboBoxInput";
 import { ComboBoxContext, withComboBoxContext } from "./Context";
@@ -46,18 +48,31 @@ function ComboBoxImpl<
   ...rest
 }: Props<I, M>) {
   const hasBeenFocused = useRef(false);
-  const input = useRef<HTMLInputElement>(null);
-  const { popoverState, setFocusedItem, containerRef, controller } =
-    use(ComboBoxContext);
+  const {
+    input,
+    container,
+    popoverState,
+    controller,
+    setFocusedID,
+    resetListBoxFocusIndex,
+  } = use(ComboBoxContext);
   const { visible, popoverID, toggle } = popoverState;
+
+  const closeToggle = useCallback(() => {
+    toggle.close(false);
+  }, [toggle]);
+
+  const containerNode = useFocusOutside(visible, closeToggle);
+
+  const containerRef = useMergedRefs(container, containerNode);
 
   useEffect(() => {
     if (items.length && !toggle.isOpen && hasBeenFocused.current) {
       toggle.open();
     } else if (!items.length && toggle.isOpen) {
-      toggle.close(false);
+      closeToggle();
     }
-  }, [items, toggle]);
+  }, [items, toggle, closeToggle]);
 
   const onFocusInternal = useCallback(() => {
     hasBeenFocused.current = true;
@@ -66,42 +81,36 @@ function ComboBoxImpl<
   const onChangeInternal = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       onChange?.(e);
-      controller.current?.resetFocus?.();
+      resetListBoxFocusIndex();
     },
-    [onChange, controller],
+    [onChange, resetListBoxFocusIndex],
   );
 
-  const onItemClick = useCallback(() => {
-    input.current?.focus?.();
-  }, []);
-
-  const focusInput = useCallback(() => {
-    input.current?.focus();
-  }, []);
-
-  const setInputValue = useCallback((value: string) => {
-    if (input.current) {
-      input.current.value = value;
-    }
-  }, []);
+  const setInputValue = useCallback(
+    (value: string) => {
+      if (input.current) {
+        input.current.value = value;
+      }
+    },
+    [input],
+  );
 
   const controls = useMemo(
-    () => ({ toggle, setInputValue, focusInput }),
-    [toggle, setInputValue, focusInput],
+    () => ({ toggle, setInputValue }),
+    [toggle, setInputValue],
   );
 
   useImperativeHandle(ref, () => controls, [controls]);
 
   return (
-    <label className={className} ref={containerRef}>
+    <label ref={containerRef} className={className}>
+      {children}
       <ComboBoxInput
         {...rest}
-        ref={input}
         items={items}
         onFocus={onFocusInternal}
         onChange={onChangeInternal}
       />
-      {children}
       <ToolTip
         className="combo-box-list"
         arrowPosition="left"
@@ -111,14 +120,14 @@ function ComboBoxImpl<
           Tag="ol"
           items={items}
           id={popoverID}
+          triggerRef={input}
           multiple={multiple}
           onSelection={onSelect}
           renderItem={renderItem}
           selections={selections}
           controller={controller}
-          onItemClick={onItemClick}
           orientation={orientation}
-          onItemFocused={setFocusedItem}
+          onItemFocused={setFocusedID}
         />
       </ToolTip>
     </label>

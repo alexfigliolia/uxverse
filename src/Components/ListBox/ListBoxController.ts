@@ -92,6 +92,9 @@ export class ListBoxController<
   };
 
   public enterListBox = () => {
+    if (this.active) {
+      return;
+    }
     this.active = true;
     let index = -1;
     if (this.selections instanceof Set && this.selections.size) {
@@ -123,7 +126,7 @@ export class ListBoxController<
   };
 
   public isMultiple = (
-    _: Set<string | number> | string | number,
+    _: Set<string | number> | string | number | undefined,
   ): _ is Set<string | number> => {
     return this.multiple === true;
   };
@@ -149,7 +152,7 @@ export class ListBoxController<
       return this.onSelection(copy as SelectionSet<M>);
     }
     return this.onSelection(
-      (ID === this.selections ? "" : ID) as SelectionSet<M>,
+      (ID === this.selections ? undefined : ID) as SelectionSet<M>,
     );
   };
 
@@ -175,6 +178,9 @@ export class ListBoxController<
   };
 
   public readonly onKeyDown = (e: KeyboardEvent) => {
+    if (this.getMappedKeys().has(e.key)) {
+      e.preventDefault();
+    }
     switch (e.key) {
       case "Control": {
         this.holdingControl = true;

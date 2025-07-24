@@ -2,16 +2,31 @@
 
 .explore-result__more {
   position: relative;
+  &>button {
+    @include Variables.center;
+    gap: 0.5em;
+    &:hover > svg {
+      stroke: Variables.$gray-text;
+    }
+    &>svg {
+      width: 1.6em;
+      height: 1.6em;
+      transition: stroke 0.5s;
+      stroke: Variables.$gray-text-secondary;
+    }
+  }
   & .list-container {
     bottom: calc(100% + 0.5em);
     right: 0;
     position: absolute;
     border-radius: 0.5em;
     box-shadow: none;
-    transition: box-shadow 0.3s;
-    &.open {
-       box-shadow: 0em 0.1em 0.4em rgba(#000, 0.2);
-       transition: box-shadow 0.5s 0.5s;
+    visibility: hidden;
+    transition: box-shadow 0.5s, visibility 0s 0.5s;
+    &[aria-hidden='false'] {
+      visibility: visible;
+      box-shadow: 0em 0.1em 0.4em rgba(#000, 0.2);
+      transition: box-shadow 0.5s 0.5s, visibility 0s;
       & .circle {
         scale: 2;
         transition: all 0.75s;

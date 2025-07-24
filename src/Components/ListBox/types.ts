@@ -1,11 +1,14 @@
 import {
+  Dispatch,
   HTMLProps,
   MouseEvent,
   ReactNode,
   RefCallback,
   RefObject,
+  SetStateAction,
 } from "react";
 import { Callback } from "Types/Generics";
+import { ListBoxController } from "./ListBoxController";
 
 export interface ListBoxItemProps
   extends Omit<
@@ -20,6 +23,7 @@ export interface Props<
   T extends "ul" | "ol",
   I extends ListBoxItem = ListBoxItem,
   M extends boolean = false,
+  E extends HTMLElement = HTMLElement,
 > extends Omit<HTMLProps<ListElement<T>>, "role" | "children"> {
   Tag: T;
   items: I[];
@@ -27,6 +31,7 @@ export interface Props<
   selections: SelectionSet<M>;
   orientation?: ListBoxOrientation;
   renderItem: ListBoxChildrenFN<I>;
+  triggerRef?: RefObject<E | null>;
   onSelection: OnListBoxSelectionFN<M>;
   controller: RefObject<ListBoxControls | null>;
   onItemFocused?: Callback<[string | undefined]>;
@@ -48,13 +53,12 @@ export type ListElement<T extends "ul" | "ol"> = T extends "ul"
 
 export type SelectionSet<M extends boolean = false> = M extends true
   ? Set<string | number>
-  : string | number;
+  : string | number | undefined;
 
 export interface ListBoxControls {
   exit: Callback;
   enter: Callback;
-  resetFocus: Callback;
-  getMappedKeys: Callback<[], Set<string>>;
+  resetFocusIndex: Callback;
 }
 
 export interface ListBoxItem {
@@ -80,3 +84,17 @@ export interface ListBoxSelectionEvent<M extends boolean = false> {
 }
 
 export type ListBoxOrientation = "horizontal" | "vertical";
+
+export interface IListBoxContext<
+  T extends "ul" | "ol" = "ol",
+  I extends ListBoxItem = ListBoxItem,
+  M extends boolean = false,
+> {
+  focusInside: boolean;
+  focusedID: string | undefined;
+  focusedIndex: number;
+  queueTask: Callback<[Callback]>;
+  listbox: RefObject<ListElement<T> | null>;
+  listController: ListBoxController<I, M>;
+  setFocusInside: Dispatch<SetStateAction<boolean>>;
+}

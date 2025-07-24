@@ -2,6 +2,8 @@ import {
   createContext,
   createRef,
   use,
+  useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -17,29 +19,70 @@ import { OptionalChildren } from "Types/React";
 import { IComboBoxContext } from "./types";
 
 export const ComboBoxContext = createContext<IComboBoxContext>({
-  focusedItem: undefined,
+  focusedID: undefined,
+  listBoxFocused: false,
+  input: createRef(),
+  container: createRef(),
   controller: createRef(),
-  containerRef: createRef(),
-  setFocusedItem: () => {},
+  setFocusedID: () => {},
+  enterListBox: () => {},
+  exitListBox: () => {},
+  resetListBoxFocusIndex: () => {},
   popoverState: defaultPopoverContextValue,
 });
 
 export const ComboBoxContextProvider = withPopoverContext(
   ({ children }: OptionalChildren) => {
     const popoverState = use(PopoverContext);
+    const input = useRef<HTMLInputElement>(null);
+    const container = useRef<HTMLLabelElement>(null);
     const controller = useRef<ListBoxControls>(null);
-    const containerRef = useRef<HTMLLabelElement>(null);
-    const [focusedItem, setFocusedItem] = useState<string>();
+    const [focusedID, setFocusedID] = useState<string>();
+    const [listBoxFocused, setListBoxFocused] = useState(false);
+
+    const { visible } = popoverState;
+
+    const enterListBox = useCallback(() => {
+      controller.current?.enter?.();
+      setListBoxFocused(true);
+    }, []);
+
+    const exitListBox = useCallback(() => {
+      controller.current?.exit?.();
+      setListBoxFocused(false);
+    }, []);
+
+    const resetListBoxFocusIndex = useCallback(() => {
+      controller?.current?.resetFocusIndex?.();
+    }, []);
+
+    useEffect(() => {
+      if (!visible) {
+        exitListBox();
+      }
+    }, [visible, exitListBox]);
 
     const value = useMemo(
       () => ({
+        input,
+        focusedID,
+        container,
         controller,
-        containerRef,
+        setFocusedID,
         popoverState,
-        focusedItem,
-        setFocusedItem,
+        listBoxFocused,
+        enterListBox,
+        exitListBox,
+        resetListBoxFocusIndex,
       }),
-      [popoverState, focusedItem],
+      [
+        focusedID,
+        popoverState,
+        enterListBox,
+        exitListBox,
+        listBoxFocused,
+        resetListBoxFocusIndex,
+      ],
     );
 
     return <ComboBoxContext value={value}>{children}</ComboBoxContext>;

@@ -110,7 +110,7 @@ export const ExploreResult = ({
           </div>
           <div>
             {typeof rating === "number" && <Rating stars={rating} />}
-            <ResultOptions options={expandOptions} />
+            <ResultOptions name={name} options={expandOptions} />
           </div>
         </div>
       </div>

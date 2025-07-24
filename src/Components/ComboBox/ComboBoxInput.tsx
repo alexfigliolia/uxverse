@@ -5,15 +5,12 @@ import {
   KeyboardEvent,
   use,
   useCallback,
-  useEffect,
   useMemo,
-  useState,
 } from "react";
 import { ListBoxItem } from "Components/ListBox";
 import { ComboBoxContext } from "./Context";
 
 export const ComboBoxInput = <I extends ListBoxItem = ListBoxItem>({
-  ref,
   type,
   name,
   items,
@@ -23,17 +20,9 @@ export const ComboBoxInput = <I extends ListBoxItem = ListBoxItem>({
   readonlyInput = false,
   autoComplete = "list",
 }: Props<I>) => {
-  const [inListBox, setInListBox] = useState(false);
-  const { popoverState, focusedItem, controller, containerRef } =
+  const { input, enterListBox, popoverState, listBoxFocused, focusedID } =
     use(ComboBoxContext);
   const { visible, popoverID, toggle } = popoverState;
-
-  useEffect(() => {
-    if (!visible) {
-      setInListBox(false);
-      controller.current?.exit?.();
-    }
-  }, [visible, controller]);
 
   const onFocusInternal = useCallback(
     (e: ReactFocusEvent<HTMLInputElement>) => {
@@ -60,52 +49,19 @@ export const ComboBoxInput = <I extends ListBoxItem = ListBoxItem>({
       if (e.key === "ArrowUp" || e.key === "ArrowDown") {
         e.preventDefault();
         e.stopPropagation();
-        setInListBox(true);
-        controller.current?.enter?.();
+        enterListBox();
         if (!toggle.isOpen) {
           toggle.open();
         }
       }
     },
-    [toggle, controller],
-  );
-
-  const onKeyDownInside = useCallback(
-    (e: KeyboardEvent<HTMLInputElement>) => {
-      if (controller?.current?.getMappedKeys?.()?.has?.(e.key)) {
-        e.preventDefault();
-      }
-    },
-    [controller],
+    [toggle, enterListBox],
   );
 
   const onKeyDown = useMemo(
-    () => (inListBox ? onKeyDownInside : onKeyDownOutside),
-    [inListBox, onKeyDownInside, onKeyDownOutside],
+    () => (listBoxFocused ? undefined : onKeyDownOutside),
+    [listBoxFocused, onKeyDownOutside],
   );
-
-  const onFocusIn = useCallback(
-    (e: FocusEvent) => {
-      if (
-        toggle.isOpen &&
-        !containerRef.current?.contains?.(e.target as HTMLElement)
-      ) {
-        toggle.close(false);
-      }
-    },
-    [toggle, containerRef],
-  );
-
-  useEffect(() => {
-    if (visible) {
-      document.addEventListener("focusin", onFocusIn);
-    } else {
-      document.removeEventListener("focusin", onFocusIn);
-    }
-    return () => {
-      document.removeEventListener("focusin", onFocusIn);
-    };
-  }, [visible, onFocusIn]);
 
   const onClick = useCallback(() => {
     if (!visible && items.length) {
@@ -115,7 +71,7 @@ export const ComboBoxInput = <I extends ListBoxItem = ListBoxItem>({
 
   return (
     <input
-      ref={ref}
+      ref={input}
       type={type}
       name={name}
       role="combobox"
@@ -129,7 +85,7 @@ export const ComboBoxInput = <I extends ListBoxItem = ListBoxItem>({
       placeholder={placeholder}
       onFocus={onFocusInternal}
       aria-autocomplete={autoComplete}
-      aria-activedescendant={visible ? focusedItem : undefined}
+      aria-activedescendant={focusedID}
     />
   );
 };
@@ -137,7 +93,7 @@ export const ComboBoxInput = <I extends ListBoxItem = ListBoxItem>({
 export interface Props<I extends ListBoxItem = ListBoxItem>
   extends Pick<
     HTMLProps<HTMLInputElement>,
-    "type" | "name" | "placeholder" | "ref" | "onChange" | "onFocus"
+    "type" | "name" | "placeholder" | "onChange" | "onFocus"
   > {
   items: I[];
   readonlyInput?: boolean;

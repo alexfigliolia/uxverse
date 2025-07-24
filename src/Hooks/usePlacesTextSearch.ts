@@ -17,7 +17,7 @@ export const usePlacesTextSearch = <T extends keyof IPlace>(mask: string) => {
     (textQuery: string = query.current, replace = false) => {
       query.current = textQuery;
       if (!textQuery) {
-        return;
+        return setResults([]);
       }
       if (signal.current) {
         signal.current.abort("request overridden");

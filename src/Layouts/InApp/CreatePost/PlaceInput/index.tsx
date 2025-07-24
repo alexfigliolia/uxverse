@@ -79,14 +79,17 @@ export const PlaceInput = ({ selectedID, setSelectedID }: Props) => {
   useImperativeHandle(setPlace, () => setPlaceAndRefetch, [setPlaceAndRefetch]);
 
   const selectItem = useCallback(
-    (id: string) => {
+    (id: string | undefined) => {
+      if (id === undefined) {
+        return setSelectedID(id);
+      }
       selectPlace(id, hashedItems[id]?.displayName?.text ?? "");
     },
-    [selectPlace, hashedItems],
+    [selectPlace, hashedItems, setSelectedID],
   );
 
   const onListBoxSelect = useCallback(
-    (id: string | number) => {
+    (id: string | number | undefined) => {
       if (typeof id === "number") {
         return;
       }
@@ -156,8 +159,8 @@ export const PlaceInput = ({ selectedID, setSelectedID }: Props) => {
 };
 
 interface Props {
-  selectedID: string;
-  setSelectedID: Dispatch<SetStateAction<string>>;
+  selectedID: string | undefined;
+  setSelectedID: Dispatch<SetStateAction<string | undefined>>;
 }
 
 function Option({
