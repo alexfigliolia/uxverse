@@ -1,15 +1,24 @@
 "use client";
-import { ChangeEventHandler, useCallback, useRef } from "react";
+import {
+  ChangeEventHandler,
+  RefObject,
+  useCallback,
+  useImperativeHandle,
+  useRef,
+} from "react";
 import { VisuallyHiddenText } from "Components/VisuallyHiddenText";
 import { SearchSquare } from "Icons/SearchSquare";
+import { Callback } from "Types/Generics";
 import "./styles.scss";
 
-export const SearchInput = ({ onChange }: Props) => {
+export const SearchInput = ({ ref, onChange }: Props) => {
   const input = useRef<HTMLInputElement>(null);
 
   const onClick = useCallback(() => {
     input.current?.focus?.();
   }, []);
+
+  useImperativeHandle(ref, () => onClick, [onClick]);
 
   return (
     <label className="explore-search-input">
@@ -29,5 +38,6 @@ export const SearchInput = ({ onChange }: Props) => {
 };
 
 interface Props {
+  ref?: RefObject<Callback | null>;
   onChange?: ChangeEventHandler<HTMLInputElement>;
 }

@@ -48,6 +48,9 @@ export type PlaceKeys =
   | "websiteUri"
   | "googleMapsLinks";
 
+export const FIELD_MASK =
+  "places.id,places.displayName.text,places.rating,places.formattedAddress,places.shortFormattedAddress,places.types,places.location,places.photos.name,places.reviewSummary.text,places.websiteUri,places.googleMapsLinks.directionsUri,places.googleMapsLinks.placeUri,places.googleMapsLinks.reviewsUri";
+
 export interface FormattedPlace {
   id: string;
   photos: string[];

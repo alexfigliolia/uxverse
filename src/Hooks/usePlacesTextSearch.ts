@@ -1,11 +1,14 @@
 import { useCallback, useMemo, useRef, useState } from "react";
-import { useDebouncer } from "@figliolia/react-hooks";
+import { useDebouncer, useMount } from "@figliolia/react-hooks";
 import { GooglePlaces, IPlace } from "PlacesClient";
 import { useAbortOnUmount } from "./useAbortOnUmount";
 import { usePlacesAPIErrorHandling } from "./usePlacesAPIErrorHandling";
 
-export const usePlacesTextSearch = <T extends keyof IPlace>(mask: string) => {
-  const query = useRef("");
+export const usePlacesTextSearch = <T extends keyof IPlace>(
+  mask: string,
+  defaultQuery = "",
+) => {
+  const query = useRef(defaultQuery);
   const signal = useAbortOnUmount();
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<Pick<IPlace, T>[]>([]);
@@ -15,8 +18,8 @@ export const usePlacesTextSearch = <T extends keyof IPlace>(mask: string) => {
 
   const googleSearch = useCallback(
     (textQuery: string = query.current, replace = false) => {
-      query.current = textQuery;
-      if (!textQuery) {
+      query.current = textQuery || defaultQuery;
+      if (!query.current) {
         return setResults([]);
       }
       if (signal.current) {
@@ -27,7 +30,7 @@ export const usePlacesTextSearch = <T extends keyof IPlace>(mask: string) => {
       signal.current = new AbortController();
       void GooglePlaces.POST(`/v1/places:searchText`, {
         body: {
-          textQuery,
+          textQuery: query.current,
           maxResultCount: 18,
         },
         params: {
@@ -62,7 +65,7 @@ export const usePlacesTextSearch = <T extends keyof IPlace>(mask: string) => {
           setLoading(false);
         });
     },
-    [pageToken, mask, notifyError, signal],
+    [pageToken, mask, notifyError, signal, defaultQuery],
   );
 
   const debouncer = useDebouncer(googleSearch, 500);
@@ -80,6 +83,12 @@ export const usePlacesTextSearch = <T extends keyof IPlace>(mask: string) => {
       googleSearch();
     }
   }, [googleSearch, pageToken]);
+
+  useMount(() => {
+    if (query.current) {
+      googleSearch();
+    }
+  });
 
   return useMemo(
     () => ({
