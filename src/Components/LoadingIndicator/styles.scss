@@ -1,0 +1,31 @@
+@use "Styles/Variables";
+
+.loading-indicator {
+  --container-size: 2.5em;
+  --spinner-size: 60%;
+  --stroke: url(#themeGradient);
+  width: var(--container-size);
+  height: var(--container-size);
+  @include Variables.center;
+  &[aria-busy='true'] > div {
+    scale: 1;
+    opacity: 1;
+    visibility: visible;
+    transition: scale 0.5s, opacity 0.5s, visibility 0s;
+  }
+  &>div {
+    opacity: 0;
+    scale: 0.5;
+    visibility: hidden;
+    @include Variables.center;
+    transition: scale 0.5s, opacity 0.5s, visibility 0s 0.5s;
+    &>svg {
+      width: var(--spinner-size);
+      height: var(--spinner-size);
+      --duration: 1.75s;
+      &>circle {
+        stroke: var(--stroke);
+      }
+    }
+  }
+}
