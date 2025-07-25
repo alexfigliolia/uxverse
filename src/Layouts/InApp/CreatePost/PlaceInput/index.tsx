@@ -35,7 +35,7 @@ export const PlaceInput = ({ selectedID, setSelectedID }: Props) => {
   const { setPlace } = use(CreatePostContext);
   const controls = useRef<ComboBoxControls | null>(null);
   const { onSearch, results, hasNextPage, fetchNextPage, loading } =
-    usePlacesTextSearch<PlaceKeys>(FIELD_MASK);
+    usePlacesTextSearch<PlaceKeys>({ mask: FIELD_MASK });
 
   const hashedItems = useMemo(
     () =>

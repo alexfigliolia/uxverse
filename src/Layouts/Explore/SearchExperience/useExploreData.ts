@@ -66,7 +66,7 @@ export interface FormattedPlace {
   directionsURL: string;
 }
 
-export const SKELETON_DATA = new Array(3).fill({
+export const SKELETON_DATA: FormattedPlace[] = new Array(3).fill({
   photos: [""],
   id: "-1",
   rating: 0,

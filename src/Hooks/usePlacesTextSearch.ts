@@ -1,21 +1,28 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useDebouncer, useMount } from "@figliolia/react-hooks";
 import { GooglePlaces, IPlace } from "PlacesClient";
-import { useAbortOnUmount } from "./useAbortOnUmount";
-import { usePlacesAPIErrorHandling } from "./usePlacesAPIErrorHandling";
+import { DEFAULT_NOTIFIERS, PlacesError } from "./usePlacesAPIErrorHandling";
+import { usePlacesNetworkState } from "./usePlacesNetworkState";
 
-export const usePlacesTextSearch = <T extends keyof IPlace>(
-  mask: string,
+export const usePlacesTextSearch = <T extends keyof IPlace>({
+  mask,
   defaultQuery = "",
   loadingOnMount = false,
-) => {
+  notifiers = DEFAULT_NOTIFIERS,
+}: Config) => {
   const query = useRef(defaultQuery);
-  const signal = useAbortOnUmount();
-  const [loading, setLoading] = useState(loadingOnMount);
-  const [results, setResults] = useState<Pick<IPlace, T>[]>([]);
+  const {
+    signal,
+    error,
+    loading,
+    results,
+    setResults,
+    onAfterRequest,
+    onBeforeRequest,
+    onRequestError,
+    onRequestResolved,
+  } = usePlacesNetworkState<T>(loadingOnMount, notifiers);
   const [pageToken, setPageToken] = useState<string | null>(null);
-
-  const { error, notifyError } = usePlacesAPIErrorHandling();
 
   const googleSearch = useCallback(
     (textQuery: string = query.current, replace = false) => {
@@ -23,12 +30,7 @@ export const usePlacesTextSearch = <T extends keyof IPlace>(
       if (!query.current) {
         return setResults([]);
       }
-      if (signal.current) {
-        signal.current.abort("request overridden");
-      }
-      setLoading(true);
-      notifyError(undefined);
-      signal.current = new AbortController();
+      onBeforeRequest();
       void GooglePlaces.POST(`/v1/places:searchText`, {
         body: {
           textQuery: query.current,
@@ -42,7 +44,7 @@ export const usePlacesTextSearch = <T extends keyof IPlace>(
             ...(pageToken ? { pageToken: pageToken } : undefined),
           },
         },
-        signal: signal.current.signal,
+        signal: signal.current?.signal,
       })
         .then(res => {
           if (res.data) {
@@ -52,21 +54,23 @@ export const usePlacesTextSearch = <T extends keyof IPlace>(
                 ? (res.data.places ?? [])
                 : [...s, ...(res.data.places ?? [])],
             );
-          } else if (res.error) {
-            notifyError("UNKNOWN_ERROR");
           }
+          onRequestResolved(res);
         })
-        .catch(e => {
-          if (e !== "request overridden") {
-            notifyError("NETWORK_ERROR");
-          }
-        })
-        .finally(() => {
-          signal.current = null;
-          setLoading(false);
-        });
+        // .catch(onRequestError)
+        .finally(onAfterRequest);
     },
-    [pageToken, mask, notifyError, signal, defaultQuery],
+    [
+      mask,
+      signal,
+      pageToken,
+      setResults,
+      defaultQuery,
+      onAfterRequest,
+      onBeforeRequest,
+      onRequestError,
+      onRequestResolved,
+    ],
   );
 
   const debouncer = useDebouncer(googleSearch, 500);
@@ -103,3 +107,10 @@ export const usePlacesTextSearch = <T extends keyof IPlace>(
     [error, loading, results, onSearch, fetchNextPage, pageToken],
   );
 };
+
+interface Config {
+  mask: string;
+  defaultQuery?: string;
+  loadingOnMount?: boolean;
+  notifiers?: PlacesError[];
+}

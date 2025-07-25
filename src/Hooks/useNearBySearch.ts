@@ -1,20 +1,29 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useThrottler } from "@figliolia/react-hooks";
 import { GooglePlaces, IPlace } from "PlacesClient";
 import { GeoCoordinate } from "Types/Geolocation";
-import { useAbortOnUmount } from "./useAbortOnUmount";
-import { usePlacesAPIErrorHandling } from "./usePlacesAPIErrorHandling";
+import { PlacesError } from "./usePlacesAPIErrorHandling";
+import { usePlacesNetworkState } from "./usePlacesNetworkState";
 
-export const useNearBySearch = <T extends keyof IPlace>(
-  mask: string,
-  location?: GeoCoordinate,
-) => {
+export const useNearBySearch = <T extends keyof IPlace>({
+  mask,
+  location,
+  notifiers,
+  loadingOnMount,
+}: Config) => {
   const lastLocation = useRef<GeoCoordinate>(null);
-  const signal = useAbortOnUmount();
-  const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState<Pick<IPlace, T>[]>([]);
 
-  const { error, notifyError } = usePlacesAPIErrorHandling();
+  const {
+    signal,
+    loading,
+    results,
+    error,
+    setResults,
+    onRequestError,
+    onAfterRequest,
+    onBeforeRequest,
+    onRequestResolved,
+  } = usePlacesNetworkState<T>(loadingOnMount, notifiers);
 
   const googleSearch = useCallback(() => {
     if (!location) {
@@ -24,12 +33,7 @@ export const useNearBySearch = <T extends keyof IPlace>(
       return;
     }
     lastLocation.current = location;
-    if (signal.current) {
-      signal.current.abort("request overridden");
-    }
-    setLoading(true);
-    notifyError(undefined);
-    signal.current = new AbortController();
+    onBeforeRequest();
     void GooglePlaces.POST("/v1/places:searchNearby", {
       body: {
         maxResultCount: 18,
@@ -48,7 +52,7 @@ export const useNearBySearch = <T extends keyof IPlace>(
           fields: mask,
         },
       },
-      signal: signal.current.signal,
+      signal: signal.current?.signal,
     })
       .then(res => {
         if (res.data) {
@@ -62,20 +66,21 @@ export const useNearBySearch = <T extends keyof IPlace>(
             }
           }
           setResults(resultSet);
-        } else if (res.error) {
-          notifyError("UNKNOWN_ERROR");
         }
+        onRequestResolved(res);
       })
-      .catch(e => {
-        if (e !== "request overridden") {
-          notifyError("NETWORK_ERROR");
-        }
-      })
-      .finally(() => {
-        signal.current = null;
-        setLoading(false);
-      });
-  }, [mask, notifyError, location, signal]);
+      .catch(onRequestError)
+      .finally(onAfterRequest);
+  }, [
+    mask,
+    signal,
+    location,
+    setResults,
+    onBeforeRequest,
+    onRequestError,
+    onAfterRequest,
+    onRequestResolved,
+  ]);
 
   const throttler = useThrottler(googleSearch, 500);
 
@@ -94,3 +99,10 @@ export const useNearBySearch = <T extends keyof IPlace>(
     [error, loading, results],
   );
 };
+
+interface Config {
+  mask: string;
+  loadingOnMount?: boolean;
+  location?: GeoCoordinate;
+  notifiers?: PlacesError[];
+}

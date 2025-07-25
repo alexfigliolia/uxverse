@@ -16,10 +16,13 @@ export const LazyImage = ({ alt, src, active, optimistic }: Props) => {
 
   useEffect(() => {
     if (active && !loaded) {
-      void Preloader.loadImage(src).then(() => {
-        loadedImage.current = src;
-        setLoaded(true);
-      });
+      void Preloader.loadImage(src)
+        .then(() => {
+          loadedImage.current = src;
+          setLoaded(true);
+        })
+        // TODO - images will fail to load potentially
+        .catch(() => {});
     }
   }, [active, loaded, src]);
 

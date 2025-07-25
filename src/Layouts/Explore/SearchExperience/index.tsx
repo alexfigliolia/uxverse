@@ -1,5 +1,6 @@
 import { ChangeEvent, useCallback, useEffect, useMemo, useRef } from "react";
 import { useDebouncer } from "@figliolia/react-hooks";
+import { PlacesError } from "Hooks/usePlacesAPIErrorHandling";
 import { usePlacesTextSearch } from "Hooks/usePlacesTextSearch";
 import { WarningFilled } from "Icons/Warning";
 import { Callback } from "Types/Generics";
@@ -15,14 +16,17 @@ import {
 } from "./useExploreData";
 import "./styles.scss";
 
+const NOTIFIERS: PlacesError[] = ["UNKNOWN_ERROR"];
+
 export const SearchExperience = (_: Propless) => {
   const focusInput = useRef<Callback>(null);
   const { results, onSearch, loading, error, hasNextPage, fetchNextPage } =
-    usePlacesTextSearch<PlaceKeys>(
-      FIELD_MASK,
-      "attractions or food near me",
-      true,
-    );
+    usePlacesTextSearch<PlaceKeys>({
+      mask: FIELD_MASK,
+      notifiers: NOTIFIERS,
+      loadingOnMount: true,
+      defaultQuery: "attractions or food near me",
+    });
 
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -79,10 +83,6 @@ export const SearchExperience = (_: Propless) => {
           })}
         </section>
         <div className="explore-search-experience__alerts">
-          <ExploreAlert
-            onClick={scrollToTop}
-            active={!error && !hasNextPage && !!results.length}
-          />
           <ExploreAlert
             onClick={scrollToTop}
             active={!error && !hasNextPage && !!results.length}

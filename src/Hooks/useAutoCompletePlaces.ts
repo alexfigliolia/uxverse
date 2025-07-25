@@ -9,7 +9,7 @@ export const useAutoCompletePlaces = () => {
   const signal = useAbortOnUmount();
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<PlaceSuggestion[]>([]);
-  const { error, notifyError } = usePlacesAPIErrorHandling();
+  const { error, notifyError, resetError } = usePlacesAPIErrorHandling();
 
   const googleSearch = useCallback(
     (textQuery: string = query.current) => {
@@ -21,7 +21,7 @@ export const useAutoCompletePlaces = () => {
         signal.current.abort("request overridden");
       }
       setLoading(true);
-      notifyError(undefined);
+      resetError();
       signal.current = new AbortController();
       void GooglePlaces.POST("/v1/places:autocomplete", {
         body: {
@@ -69,7 +69,7 @@ export const useAutoCompletePlaces = () => {
           setLoading(false);
         });
     },
-    [notifyError, signal],
+    [notifyError, resetError, signal],
   );
 
   const debouncer = useDebouncer(googleSearch, 500);
