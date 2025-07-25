@@ -7,6 +7,7 @@
     padding: 0.3em 0.6em;
     transition: all 0.25s;
     color: Variables.$orange;
+    font-weight: 500;
     background-color: rgba(from Variables.$orange r g b / 10%);
     &:hover,
     &:focus-visible {
