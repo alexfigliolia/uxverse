@@ -33,43 +33,46 @@ export const useExpandOptions = ({
 
   const shareLink = useShareAPI(shareData);
 
-  return useMemo(
-    () => [
-      ...(website
-        ? [
-            {
-              id: 1,
-              label: "Visit Website",
-              url: website,
-              Icon: GlobeIcon,
-            },
-          ]
-        : []),
-      {
+  return useMemo(() => {
+    const options: ResultOption[] = [];
+    if (website) {
+      options.push({
+        id: 1,
+        label: "Visit Website",
+        url: website,
+        Icon: GlobeIcon,
+      });
+    }
+    if (directionsURL) {
+      options.push({
         id: 2,
         label: "Get Directions",
         url: directionsURL,
         Icon: NavigationIcon,
-      },
-      {
+      });
+    }
+    if (reviewsURL) {
+      options.push({
         id: 3,
         label: "See Reviews",
         url: reviewsURL,
         Icon: HappyFace,
-      },
-      {
+      });
+    }
+    if (googleURL) {
+      options.push({
         id: 4,
         label: "View on Google",
         url: googleURL,
         Icon: GoogleMono,
-      },
-      {
-        id: 5,
-        label: "Share this Place",
-        Icon: SocialShare,
-        onClick: shareLink,
-      },
-    ],
-    [website, googleURL, reviewsURL, directionsURL, shareLink],
-  ) as ResultOption[];
+      });
+    }
+    options.push({
+      id: 5,
+      label: "Share this Place",
+      Icon: SocialShare,
+      onClick: shareLink,
+    });
+    return options;
+  }, [website, googleURL, reviewsURL, directionsURL, shareLink]);
 };

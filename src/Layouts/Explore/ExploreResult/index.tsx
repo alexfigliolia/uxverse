@@ -19,10 +19,11 @@ export const ExploreResult = ({
   types,
   rating,
   photos,
+  loading,
   location,
   reviewSummary,
   ...rest
-}: FormattedPlace) => {
+}: Props) => {
   const { location: userLocation } = use(MapLayoutContext);
 
   const distance = useMemo(
@@ -38,14 +39,14 @@ export const ExploreResult = ({
   const expandOptions = useExpandOptions(rest);
 
   return (
-    <article className="explore-result">
+    <article className="explore-result" aria-hidden={loading}>
       <PlacesImageSlider placeName={name} images={photos} />
       <div className="explore-result__content">
         <div className="explore-result__headline">
           <div className="explore-result__title">
             <ReducedLetterSpacing Tag="h2">{name}</ReducedLetterSpacing>
           </div>
-          {distance && (
+          {(distance || loading) && (
             <div className="explore-result__distance">
               <LocationStroked aria-hidden />
               <ReducedLetterSpacing Tag="span">
@@ -77,3 +78,7 @@ export const ExploreResult = ({
     </article>
   );
 };
+
+interface Props extends FormattedPlace {
+  loading?: boolean;
+}

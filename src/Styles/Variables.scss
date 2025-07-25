@@ -111,3 +111,19 @@ $profile-horizontal-layout: 900px;
     rgba($red, 0.75)
   );
 }
+
+@mixin skeleton {
+  background-image: linear-gradient(to left, $lighter-gray, $light-gray, $lighter-gray);
+  background-size: 200% 100%;
+  background-position: 200% 50%;
+  animation: skeleton-background 1s infinite forwards;
+}
+
+@keyframes skeleton-background {
+  0% {
+    background-position: 200% 0%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

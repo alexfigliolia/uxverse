@@ -7,10 +7,11 @@ import { usePlacesAPIErrorHandling } from "./usePlacesAPIErrorHandling";
 export const usePlacesTextSearch = <T extends keyof IPlace>(
   mask: string,
   defaultQuery = "",
+  loadingOnMount = false,
 ) => {
   const query = useRef(defaultQuery);
   const signal = useAbortOnUmount();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(loadingOnMount);
   const [results, setResults] = useState<Pick<IPlace, T>[]>([]);
   const [pageToken, setPageToken] = useState<string | null>(null);
 

@@ -7,6 +7,9 @@
   border-radius: 0.5em;
   padding: 0.75em;
   @include Variables.columnLayout;
+  & .image-slider.places-slider .image-slider__controls > button > svg {
+    transition: fill 0.5s;
+  }
   &__content {
     width: calc(100% - 1em);
     margin: 0 auto;
@@ -28,6 +31,7 @@
       margin: 0;
       font-weight: 400;
       font-size: 1.15em;
+      transition: color 0.5s;
       color: Variables.$black-text-secondary;
     }
   }
@@ -40,16 +44,19 @@
       width: 1.35em;
       height: 1.35em;
       stroke: url(#themeGradient);
+      transition: stroke 0.5s;
       & path,
       & circle {
         stroke-width: 2;
       }
     }
     &>span {
+      transition: color 0.5s;
       color: Variables.$gray-text;
     }
   }
   &__summary {
+    transition: color 0.5s;
     &>div {
       transition: margin 1s;
       & .expandable-text {
@@ -59,6 +66,7 @@
       & p {
         margin: 0;
         text-wrap: balance;
+        transition: color 0.5s;
         color: Variables.$gray-text;
       }
     }
@@ -81,11 +89,119 @@
       --color: #{Variables.$gray-text-secondary};
       &>span {
         font-size: 0.9em;
+        transition: color 0.5s;
         @include Variables.systemFont;
         @include Variables.reducedLetterSpacing;
       }
       &>svg {
         filter: none;
+        transition: fill 0.5s;
+      }
+    }
+    & .post-about-button {
+       &>span > span {
+        transition: color 0.5s;
+      }
+      &>div > svg {
+        &:first-of-type,
+        &:last-of-type {
+          transition: fill 0.5s;
+        }
+      }
+    }
+    & .explore-result__more > button {
+      transition: color 0.5s;
+      &>svg {
+        transition: stroke 0.5s;
+      }
+    }
+  }
+}
+
+
+.explore-result[aria-hidden='true'] {
+  & .image-slider.places-slider {
+    & figure {
+      border-radius: 0.25em;
+      @include Variables.skeleton;
+      &>img,
+      &>.loading-indicator,
+      &>.placeholder-image {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+    & .image-slider__controls > button {
+      @include Variables.skeleton;
+      &>svg {
+        fill: transparent;
+      }
+    }
+  }
+  & .explore-result__title {
+    & h2 {
+      color: transparent;
+      border-radius: 0.25em;
+      @include Variables.skeleton;
+    }
+  }
+  & .explore-result__distance {
+    &>svg {
+      stroke: transparent;
+      @include Variables.skeleton;
+      border-radius: 0.25em;
+    }
+    &>span {
+      color: transparent;
+      border-radius: 0.25em;
+      @include Variables.skeleton;
+    }
+  }
+  & .tag-group.google-places-tags > li {
+    color: transparent;
+    @include Variables.skeleton;
+  }
+  & .explore-result__summary {
+    color: transparent;
+    border-radius: 0.5em;
+    @include Variables.skeleton;
+    &>div {
+      & p {
+        color: transparent;
+      }
+    }
+  }
+  & .explore-result__footer {
+    & .result-rating {
+      border-radius: 0.25em;
+      @include Variables.skeleton;
+      &>span {
+        color: transparent;
+      }
+      &>svg {
+        fill: transparent;
+      }
+    }
+    & .post-about-button {
+      color: transparent;
+      border-radius: 0.25em;
+      @include Variables.skeleton;
+      &>span > span {
+        color: transparent;
+      }
+      &>div>svg {
+        &:first-of-type,
+        &:last-of-type {
+          fill: transparent;
+        }
+      }
+    }
+    & .explore-result__more > button {
+      color: transparent;
+      border-radius: 50%;
+      @include Variables.skeleton;
+      &>svg {
+        stroke: transparent;
       }
     }
   }

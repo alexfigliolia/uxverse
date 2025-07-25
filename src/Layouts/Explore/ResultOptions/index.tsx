@@ -127,7 +127,7 @@ export type ResultOption = BaseOption &
   (
     | {
         url: string;
-        onClick: never;
+        onClick?: never;
       }
-    | { onClick: Callback; url: never }
+    | { onClick: Callback; url?: never }
   );

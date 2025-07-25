@@ -1,18 +1,28 @@
-import { ChangeEvent, useCallback, useEffect, useRef } from "react";
+import { ChangeEvent, useCallback, useEffect, useMemo, useRef } from "react";
 import { useDebouncer } from "@figliolia/react-hooks";
 import { usePlacesTextSearch } from "Hooks/usePlacesTextSearch";
+import { WarningFilled } from "Icons/Warning";
 import { Callback } from "Types/Generics";
 import { Propless } from "Types/React";
-import { EndOfResults } from "../EndOfResults";
+import { ExploreAlert } from "../ExploreAlert";
 import { ExploreResult } from "../ExploreResult";
 import { SearchInput } from "../SearchInput";
-import { FIELD_MASK, PlaceKeys, useExploreData } from "./useExploreData";
+import {
+  FIELD_MASK,
+  PlaceKeys,
+  SKELETON_DATA,
+  useExploreData,
+} from "./useExploreData";
 import "./styles.scss";
 
 export const SearchExperience = (_: Propless) => {
   const focusInput = useRef<Callback>(null);
-  const { results, onSearch, loading, hasNextPage, fetchNextPage } =
-    usePlacesTextSearch<PlaceKeys>(FIELD_MASK, "attractions or food near me");
+  const { results, onSearch, loading, error, hasNextPage, fetchNextPage } =
+    usePlacesTextSearch<PlaceKeys>(
+      FIELD_MASK,
+      "attractions or food near me",
+      true,
+    );
 
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -50,6 +60,11 @@ export const SearchExperience = (_: Propless) => {
     };
   }, [debouncer, hasNextPage]);
 
+  const renderablePlaces = useMemo(
+    () => (loading ? [...places, ...SKELETON_DATA] : places),
+    [places, loading],
+  );
+
   return (
     <div className="explore-search-experience">
       <div>
@@ -57,15 +72,33 @@ export const SearchExperience = (_: Propless) => {
           <SearchInput ref={focusInput} onChange={onChange} />
         </search>
         <section className="explore-search-experience__results">
-          {places.map(result => {
+          {renderablePlaces.map((result, i) => {
             if (result.id) {
-              return <ExploreResult key={result.id} {...result} />;
+              return <ExploreResult key={i} {...result} />;
             }
           })}
-          {!hasNextPage && !!results.length && (
-            <EndOfResults active onClick={scrollToTop} />
-          )}
         </section>
+        <div className="explore-search-experience__alerts">
+          <ExploreAlert
+            onClick={scrollToTop}
+            active={!error && !hasNextPage && !!results.length}
+          />
+          <ExploreAlert
+            onClick={scrollToTop}
+            active={!error && !hasNextPage && !!results.length}
+          />
+          <ExploreAlert
+            onClick={scrollToTop}
+            active={!error && !loading && !results.length}
+            text="There are no results matching your search"
+          />
+          <ExploreAlert
+            onClick={scrollToTop}
+            Icon={WarningFilled}
+            active={error === "NETWORK_ERROR"}
+            text="It appears your connection may be a little weak. Please try again"
+          />
+        </div>
       </div>
     </div>
   );
