@@ -4,32 +4,24 @@ import { GooglePlacesTags } from "Components/GooglePlacesTags";
 import { PlacesImageSlider } from "Components/PlacesImagesSlider";
 import { Rating } from "Components/Rating";
 import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
-import { HappyFace } from "Icons/Faces";
-import { GoogleMono } from "Icons/Google";
 import { LocationStroked } from "Icons/Location";
-import { NavigationIcon } from "Icons/Navigation";
-import { WebsiteIcon } from "Icons/Website";
 import { Formatting } from "Tools/Formatting";
 import { Haversine } from "Tools/Haversine";
 import { MapLayoutContext } from "../MapLayout";
 import { PostAboutButton } from "../PostAboutButton";
-import { ResultOption, ResultOptions } from "../ResultOptions";
+import { ResultOptions } from "../ResultOptions";
 import { FormattedPlace } from "../SearchExperience/useExploreData";
+import { useExpandOptions } from "./useExpandOptions";
 import "./style.scss";
 
 export const ExploreResult = ({
-  id,
   name,
   types,
   rating,
   photos,
-  website,
-  // address,
   location,
-  googleURL,
-  reviewsURL,
-  directionsURL,
   reviewSummary,
+  ...rest
 }: FormattedPlace) => {
   const { location: userLocation } = use(MapLayoutContext);
 
@@ -43,39 +35,7 @@ export const ExploreResult = ({
     [userLocation, location],
   );
 
-  const expandOptions: ResultOption[] = useMemo(
-    () => [
-      ...(website
-        ? [
-            {
-              id: 1,
-              label: "Visit Website",
-              url: website,
-              Icon: WebsiteIcon,
-            },
-          ]
-        : []),
-      {
-        id: 2,
-        label: "Get Directions",
-        url: directionsURL,
-        Icon: NavigationIcon,
-      },
-      {
-        id: 3,
-        label: "See Reviews",
-        url: reviewsURL,
-        Icon: HappyFace,
-      },
-      {
-        id: 4,
-        label: "View on Google",
-        url: googleURL,
-        Icon: GoogleMono,
-      },
-    ],
-    [website, googleURL, reviewsURL, directionsURL],
-  );
+  const expandOptions = useExpandOptions(rest);
 
   return (
     <article className="explore-result">
@@ -106,7 +66,7 @@ export const ExploreResult = ({
         )}
         <div className="explore-result__footer">
           <div>
-            <PostAboutButton placeID={id} placeName={name} />
+            <PostAboutButton placeID={rest.id} placeName={name} />
           </div>
           <div>
             {typeof rating === "number" && <Rating stars={rating} />}

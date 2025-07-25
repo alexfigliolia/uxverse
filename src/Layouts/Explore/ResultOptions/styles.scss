@@ -11,6 +11,7 @@
     &>svg {
       width: 1.6em;
       height: 1.6em;
+      scale: 1.1;
       transition: stroke 0.5s;
       stroke: Variables.$gray-text-secondary;
     }
@@ -30,10 +31,10 @@
       & .circle {
         scale: 2;
         transition: all 0.75s;
-        translate: -100% -100%;
+        translate: -75% -120%;
         background-color: #fff;
       }
-      & [role='listbox'] {
+      & [role='menu'] {
         opacity: 1;
         transition: opacity 0.3s 0.5s;
       }
@@ -45,7 +46,7 @@
     }
     & .circle {
       height: auto;
-      width: 100%;
+      width: 120%;
       aspect-ratio: 1 / 1;
       bottom: -100%;
       right: -100%;
@@ -53,23 +54,26 @@
       position: absolute;
       border-radius: 50%;
       transition: all 1s;
-      background-color: Variables.$lighter-gray;
+      background-color: Variables.$light-gray;
     }
   }
-  & [role='listbox'] {
+  & [role='menu'] {
     list-style-type: none;
     opacity: 0;
     position: relative;
     z-index: 2;
     transition: opacity 0.3s;
-    & [role='option'] {
+    & [role='menuitem'] {
       transition: background-color 0.3s;
-      &[data-focused='true'],
       &:hover {
         background-color: Variables.$lighter-gray;
       }
+      &[data-focused='true'] {
+        background-color: Variables.$light-gray;
+      }
     }
-    & a {
+    & a,
+    & button {
       display: flex;
       gap: 0.5em;
       padding: 0.5em;
@@ -88,6 +92,12 @@
         width: 1.6em;
         height: 1.6em;
         fill: Variables.$gray-text-secondary;
+        &.social-share {
+          scale: 1.1;
+        }
+        &.globe-icon {
+          scale: 1.1;
+        }
       }
     }
   }

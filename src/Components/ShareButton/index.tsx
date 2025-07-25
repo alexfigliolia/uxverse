@@ -1,15 +1,10 @@
 "use client";
-import { ButtonHTMLAttributes, useCallback } from "react";
+import { ButtonHTMLAttributes } from "react";
 import { ShareIconButton } from "Components/ShareIconButton";
+import { useShareAPI } from "Hooks/useShareAPI";
 
 export const ShareButton = ({ shareData, ...rest }: Props) => {
-  const onClick = useCallback(() => {
-    if (typeof window === "undefined" || !navigator.share) {
-      return;
-    }
-    void navigator.share(shareData).catch(() => {});
-  }, [shareData]);
-
+  const onClick = useShareAPI(shareData);
   return <ShareIconButton {...rest} onClick={onClick} />;
 };
 

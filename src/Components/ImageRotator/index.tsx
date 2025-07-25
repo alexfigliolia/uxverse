@@ -16,8 +16,10 @@ export const ImageRotator = ({
 
   const backgroundStyles = useCallback(
     (image: string) => ({
-      background: `url(${image}) no-repeat center`,
+      backgroundImage: `url(${image})`,
+      backgroundRepeat: "no-repeat",
       backgroundSize: "cover",
+      backgroundPosition: "center",
     }),
     [],
   );

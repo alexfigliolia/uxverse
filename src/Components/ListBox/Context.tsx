@@ -79,7 +79,8 @@ export const ListBoxProvider = <
     setFocusedID(data.nodeID);
     setFocusedIndex(data.index);
     if (listbox.current && data.nodeID && data.scrollTo) {
-      // listbox.current.querySelector(`#${data.nodeID}`)!.scrollIntoView();
+      // TODO - visual bug when the listbox client height doesn't exceed scroll height
+      listbox.current.querySelector(`#${data.nodeID}`)!.scrollIntoView();
     }
   }, []);
 

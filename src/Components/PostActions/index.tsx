@@ -30,6 +30,15 @@ export const PostActions = ({
     () => (typeof commentId === "number" ? "comment" : "post"),
     [commentId],
   );
+
+  const shareData = useMemo(
+    () => ({
+      title: `Check out Erica Figliolia's ${type} on visitor`,
+      url: `${process.env.NEXT_PUBLIC_URL}/feed/${1}${type === "comment" ? `?comment=${commentId}` : ""}`,
+    }),
+    [type, commentId],
+  );
+
   return (
     <div className={classes}>
       <button className="reaction-button">
@@ -55,14 +64,7 @@ export const PostActions = ({
         </button>
       )}
       {children}
-      <ShareButton
-        aria-label={`Share this ${type}`}
-        shareData={{
-          title: `Erica Figliolia's ${type}`,
-          text: `Check out this ${type} on visitor`,
-          url: `${process.env.NEXT_PUBLIC_URL}/feed/${1}${type === "comment" ? `?comment=${commentId}` : ""}`,
-        }}
-      />
+      <ShareButton aria-label={`Share this ${type}`} shareData={shareData} />
     </div>
   );
 };

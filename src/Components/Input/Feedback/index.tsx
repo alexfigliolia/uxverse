@@ -7,7 +7,7 @@ import { WarningStroked } from "Icons/Warning";
 import "./styles.scss";
 
 export const FeedBack = ({ ref, text, container, valid }: Props) => {
-  const { visible, triggerID, popoverID, targetRef, togglePopover, toggle } =
+  const { visible, triggerID, popoverID, triggerRef, togglePopover, toggle } =
     use(PopoverContext) as IPopoverContext<HTMLButtonElement>;
 
   useImperativeHandle(ref, () => toggle, [toggle]);
@@ -26,7 +26,7 @@ export const FeedBack = ({ ref, text, container, valid }: Props) => {
       <button
         type="button"
         id={triggerID}
-        ref={targetRef}
+        ref={triggerRef}
         aria-label={ariaLabel}
         onClick={togglePopover}
         aria-expanded={visible}

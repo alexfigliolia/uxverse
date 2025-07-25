@@ -2,13 +2,14 @@ import {
   createContext,
   createRef,
   RefObject,
+  use,
   useCallback,
   useId,
   useMemo,
   useRef,
-  useState,
 } from "react";
-import { PopoverToggle, usePopoverToggle } from "@figliolia/modal-stack";
+import { PopoverToggle } from "@figliolia/modal-stack";
+import { useBasicPopoverToggle } from "Hooks/useBasicPopoverToggle";
 import { WithContextProvider } from "Tools/WithContextProvider";
 import { Callback } from "Types/Generics";
 import { OptionalChildren } from "Types/React";
@@ -22,7 +23,7 @@ export const defaultPopoverContextValue = {
     () => {},
     () => {},
   ),
-  targetRef: createRef<HTMLElement | null>(),
+  triggerRef: createRef<HTMLElement | null>(),
 };
 
 export const PopoverContext = createContext<IPopoverContext>(
@@ -34,18 +35,8 @@ export const PopoverProvider = <T extends HTMLElement = HTMLElement>({
 }: OptionalChildren) => {
   const triggerID = useId();
   const popoverID = useId();
-  const targetRef = useRef<T>(null);
-  const [visible, setVisible] = useState(false);
-
-  const openPopover = useCallback(() => {
-    setVisible(true);
-  }, []);
-
-  const closePopover = useCallback(() => {
-    setVisible(false);
-  }, []);
-
-  const toggle = usePopoverToggle(openPopover, closePopover);
+  const triggerRef = useRef<T>(null);
+  const { open: visible, toggle } = useBasicPopoverToggle();
 
   const togglePopover = useCallback(() => {
     if (toggle.isOpen) {
@@ -55,7 +46,14 @@ export const PopoverProvider = <T extends HTMLElement = HTMLElement>({
   }, [toggle]);
 
   const value = useMemo(
-    () => ({ visible, toggle, togglePopover, triggerID, popoverID, targetRef }),
+    () => ({
+      visible,
+      toggle,
+      togglePopover,
+      triggerID,
+      popoverID,
+      triggerRef,
+    }),
     [visible, toggle, togglePopover, triggerID, popoverID],
   );
 
@@ -68,7 +66,11 @@ export interface IPopoverContext<T extends HTMLElement = HTMLElement> {
   popoverID: string;
   toggle: PopoverToggle;
   togglePopover: Callback;
-  targetRef: RefObject<T | null>;
+  triggerRef: RefObject<T | null>;
 }
 
 export const withPopoverContext = WithContextProvider(PopoverProvider);
+
+export const useButtonPopover = () => {
+  return use(PopoverContext) as IPopoverContext<HTMLButtonElement>;
+};

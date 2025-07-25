@@ -6,38 +6,35 @@ import {
   useImperativeHandle,
   useMemo,
 } from "react";
+import { ListBoxItem, ListBoxItemProps } from "Components/ListBox";
 import { useMergedRefs } from "Hooks/useMergedRefs";
-import { useListBoxContext } from "./Context";
-import { ListBoxItem, ListBoxItemProps, Props } from "./types";
+import { useMenuContext } from "./Context";
+import { Props } from "./types";
 
-export function ListBoxComponent<
+export function MenuComponent<
   T extends "ul" | "ol",
   I extends ListBoxItem = ListBoxItem,
-  M extends boolean = false,
   E extends HTMLElement = HTMLElement,
 >({
   ref,
   Tag,
   items,
-  multiple,
   triggerRef,
   renderItem,
-  selections,
   onItemClick,
-  onSelection,
   onItemFocused,
   orientation = "vertical",
   ...rest
-}: Props<T, I, M, E>) {
+}: Props<T, I, E>) {
   const {
-    listbox,
+    menu,
     focusedID,
     queueTask,
     focusInside,
     focusedIndex,
     setFocusInside,
-    listController,
-  } = useListBoxContext<T, I, M>();
+    menuController,
+  } = useMenuContext<T, I>();
 
   const onItemClickInternal = useCallback(
     (id: string | number) => {
@@ -57,27 +54,22 @@ export function ListBoxComponent<
         onItemClick?.(id, e);
         setFocusInside(true);
         triggerRef?.current?.focus?.();
-        listController.enterAtIndex(index);
-        listController.toggleSelection(id);
+        menuController.enterAtIndex(index);
       };
     },
-    [listController, onItemClick, triggerRef, setFocusInside],
+    [menuController, onItemClick, triggerRef, setFocusInside],
   );
 
   useEffect(() => {
-    const ID = listController.register(({ event, data }) => {
-      if (event === "focus") {
-        queueTask(() => onItemFocused?.(data.nodeID));
-      } else if (event === "selection") {
-        queueTask(() => onSelection(data));
-      }
+    const ID = menuController.register(({ data }) => {
+      queueTask(() => onItemFocused?.(data.nodeID));
     });
     return () => {
-      listController.remove(ID);
+      menuController.remove(ID);
     };
-  }, [listController, onItemFocused, onSelection, queueTask]);
+  }, [menuController, onItemFocused, queueTask]);
 
-  const mergedRefs = useMergedRefs(listbox, ref);
+  const mergedRefs = useMergedRefs(menu, ref);
 
   const children = useMemo(
     () =>
@@ -88,33 +80,24 @@ export function ListBoxComponent<
             aria-posinset={i}
             // TODO handle unknown set sizes
             aria-setsize={items.length}
-            ref={listController.cacheRef(i)}
+            ref={menuController.cacheRef(i)}
             data-focused={i === focusedIndex}
-            onClick={onItemClickInternal(item.id)}
-            selected={listController.isSelected(item.id, selections)}>
+            onClick={onItemClickInternal(item.id)}>
             {renderItem(item, i, items)}
           </ListItem>
         );
       }),
-    [
-      items,
-      renderItem,
-      selections,
-      focusedIndex,
-      listController,
-      onItemClickInternal,
-    ],
+    [items, renderItem, focusedIndex, menuController, onItemClickInternal],
   );
 
   return (
     // @ts-ignore
     <Tag
       tabIndex={-1}
-      role="listbox"
+      role="menu"
       ref={mergedRefs}
       data-focused={focusInside}
       aria-orientation={orientation}
-      aria-multiselectable={multiple}
       aria-activedescendant={focusedID}
       {...rest}>
       {children}
@@ -122,11 +105,15 @@ export function ListBoxComponent<
   );
 }
 
-function ListItem({ ref, children, selected, ...rest }: ListBoxItemProps) {
+function ListItem({
+  ref,
+  children,
+  ...rest
+}: Omit<ListBoxItemProps, "selected">) {
   const ID = useId();
   useImperativeHandle(ref, () => ID, [ID]);
   return (
-    <li id={ID} {...rest} role="option" tabIndex={-1} aria-selected={selected}>
+    <li id={ID} {...rest} role="menuitem" tabIndex={-1}>
       {children}
     </li>
   );

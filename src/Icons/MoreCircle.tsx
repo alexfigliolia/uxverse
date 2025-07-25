@@ -1,7 +1,7 @@
 import { SVGProps } from "react";
 import { classnames } from "@figliolia/classnames";
 
-export const MoreStroked = ({
+export const MoreCircle = ({
   children,
   className,
   ...rest
@@ -11,10 +11,10 @@ export const MoreStroked = ({
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={classnames("more-stroked", className)}
+      className={classnames("more-circle", className)}
       {...rest}>
       <path
-        d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+        d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"

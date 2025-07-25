@@ -4,15 +4,15 @@ import { usePopoverToggle } from "@figliolia/modal-stack";
 export const useBasicPopoverToggle = () => {
   const [open, setOpen] = useState(false);
 
-  const openModal = useCallback(() => {
+  const openPopover = useCallback(() => {
     setOpen(true);
   }, []);
 
-  const closeModal = useCallback(() => {
+  const closePopover = useCallback(() => {
     setOpen(false);
   }, []);
 
-  const toggle = usePopoverToggle(openModal, closeModal);
+  const toggle = usePopoverToggle(openPopover, closePopover);
 
   return useMemo(() => ({ toggle, open }), [toggle, open]);
 };

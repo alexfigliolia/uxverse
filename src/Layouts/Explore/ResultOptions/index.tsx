@@ -1,20 +1,20 @@
 "use client";
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useClickOutside } from "@figliolia/react-hooks";
-import { ListBox, ListBoxControls } from "Components/ListBox";
+import { ListBoxControls } from "Components/ListBox";
+import { Menu } from "Components/Menu";
+import { useButtonPopover, withPopoverContext } from "Components/Popover";
 import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
-import { useBasicPopoverToggle } from "Hooks/useBasicPopoverToggle";
 import { useFocusOutside } from "Hooks/useFocusOutside";
 import { useMergedRefs } from "Hooks/useMergedRefs";
-import { MoreStroked } from "Icons/More";
+import { MoreCircle } from "Icons/MoreCircle";
+import { Callback } from "Types/Generics";
 import { SVGComponent } from "Types/React";
 import "./styles.scss";
 
-export const ResultOptions = ({ options, name }: Props) => {
-  const listBoxID = useId();
-  const trigger = useRef<HTMLButtonElement>(null);
-  const { open, toggle } = useBasicPopoverToggle();
-  const [selected, setSelected] = useState<number | string>();
+export const ResultOptions = withPopoverContext(({ options, name }: Props) => {
+  const { visible, toggle, triggerRef, triggerID, popoverID } =
+    useButtonPopover();
 
   const onClick = useCallback(() => {
     if (toggle.isOpen) {
@@ -28,7 +28,7 @@ export const ResultOptions = ({ options, name }: Props) => {
   }, [toggle]);
 
   const ref = useClickOutside<HTMLDivElement, false>({
-    open,
+    open: visible,
     refCallback: false,
     callback: closeToggle,
   });
@@ -42,19 +42,19 @@ export const ResultOptions = ({ options, name }: Props) => {
     }
   }, []);
 
-  const container = useFocusOutside(open, closeToggle);
+  const container = useFocusOutside(visible, closeToggle);
 
   const mergedRefs = useMergedRefs(container, ref);
 
   useEffect(() => {
-    if (!open) {
+    if (!visible) {
       controller.current?.exit?.();
       document.removeEventListener("keydown", detectListBoxEntrance);
     }
-  }, [open, controller, detectListBoxEntrance]);
+  }, [visible, controller, detectListBoxEntrance]);
 
   useEffect(() => {
-    if (open) {
+    if (visible) {
       document.addEventListener("keydown", detectListBoxEntrance);
     } else {
       document.removeEventListener("keydown", detectListBoxEntrance);
@@ -62,55 +62,72 @@ export const ResultOptions = ({ options, name }: Props) => {
     return () => {
       document.removeEventListener("keydown", detectListBoxEntrance);
     };
-  }, [open, detectListBoxEntrance]);
+  }, [visible, detectListBoxEntrance]);
 
   const renderOption = useCallback(
-    ({ Icon, label, url }: ResultOption) => (
-      <a target="_blank" href={url} tabIndex={-1}>
-        <Icon />
-        <ReducedLetterSpacing Tag="span">{label}</ReducedLetterSpacing>
-      </a>
-    ),
+    ({ Icon, label, url, onClick }: ResultOption) => {
+      if (url) {
+        return (
+          <a target="_blank" href={url} tabIndex={-1}>
+            <Icon />
+            <ReducedLetterSpacing Tag="span">{label}</ReducedLetterSpacing>
+          </a>
+        );
+      }
+      return (
+        <button onClick={onClick} tabIndex={-1}>
+          <Icon />
+          <ReducedLetterSpacing Tag="span">{label}</ReducedLetterSpacing>
+        </button>
+      );
+    },
     [],
   );
 
   return (
     <div ref={mergedRefs} className="explore-result__more">
       <button
-        ref={trigger}
+        id={triggerID}
+        ref={triggerRef}
         onClick={onClick}
-        aria-expanded={open}
-        aria-controls={listBoxID}
+        aria-expanded={visible}
+        aria-controls={popoverID}
         aria-label={`View associated links and options for ${name}`}>
-        <MoreStroked aria-hidden />
+        <MoreCircle aria-hidden />
       </button>
-      <div id={listBoxID} className="list-container" aria-hidden={!open}>
+      <div id={popoverID} className="list-container" aria-hidden={!visible}>
         <div>
           <div className="circle" aria-hidden />
-          <ListBox
+          <Menu
             Tag="ul"
             items={options}
-            triggerRef={trigger}
-            selections={selected}
+            triggerRef={triggerRef}
             controller={controller}
             renderItem={renderOption}
-            onSelection={setSelected}
-            aria-label={`Associated links and options for ${name}`}
+            aria-labelledby={triggerID}
           />
         </div>
       </div>
     </div>
   );
-};
+});
 
 interface Props {
   name: string;
   options: ResultOption[];
 }
 
-export interface ResultOption {
+export interface BaseOption {
   id: number;
   label: string;
-  url: string;
   Icon: SVGComponent;
 }
+
+export type ResultOption = BaseOption &
+  (
+    | {
+        url: string;
+        onClick: never;
+      }
+    | { onClick: Callback; url: never }
+  );
