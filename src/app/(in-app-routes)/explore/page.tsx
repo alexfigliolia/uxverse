@@ -34,6 +34,7 @@ export default function Explore(_: Propless) {
   }, []);
 
   return (
+    // TODO error boundary (this will throw)
     <APIProvider apiKey={process.env.NEXT_PUBLIC_MAPS_KEY!}>
       <MapLayoutProvider>
         <div className="explore-page">

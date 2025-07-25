@@ -13,9 +13,8 @@ import {
 import { useClassNames } from "@figliolia/classnames";
 import { useDebouncer } from "@figliolia/react-hooks";
 import { ComboBox, ComboBoxControls } from "Components/ComboBox";
+import { LoadingIndicator } from "Components/LoadingIndicator";
 import { Rating } from "Components/Rating";
-import { Spinner } from "Components/Spinner";
-import { VisuallyHiddenText } from "Components/VisuallyHiddenText";
 import { usePlacesTextSearch } from "Hooks/usePlacesTextSearch";
 import { IPlace } from "PlacesClient";
 import { Devices } from "Tools/Devices";
@@ -142,18 +141,10 @@ export const PlaceInput = ({ selectedID, setSelectedID }: Props) => {
       items={results as PlaceProps[]}
       placeholder="Place or Venue">
       {/* TODO - test on screen reader */}
-      <div
-        role="status"
-        aria-live="polite"
-        aria-busy={loading}
-        className="loading-indicator">
-        <div>
-          <Spinner aria-hidden />
-        </div>
-        <VisuallyHiddenText>
-          Loading more suggestions from google
-        </VisuallyHiddenText>
-      </div>
+      <LoadingIndicator
+        loading={loading}
+        ariaLabel="Loading more suggestions from google"
+      />
     </ComboBox>
   );
 };

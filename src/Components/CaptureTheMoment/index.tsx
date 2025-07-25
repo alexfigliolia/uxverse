@@ -1,8 +1,8 @@
 import { HTMLProps } from "react";
 import { classnames } from "@figliolia/classnames";
 import { HiddenFileInput } from "Components/HiddenFileInput";
+import { LoadingIndicator } from "Components/LoadingIndicator";
 import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
-import { Spinner } from "Components/Spinner";
 import { CameraIcon } from "Icons/Camera";
 import "./styles.scss";
 
@@ -14,7 +14,7 @@ export const CaptureTheMoment = ({ loading, ...rest }: Props) => {
           Capture the Moment
         </ReducedLetterSpacing>
         <CameraIcon aria-hidden />
-        <Spinner aria-hidden />
+        <LoadingIndicator loading={loading} ariaLabel="Uploading Media" />
       </div>
       <HiddenFileInput
         multiple
