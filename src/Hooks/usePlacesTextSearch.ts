@@ -1,8 +1,11 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useDebouncer, useMount } from "@figliolia/react-hooks";
 import { GooglePlaces, IPlace } from "PlacesClient";
+import { PlacesCache } from "Tools/PlacesCache";
 import { DEFAULT_NOTIFIERS, PlacesError } from "./usePlacesAPIErrorHandling";
 import { usePlacesNetworkState } from "./usePlacesNetworkState";
+
+const URL = "/v1/places:searchText";
 
 export const usePlacesTextSearch = <T extends keyof IPlace>({
   mask,
@@ -31,7 +34,22 @@ export const usePlacesTextSearch = <T extends keyof IPlace>({
         return setResults([]);
       }
       onBeforeRequest();
-      void GooglePlaces.POST(`/v1/places:searchText`, {
+      const options = {
+        textQuery: query.current,
+        maxResultCount: 18,
+        ...(pageToken ? { pageToken: pageToken } : undefined),
+      };
+      const result = PlacesCache.checkCache(URL, options);
+      if (result) {
+        setPageToken(result.data.nextPageToken ?? null);
+        setResults(s =>
+          replace
+            ? (result.data.places ?? [])
+            : [...s, ...(result.data.places ?? [])],
+        );
+        return onAfterRequest();
+      }
+      void GooglePlaces.POST(URL, {
         body: {
           textQuery: query.current,
           maxResultCount: 18,
@@ -48,6 +66,7 @@ export const usePlacesTextSearch = <T extends keyof IPlace>({
       })
         .then(res => {
           if (res.data) {
+            PlacesCache.cacheRequest(URL, options)(res);
             setPageToken(res.data.nextPageToken ?? null);
             setResults(s =>
               replace
@@ -57,7 +76,7 @@ export const usePlacesTextSearch = <T extends keyof IPlace>({
           }
           onRequestResolved(res);
         })
-        // .catch(onRequestError)
+        .catch(onRequestError)
         .finally(onAfterRequest);
     },
     [
