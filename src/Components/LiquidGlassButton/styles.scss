@@ -1,14 +1,16 @@
+@use "Styles/Variables";
+
 .liquid-glass-button {
   border-radius: 4em;
   color: #fff;
   font-weight: 700;
-  background-color: rgba(#c600bc, 0.75);
+  @include Variables.themeGradient(to bottom right, 0.85);
   padding: 0.65em 2em;
   transition: background-color 0.5s;
   outline-offset: 0.25em;
   text-decoration: none;
   &:not(.isSafari.isMobile) {
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(15px);
   }
   &:visited {
     color: #fff;

@@ -1,0 +1,17 @@
+@use "Styles/Variables";
+
+.ux-gradient {
+  position: relative;
+  &>span {
+    &:first-of-type {
+      color: transparent;
+    }
+    &:last-of-type {
+      top: 0;
+      left: 0;
+      position: absolute;
+      @include Variables.themeGradient;
+      @include Variables.clipText;
+    }
+  }
+}

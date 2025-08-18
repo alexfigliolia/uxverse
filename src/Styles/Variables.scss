@@ -24,6 +24,8 @@ $nav-height: 60px;
 $max-content-width: 1200px;
 $profile-horizontal-layout: 900px;
 
+$reduced-letter-spacing: -0.035em;
+
 @mixin center {
   display: flex;
   align-items: center;
@@ -37,11 +39,11 @@ $profile-horizontal-layout: 900px;
 }
 
 @mixin reducedLetterSpacing {
-  letter-spacing: -0.035em;
+  letter-spacing: $reduced-letter-spacing;
 }
 
-@mixin themeGradient($direction: to bottom) {
-  background-image: linear-gradient($direction, $orange, $red);
+@mixin themeGradient($direction: to bottom, $opacity: 1) {
+  background-image: linear-gradient($direction, rgba($orange, $opacity), rgba($red, $opacity));
 }
 
 @mixin warningGradient($direction: to bottom) {

@@ -7,20 +7,14 @@ import { Propless } from "Types/React";
 
 export const BackgroundImages = (_: Propless) => {
   const { width } = useWindowSize();
-  const [images, setImages] = useState([
-    "/background-pink.webp",
-    "/background-neon.webp",
-  ]);
+  const [images, setImages] = useState(["/main-bg.webp"]);
   const useSmallImages = useMemo(() => width <= 670, [width]);
 
   useEffect(() => {
     if (useSmallImages) {
-      return setImages([
-        "/background-pink-small.webp",
-        "/background-neon-small.webp",
-      ]);
+      return setImages(["/main-bg.webp"]);
     }
-    setImages(["/background-pink.webp", "/background-neon.webp"]);
+    setImages(["/main-bg.webp"]);
   }, [useSmallImages]);
 
   const options: Partial<IOptions> = useMemo(

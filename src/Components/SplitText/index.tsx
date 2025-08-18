@@ -1,11 +1,15 @@
+import { CSSProperties, ReactNode } from "react";
+import { Callback } from "Types/Generics";
+import { OptionalChildren } from "Types/React";
 import "./styles.scss";
 
-export const SplitText = ({ text }: Props) => {
+export const SplitText = ({ text, children, renderNode }: Props) => {
   const tokens = text.split("");
   const { length } = tokens.filter(t => t !== "" && t !== " ");
   let charIndex = -1;
   return (
     <div className="split-text">
+      {children}
       {tokens.map((letter, i) => {
         if (letter === " ") {
           return (
@@ -14,11 +18,14 @@ export const SplitText = ({ text }: Props) => {
             </span>
           );
         }
-        return (
-          <span
-            key={i}
-            aria-hidden
-            style={{ "--index": ++charIndex, "--length": length }}>
+        const styles: CSSProperties = {
+          "--index": ++charIndex,
+          "--length": length,
+        };
+        return renderNode ? (
+          renderNode(letter, styles, i)
+        ) : (
+          <span key={i} aria-hidden style={styles}>
             {letter}
           </span>
         );
@@ -27,6 +34,7 @@ export const SplitText = ({ text }: Props) => {
   );
 };
 
-interface Props {
+interface Props extends OptionalChildren {
   text: string;
+  renderNode?: Callback<[string, CSSProperties, number], ReactNode>;
 }

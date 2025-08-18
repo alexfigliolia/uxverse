@@ -1,0 +1,46 @@
+@use "Styles/Variables";
+
+.inset-fullscreen-container.home-banner {
+  --text-shadow: 0em 0em 0.025em rgba(0,0,0, 1), 0em 0em 0.05em rgba(0,0,0, 1), 0em 0.025em 0.1em rgba(0,0,0, 0.85), 0em 0.015em 0.2em rgba(0,0,0, 0.85);
+  & h1 {
+    @include Variables.center;
+    gap: 0.1em;
+    font-size: clamp(4em, 18vw, 8em);
+    &.isSafari.isMobile {
+      --text-shadow: 0em 0em 0.025em rgba(0,0,0, 1), 0em 0em 0.05em rgba(0,0,0, 1), 0em 0.025em 0.1em rgba(0,0,0, 0.85), 0em 0.015em 0.2em rgba(0,0,0, 0.85), 0em 0em 0.125em rgba(0,0,0, 1);
+    }
+    & .ux-gradient {
+      opacity: 0;
+      translate: 0 30%;
+      margin-right: -2.5%;
+      animation: reveal 1s 1.6s forwards;
+      &>span {
+        font-size: 1.1em;
+        &:first-of-type {
+          text-shadow: var(--text-shadow);
+        }
+        &>span {
+          margin: 0 Variables.$reduced-letter-spacing;
+        }
+      }
+    }
+    & .split-text > span {
+      margin: 0 Variables.$reduced-letter-spacing;
+      text-shadow: var(--text-shadow);
+      opacity: 0;
+      translate: 0 30%;
+      animation: reveal 1s calc(1s + (var(--length) - var(--index)) * 100ms) forwards;
+    }
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    translate: 0 30%;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0%;
+  }
+}
