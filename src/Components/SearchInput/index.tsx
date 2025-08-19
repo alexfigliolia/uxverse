@@ -23,7 +23,7 @@ export const SearchInput = ({ ref, onChange, label = "Search" }: Props) => {
   return (
     <label className="uxverse-search-input">
       <ScreenReaderOnly Tag="span">{label}</ScreenReaderOnly>
-      <button onClick={onClick} onFocus={onClick}>
+      <button onClick={onClick} onFocus={onClick} tabIndex={-1}>
         <SearchSquare aria-hidden />
         <SearchSquare aria-hidden />
       </button>
