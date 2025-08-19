@@ -7,10 +7,10 @@ import {
   useCallback,
   useMemo,
 } from "react";
-import { ListBoxItem } from "Components/ListBox";
+import { ListItem } from "Tools/KeyboardNavigableList";
 import { ComboBoxContext } from "./Context";
 
-export const ComboBoxInput = <I extends ListBoxItem = ListBoxItem>({
+export const ComboBoxInput = <I extends ListItem = ListItem>({
   type,
   name,
   items,
@@ -90,7 +90,7 @@ export const ComboBoxInput = <I extends ListBoxItem = ListBoxItem>({
   );
 };
 
-export interface Props<I extends ListBoxItem = ListBoxItem>
+export interface Props<I extends ListItem = ListItem>
   extends Pick<
     HTMLProps<HTMLInputElement>,
     "type" | "name" | "placeholder" | "onChange" | "onFocus"

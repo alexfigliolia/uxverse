@@ -8,21 +8,20 @@ import {
 import {
   ListBoxChildrenFN,
   ListBoxControls,
-  ListBoxItem,
-  ListBoxOrientation,
   ListElement,
 } from "Components/ListBox";
+import { ListItem, ListOrientation } from "Tools/KeyboardNavigableList";
 import { Callback } from "Types/Generics";
 import { MenuController } from "./MenuController";
 
 export interface Props<
   T extends "ul" | "ol",
-  I extends ListBoxItem = ListBoxItem,
+  I extends ListItem = ListItem,
   E extends HTMLElement = HTMLElement,
 > extends Omit<HTMLProps<ListElement<T>>, "role" | "children"> {
   Tag: T;
   items: I[];
-  orientation?: ListBoxOrientation;
+  orientation?: ListOrientation;
   renderItem: ListBoxChildrenFN<I>;
   triggerRef?: RefObject<E | null>;
   controller: RefObject<ListBoxControls | null>;
@@ -32,7 +31,7 @@ export interface Props<
 
 export interface IMenuContext<
   T extends "ul" | "ol" = "ol",
-  I extends ListBoxItem = ListBoxItem,
+  I extends ListItem = ListItem,
 > {
   focusInside: boolean;
   focusedID: string | undefined;

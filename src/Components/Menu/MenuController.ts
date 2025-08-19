@@ -1,68 +1,26 @@
-import { Subscriptable } from "@figliolia/event-emitter";
 import {
-  ListBoxFocusEvent,
-  ListBoxItem,
-  ListBoxOrientation,
-} from "Components/ListBox";
-import { Callback } from "Types/Generics";
+  KeyboardListFocusEvent,
+  KeyboardNavigableList,
+  ListItem,
+} from "Tools/KeyboardNavigableList";
 
-export class MenuController<I extends ListBoxItem> extends Subscriptable<
-  Callback<[ListBoxFocusEvent]>
+export class MenuController<I extends ListItem> extends KeyboardNavigableList<
+  I,
+  KeyboardListFocusEvent
 > {
-  public active = false;
-  public items: I[] = [];
-  public focusIndex = -1;
-  public nodeIds: string[] = [];
-  public orientation: ListBoxOrientation;
   private static readonly MAPPED_KEYS_COMMON = [" ", "End", "Home", "Enter"];
-  public static readonly MAPPED_KEYS_VERTICAL = new Set([
-    ...this.MAPPED_KEYS_COMMON,
+  public readonly MAPPED_KEYS_VERTICAL = new Set([
+    ...MenuController.MAPPED_KEYS_COMMON,
     "ArrowUp",
     "ArrowDown",
   ]);
-  public static readonly MAPPED_KEYS_HORIZONTAL = new Set([
-    ...this.MAPPED_KEYS_COMMON,
+  public readonly MAPPED_KEYS_HORIZONTAL = new Set([
+    ...MenuController.MAPPED_KEYS_COMMON,
     "ArrowLeft",
     "ArrowRight",
   ]);
-  constructor(orientation: ListBoxOrientation = "vertical") {
-    super();
-    this.orientation = orientation;
-  }
 
-  public getMappedKeys() {
-    return this.orientation === "horizontal"
-      ? MenuController.MAPPED_KEYS_HORIZONTAL
-      : MenuController.MAPPED_KEYS_VERTICAL;
-  }
-
-  public cacheRef(index: number) {
-    return (id: string | null) => {
-      if (id !== null) {
-        this.nodeIds[index] = id;
-      }
-    };
-  }
-
-  public setScope(items: I[], orientation: ListBoxOrientation) {
-    this.items = items;
-    this.orientation = orientation;
-    if (this.focusIndex > this.items.length) {
-      this.setFocusIndex(0);
-    }
-  }
-
-  public addKeyBindings() {
-    document.addEventListener("keydown", this.onKeyDown);
-  }
-
-  public destroy = () => {
-    this.active = false;
-    this.resetFocusIndex();
-    document.removeEventListener("keydown", this.onKeyDown);
-  };
-
-  public enterMenu = () => {
+  public enterControls = () => {
     if (this.active) {
       return;
     }
@@ -71,19 +29,7 @@ export class MenuController<I extends ListBoxItem> extends Subscriptable<
     this.addKeyBindings();
   };
 
-  public enterAtIndex(index: number) {
-    this.active = true;
-    this.setFocusIndex(index, false);
-    this.addKeyBindings();
-  }
-
-  public resetFocusIndex = () => {
-    if (this.focusIndex >= 0) {
-      this.setFocusIndex(-1);
-    }
-  };
-
-  private readonly onKeyDown = (e: KeyboardEvent) => {
+  protected readonly onKeyDown = (e: KeyboardEvent) => {
     if (this.getMappedKeys().has(e.key)) {
       e.preventDefault();
     }
@@ -131,24 +77,4 @@ export class MenuController<I extends ListBoxItem> extends Subscriptable<
       }
     }
   };
-
-  private focusNext() {
-    const next =
-      this.focusIndex + 1 >= this.items.length ? 0 : this.focusIndex + 1;
-    return this.setFocusIndex(next);
-  }
-
-  private focusPrevious() {
-    const next =
-      this.focusIndex - 1 < 0 ? this.items.length - 1 : this.focusIndex - 1;
-    return this.setFocusIndex(next);
-  }
-
-  private setFocusIndex(index: number, scrollTo = true) {
-    this.focusIndex = index;
-    this.execute({
-      event: "focus",
-      data: { index, nodeID: this.nodeIds[index], scrollTo },
-    });
-  }
 }

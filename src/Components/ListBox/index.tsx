@@ -1,10 +1,11 @@
+import { ListItem, ListOrientation } from "Tools/KeyboardNavigableList";
 import { ListBoxProvider } from "./Context";
 import { ListBoxComponent } from "./ListBox";
-import { ListBoxItem, ListBoxOrientation, Props } from "./types";
+import { Props } from "./types";
 
 export function ListBox<
   T extends "ul" | "ol",
-  I extends ListBoxItem = ListBoxItem,
+  I extends ListItem = ListItem,
   M extends boolean = false,
   E extends HTMLElement = HTMLElement,
 >(props: Props<T, I, M, E>) {
@@ -14,7 +15,7 @@ export function ListBox<
       controller={props.controller}
       selections={props.selections}
       multiple={props.multiple as M}
-      orientation={props.orientation as ListBoxOrientation}>
+      orientation={props.orientation as ListOrientation}>
       <ListBoxComponent {...props} />
     </ListBoxProvider>
   );

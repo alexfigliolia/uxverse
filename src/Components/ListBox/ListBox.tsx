@@ -7,12 +7,13 @@ import {
   useMemo,
 } from "react";
 import { useMergedRefs } from "Hooks/useMergedRefs";
+import { ListItem } from "Tools/KeyboardNavigableList";
 import { useListBoxContext } from "./Context";
-import { ListBoxItem, ListBoxItemProps, Props } from "./types";
+import { ListBoxItemProps, Props } from "./types";
 
 export function ListBoxComponent<
   T extends "ul" | "ol",
-  I extends ListBoxItem = ListBoxItem,
+  I extends ListItem = ListItem,
   M extends boolean = false,
   E extends HTMLElement = HTMLElement,
 >({
@@ -80,7 +81,7 @@ export function ListBoxComponent<
     () =>
       items.map((item, i) => {
         return (
-          <ListItem
+          <ListBoxItem
             key={item.id}
             aria-posinset={i + 1}
             listItemID={item.id}
@@ -91,7 +92,7 @@ export function ListBoxComponent<
             data-focused={i === focusedIndex}
             selected={listController.isSelected(item.id, selections)}>
             {renderItem(item, i, items)}
-          </ListItem>
+          </ListBoxItem>
         );
       }),
     [
@@ -119,7 +120,7 @@ export function ListBoxComponent<
   );
 }
 
-function ListItem({
+function ListBoxItem({
   ref,
   children,
   selected,

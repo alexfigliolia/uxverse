@@ -11,14 +11,13 @@ import {
   useState,
 } from "react";
 import { useController } from "@figliolia/react-hooks";
-import {
-  ListBoxControls,
-  ListBoxFocusEvent,
-  ListBoxItem,
-  ListBoxOrientation,
-  ListElement,
-} from "Components/ListBox";
+import { ListBoxControls, ListElement } from "Components/ListBox";
 import { useReactScheduler } from "Hooks/useReactScheduler";
+import {
+  KeyboardListFocusEvent,
+  ListItem,
+  ListOrientation,
+} from "Tools/KeyboardNavigableList";
 import { OptionalChildren } from "Types/React";
 import { MenuController } from "./MenuController";
 import { IMenuContext } from "./types";
@@ -35,14 +34,14 @@ export const MenuContext = createContext<IMenuContext<any, any>>({
 
 export const useMenuContext = <
   T extends "ul" | "ol" = "ol",
-  I extends ListBoxItem = ListBoxItem,
+  I extends ListItem = ListItem,
 >() => {
   return use(MenuContext) as IMenuContext<T, I>;
 };
 
 export const MenuProvider = <
   T extends "ul" | "ol" = "ol",
-  I extends ListBoxItem = ListBoxItem,
+  I extends ListItem = ListItem,
 >({
   items,
   children,
@@ -58,7 +57,7 @@ export const MenuProvider = <
   menuController.setScope(items, orientation);
 
   const enter = useCallback(() => {
-    menuController.enterMenu();
+    menuController.enterControls();
     setFocusInside(true);
   }, [menuController]);
 
@@ -68,7 +67,7 @@ export const MenuProvider = <
   }, [menuController]);
 
   useEffect(() => {
-    const ID = menuController.register(({ data }: ListBoxFocusEvent) => {
+    const ID = menuController.register(({ data }: KeyboardListFocusEvent) => {
       queueTask(() => {
         setFocusedID(data.nodeID);
         setFocusedIndex(data.index);
@@ -91,6 +90,8 @@ export const MenuProvider = <
     () => ({
       exit,
       enter,
+      isActive: menuController.isActive,
+      getFocusIndex: menuController.getFocusIndex,
       resetFocusIndex: menuController.resetFocusIndex,
     }),
     [enter, exit, menuController],
@@ -112,8 +113,8 @@ export const MenuProvider = <
   return <MenuContext value={value}>{children}</MenuContext>;
 };
 
-interface Props<I extends ListBoxItem = ListBoxItem> extends OptionalChildren {
+interface Props<I extends ListItem = ListItem> extends OptionalChildren {
   items: I[];
-  orientation: ListBoxOrientation;
+  orientation: ListOrientation;
   controller: RefObject<ListBoxControls | null>;
 }

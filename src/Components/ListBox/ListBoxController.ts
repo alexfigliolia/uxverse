@@ -1,26 +1,18 @@
-import { Subscriptable } from "@figliolia/event-emitter";
-import { Callback } from "Types/Generics";
 import {
-  ListBoxEvents,
-  ListBoxItem,
-  ListBoxOrientation,
-  SelectionOrigin,
-  SelectionSet,
-} from "./types";
+  KeyboardNavigableList,
+  ListItem,
+  ListOrientation,
+} from "Tools/KeyboardNavigableList";
+import { ListBoxEvents, SelectionOrigin, SelectionSet } from "./types";
 
 export class ListBoxController<
-  I extends ListBoxItem,
+  I extends ListItem,
   M extends boolean = false,
-> extends Subscriptable<Callback<[ListBoxEvents<M>]>> {
+> extends KeyboardNavigableList<I, ListBoxEvents<M>> {
   public multiple?: M;
-  public active = false;
-  public items: I[] = [];
-  public focusIndex = -1;
   public shifting = false;
   public holdingControl = false;
-  public nodeIds: string[] = [];
   public selections: SelectionSet<M>;
-  public orientation: ListBoxOrientation;
   private static readonly MAPPED_KEYS_COMMON = [
     "A",
     " ",
@@ -30,77 +22,49 @@ export class ListBoxController<
     "Enter",
     "Control",
   ];
-  public static readonly MAPPED_KEYS_VERTICAL = new Set([
-    ...this.MAPPED_KEYS_COMMON,
+  public readonly MAPPED_KEYS_VERTICAL = new Set([
+    ...ListBoxController.MAPPED_KEYS_COMMON,
     "ArrowUp",
     "ArrowDown",
   ]);
-  public static readonly MAPPED_KEYS_HORIZONTAL = new Set([
-    ...this.MAPPED_KEYS_COMMON,
+  public readonly MAPPED_KEYS_HORIZONTAL = new Set([
+    ...ListBoxController.MAPPED_KEYS_COMMON,
     "ArrowLeft",
     "ArrowRight",
   ]);
   constructor(
     selections: SelectionSet<M>,
     multiple?: M,
-    orientation: ListBoxOrientation = "vertical",
+    orientation: ListOrientation = "vertical",
   ) {
-    super();
+    super(orientation);
     this.multiple = multiple;
     this.selections = selections;
-    this.orientation = orientation;
   }
 
-  public getFocusIndex = () => {
-    return this.focusIndex;
-  };
-
-  public isActive = () => {
-    return this.active;
-  };
-
-  public getMappedKeys() {
-    return this.orientation === "horizontal"
-      ? ListBoxController.MAPPED_KEYS_HORIZONTAL
-      : ListBoxController.MAPPED_KEYS_VERTICAL;
-  }
-
-  public cacheRef(index: number) {
-    return (id: string | null) => {
-      if (id !== null) {
-        this.nodeIds[index] = id;
-      }
-    };
-  }
-
-  public setScope(
+  // @ts-ignore
+  public override setScope(
     items: I[],
     selections: SelectionSet<M>,
-    orientation: ListBoxOrientation,
+    orientation: ListOrientation,
   ) {
-    this.items = items;
     this.selections = selections;
-    this.orientation = orientation;
-    if (this.focusIndex > this.items.length) {
-      this.setFocusIndex(0);
-    }
+    super.setScope(items, orientation);
   }
 
-  public bind() {
+  public override addKeyBindings() {
     document.addEventListener("keydown", this.onKeyUp);
-    document.addEventListener("keydown", this.onKeyDown);
+    super.addKeyBindings();
   }
 
-  public destroy = () => {
-    this.active = false;
+  public override destroy() {
+    super.destroy();
     this.shifting = false;
     this.holdingControl = false;
-    this.resetFocusIndex();
-    document.removeEventListener("keydown", this.onKeyUp);
-    document.removeEventListener("keydown", this.onKeyDown);
-  };
+    document.removeEventListener("keyup", this.onKeyUp);
+  }
 
-  public enterListBox = () => {
+  public enterControls = () => {
     if (this.active) {
       return;
     }
@@ -119,19 +83,7 @@ export class ListBoxController<
       index = 0;
     }
     this.setFocusIndex(index);
-    this.bind();
-  };
-
-  public enterAtIndex(index: number) {
-    this.active = true;
-    this.setFocusIndex(index, false);
-    this.bind();
-  }
-
-  public resetFocusIndex = () => {
-    if (this.focusIndex >= 0) {
-      this.setFocusIndex(-1);
-    }
+    this.addKeyBindings();
   };
 
   public isMultiple = (
@@ -190,7 +142,7 @@ export class ListBoxController<
     }
   };
 
-  private readonly onKeyDown = (e: KeyboardEvent) => {
+  protected readonly onKeyDown = (e: KeyboardEvent) => {
     if (this.getMappedKeys().has(e.key)) {
       e.preventDefault();
     }
@@ -265,30 +217,20 @@ export class ListBoxController<
     }
   };
 
-  private focusNext() {
-    const next =
-      this.focusIndex + 1 >= this.items.length ? 0 : this.focusIndex + 1;
+  private override focusNext() {
+    const next = super.focusNext();
     if (this.shifting && this.multiple) {
       this.toggleSelection(this.items[next].id, "keyboard");
     }
-    return this.setFocusIndex(next);
+    return next;
   }
 
-  private focusPrevious() {
-    const next =
-      this.focusIndex - 1 < 0 ? this.items.length - 1 : this.focusIndex - 1;
+  private override focusPrevious() {
+    const next = super.focusPrevious();
     if (this.shifting && this.multiple) {
       this.toggleSelection(this.items[next].id);
     }
-    return this.setFocusIndex(next);
-  }
-
-  private setFocusIndex(index: number, scrollTo = true) {
-    this.focusIndex = index;
-    this.execute({
-      event: "focus",
-      data: { index, nodeID: this.nodeIds[index], scrollTo },
-    });
+    return next;
   }
 
   private onSelection(

@@ -6,14 +6,15 @@ import {
   useImperativeHandle,
   useMemo,
 } from "react";
-import { ListBoxItem, ListBoxItemProps } from "Components/ListBox";
+import { ListBoxItemProps } from "Components/ListBox";
 import { useMergedRefs } from "Hooks/useMergedRefs";
+import { ListItem } from "Tools/KeyboardNavigableList";
 import { useMenuContext } from "./Context";
 import { Props } from "./types";
 
 export function MenuComponent<
   T extends "ul" | "ol",
-  I extends ListBoxItem = ListBoxItem,
+  I extends ListItem = ListItem,
   E extends HTMLElement = HTMLElement,
 >({
   ref,
@@ -71,7 +72,7 @@ export function MenuComponent<
     () =>
       items.map((item, i) => {
         return (
-          <ListItem
+          <MenuItem
             key={item.id}
             aria-posinset={i + 1}
             listItemID={item.id}
@@ -81,7 +82,7 @@ export function MenuComponent<
             ref={menuController.cacheRef(i)}
             data-focused={i === focusedIndex}>
             {renderItem(item, i, items)}
-          </ListItem>
+          </MenuItem>
         );
       }),
     [items, renderItem, focusedIndex, menuController, onItemClickInternal],
@@ -102,7 +103,7 @@ export function MenuComponent<
   );
 }
 
-function ListItem({
+function MenuItem({
   ref,
   children,
   listItemID,

@@ -11,15 +11,17 @@ import {
 } from "react";
 import { useController } from "@figliolia/react-hooks";
 import { useReactScheduler } from "Hooks/useReactScheduler";
+import {
+  KeyboardListFocusEvent,
+  ListItem,
+  ListOrientation,
+} from "Tools/KeyboardNavigableList";
 import { OptionalChildren } from "Types/React";
 import { ListBoxController } from "./ListBoxController";
 import {
   IListBoxContext,
   ListBoxControllerRef,
   ListBoxEvents,
-  ListBoxFocusEvent,
-  ListBoxItem,
-  ListBoxOrientation,
   ListElement,
   SelectionSet,
 } from "./types";
@@ -36,7 +38,7 @@ export const ListBoxContext = createContext<IListBoxContext<any, any, any>>({
 
 export const useListBoxContext = <
   T extends "ul" | "ol" = "ol",
-  I extends ListBoxItem = ListBoxItem,
+  I extends ListItem = ListItem,
   M extends boolean = false,
 >() => {
   return use(ListBoxContext) as IListBoxContext<T, I, M>;
@@ -44,7 +46,7 @@ export const useListBoxContext = <
 
 export const ListBoxProvider = <
   T extends "ul" | "ol" = "ol",
-  I extends ListBoxItem = ListBoxItem,
+  I extends ListItem = ListItem,
   M extends boolean = false,
 >({
   items,
@@ -65,7 +67,7 @@ export const ListBoxProvider = <
   listController.setScope(items, selections, orientation);
 
   const enter = useCallback(() => {
-    listController.enterListBox();
+    listController.enterControls();
     setFocusInside(true);
   }, [listController]);
 
@@ -74,7 +76,7 @@ export const ListBoxProvider = <
     setFocusInside(false);
   }, [listController]);
 
-  const onFocus = useCallback((data: ListBoxFocusEvent["data"]) => {
+  const onFocus = useCallback((data: KeyboardListFocusEvent["data"]) => {
     setFocusedID(data.nodeID);
     setFocusedIndex(data.index);
     if (listbox.current && data.nodeID && data.scrollTo) {
@@ -126,11 +128,11 @@ export const ListBoxProvider = <
   return <ListBoxContext value={value}>{children}</ListBoxContext>;
 };
 
-interface Props<I extends ListBoxItem = ListBoxItem, M extends boolean = false>
+interface Props<I extends ListItem = ListItem, M extends boolean = false>
   extends OptionalChildren {
   items: I[];
   multiple: M;
   selections: SelectionSet<M>;
-  orientation: ListBoxOrientation;
+  orientation: ListOrientation;
   controller: ListBoxControllerRef;
 }

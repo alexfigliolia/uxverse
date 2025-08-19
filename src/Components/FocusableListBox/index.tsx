@@ -3,15 +3,15 @@ import { FocusEvent, useCallback, useRef } from "react";
 import {
   ListBox,
   ListBoxControls,
-  ListBoxItem,
   ListElement,
   Props,
 } from "Components/ListBox";
 import { useMergedRefs } from "Hooks/useMergedRefs";
+import { ListItem } from "Tools/KeyboardNavigableList";
 
 export const FocusableListBox = <
   T extends "ul" | "ol",
-  I extends ListBoxItem = ListBoxItem,
+  I extends ListItem = ListItem,
   M extends boolean = false,
   E extends HTMLElement = HTMLElement,
 >({

@@ -7,6 +7,11 @@ import {
   RefObject,
   SetStateAction,
 } from "react";
+import {
+  KeyboardListFocusEvent,
+  ListItem,
+  ListOrientation,
+} from "Tools/KeyboardNavigableList";
 import { Callback } from "Types/Generics";
 import { ListBoxController } from "./ListBoxController";
 
@@ -23,7 +28,7 @@ export interface ListBoxItemProps
 
 export interface Props<
   T extends "ul" | "ol",
-  I extends ListBoxItem = ListBoxItem,
+  I extends ListItem = ListItem,
   M extends boolean = false,
   E extends HTMLElement = HTMLElement,
 > extends Omit<HTMLProps<ListElement<T>>, "role" | "children"> {
@@ -31,7 +36,7 @@ export interface Props<
   items: I[];
   multiple?: M;
   selections: SelectionSet<M>;
-  orientation?: ListBoxOrientation;
+  orientation?: ListOrientation;
   renderItem: ListBoxChildrenFN<I>;
   triggerRef?: RefObject<E | null>;
   onSelection: OnListBoxSelectionFN<M>;
@@ -44,7 +49,7 @@ export type OnListBoxSelectionFN<M extends boolean = false> = Callback<
   [SelectionSet<M>, SelectionOrigin]
 >;
 
-export type ListBoxChildrenFN<I extends ListBoxItem = ListBoxItem> = Callback<
+export type ListBoxChildrenFN<I extends ListItem = ListItem> = Callback<
   [I, number, I[]],
   ReactNode
 >;
@@ -65,22 +70,9 @@ export interface ListBoxControls {
   getFocusIndex: Callback<never[], number>;
 }
 
-export interface ListBoxItem {
-  id: string | number;
-}
-
 export type ListBoxEvents<M extends boolean = false> =
-  | ListBoxFocusEvent
+  | KeyboardListFocusEvent
   | ListBoxSelectionEvent<M>;
-
-export interface ListBoxFocusEvent {
-  event: "focus";
-  data: {
-    index: number;
-    nodeID: string | undefined;
-    scrollTo: boolean;
-  };
-}
 
 export interface ListBoxSelectionEvent<M extends boolean = false> {
   event: "selection";
@@ -90,11 +82,9 @@ export interface ListBoxSelectionEvent<M extends boolean = false> {
   };
 }
 
-export type ListBoxOrientation = "horizontal" | "vertical";
-
 export interface IListBoxContext<
   T extends "ul" | "ol" = "ol",
-  I extends ListBoxItem = ListBoxItem,
+  I extends ListItem = ListItem,
   M extends boolean = false,
 > {
   focusInside: boolean;

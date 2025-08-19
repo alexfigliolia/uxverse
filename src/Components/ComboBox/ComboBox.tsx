@@ -12,14 +12,13 @@ import {
 import {
   ListBox,
   ListBoxChildrenFN,
-  ListBoxItem,
-  ListBoxOrientation,
   OnListBoxSelectionFN,
   SelectionSet,
 } from "Components/ListBox";
 import { ToolTip } from "Components/ToolTip";
 import { useFocusOutside } from "Hooks/useFocusOutside";
 import { useMergedRefs } from "Hooks/useMergedRefs";
+import { ListItem, ListOrientation } from "Tools/KeyboardNavigableList";
 import { OptionalChildren } from "Types/React";
 import { ComboBoxInput, type Props as InputProps } from "./ComboBoxInput";
 import { ComboBoxContext, withComboBoxContext } from "./Context";
@@ -31,7 +30,7 @@ export const ComboBox = withComboBoxContext(
 ) as typeof ComboBoxImpl;
 
 function ComboBoxImpl<
-  I extends ListBoxItem = ListBoxItem,
+  I extends ListItem = ListItem,
   M extends boolean = false,
 >({
   ref,
@@ -134,14 +133,14 @@ function ComboBoxImpl<
   );
 }
 
-interface Props<I extends ListBoxItem = ListBoxItem, M extends boolean = false>
+interface Props<I extends ListItem = ListItem, M extends boolean = false>
   extends Omit<InputProps, "focusedItem" | "ref" | "onFocus">,
     OptionalChildren {
   items: I[];
   multiple: M;
   className?: string;
   selections: SelectionSet<M>;
-  orientation?: ListBoxOrientation;
+  orientation?: ListOrientation;
   renderItem: ListBoxChildrenFN<I>;
   onSelect: OnListBoxSelectionFN<M>;
   ref?: RefObject<ComboBoxControls | null>;
