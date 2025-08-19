@@ -6,12 +6,12 @@ import {
   useImperativeHandle,
   useRef,
 } from "react";
-import { VisuallyHiddenText } from "Components/VisuallyHiddenText";
+import { ScreenReaderOnly } from "Components/ScreenReaderOnly";
 import { SearchSquare } from "Icons/SearchSquare";
 import { Callback } from "Types/Generics";
 import "./styles.scss";
 
-export const SearchInput = ({ ref, onChange }: Props) => {
+export const SearchInput = ({ ref, onChange, label = "Search" }: Props) => {
   const input = useRef<HTMLInputElement>(null);
 
   const onClick = useCallback(() => {
@@ -21,8 +21,8 @@ export const SearchInput = ({ ref, onChange }: Props) => {
   useImperativeHandle(ref, () => onClick, [onClick]);
 
   return (
-    <label className="explore-search-input">
-      <VisuallyHiddenText Tag="span">Search anything</VisuallyHiddenText>
+    <label className="uxverse-search-input">
+      <ScreenReaderOnly Tag="span">{label}</ScreenReaderOnly>
       <button onClick={onClick}>
         <SearchSquare aria-hidden />
         <SearchSquare aria-hidden />
@@ -31,13 +31,14 @@ export const SearchInput = ({ ref, onChange }: Props) => {
         ref={input}
         type="search"
         onChange={onChange}
-        placeholder="Search Anything"
+        placeholder={label}
       />
     </label>
   );
 };
 
 interface Props {
+  label?: string;
   ref?: RefObject<Callback | null>;
   onChange?: ChangeEventHandler<HTMLInputElement>;
 }

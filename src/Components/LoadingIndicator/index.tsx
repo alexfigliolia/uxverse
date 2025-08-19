@@ -1,5 +1,5 @@
+import { ScreenReaderOnly } from "Components/ScreenReaderOnly";
 import { Spinner } from "Components/Spinner";
-import { VisuallyHiddenText } from "Components/VisuallyHiddenText";
 import "./styles.scss";
 
 export const LoadingIndicator = ({ loading, ariaLabel }: Props) => {
@@ -13,7 +13,7 @@ export const LoadingIndicator = ({ loading, ariaLabel }: Props) => {
       <div>
         <Spinner aria-hidden />
       </div>
-      {loading && <VisuallyHiddenText>{ariaLabel}</VisuallyHiddenText>}
+      {loading && <ScreenReaderOnly Tag="span">{ariaLabel}</ScreenReaderOnly>}
     </div>
   );
 };

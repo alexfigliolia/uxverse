@@ -1,12 +1,15 @@
 @use "Styles/Variables";
 
-.explore-search-input {
+.uxverse-search-input {
   --height: 45px;
   --padding: 2px;
   --border-radius: 0.5em;
+  --base-color: #{Variables.$light-gray};
+  --focus-color: #{Variables.$lighter-gray};
+  --secondary-color: #{Variables.$gray-text-secondary};
   width: 100%;
   height: var(--height);
-  background-color: Variables.$light-gray;
+  background-color: var(--base-color);
   border-radius: var(--border-radius);
   padding: var(--padding);
   position: relative;
@@ -17,7 +20,7 @@
     }
     &>input,
     &>button {
-      background-color: Variables.$lighter-gray;
+      background-color: var(--focus-color);
     }
     &>button > svg {
       &:first-of-type {
@@ -47,7 +50,7 @@
     z-index: 2;
     border: none;
     outline: none;
-    background-color: Variables.$light-gray;
+    background-color: var(--base-color);
     transition: background-color 0.5s;
   }
   &>button {
@@ -69,7 +72,7 @@
         opacity: 0.75;
         z-index: 1;
         position: relative;
-        stroke: Variables.$gray-text-secondary;
+        stroke: var(--secondary-color);
       }
       &:last-of-type {
         opacity: 0;
@@ -88,7 +91,7 @@
     border-top-right-radius: calc(var(--border-radius) * 0.75);
     border-bottom-right-radius: calc(var(--border-radius) * 0.75);
     &::placeholder {
-      color: Variables.$gray-text-secondary;
+      color: var(--secondary-color);
     }
   }
 }

@@ -12,8 +12,7 @@ import {
   ListBoxControls,
   OnListBoxSelectionFN,
 } from "Components/ListBox";
-import { ScreenReaderOnly } from "Components/ScreenReaderOnly";
-import { SearchIcon } from "Icons/Search";
+import { SearchInput } from "Components/SearchInput";
 import { IUser } from "Layouts/Profile/FollowingContext";
 import { Callback } from "Types/Generics";
 import "./styles.scss";
@@ -65,20 +64,7 @@ export const List = ({
         {...rest}
       />
       <search>
-        <label>
-          <ScreenReaderOnly Tag="span">Search</ScreenReaderOnly>
-          <button
-          //aria-hidden={ariaHidden}
-          >
-            <SearchIcon />
-          </button>
-          <input
-            type="search"
-            placeholder="Search"
-            onChange={onChange}
-            // aria-hidden={ariaHidden}
-          />
-        </label>
+        <SearchInput onChange={onChange} />
       </search>
     </div>
   );

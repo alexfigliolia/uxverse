@@ -44,39 +44,13 @@
     background-color: #fff;
     @include Variables.center;
     box-shadow: 0em -0.05em 0.2em rgba(#000, 0.2);
-    & label {
-      width: 100%;
-      position: relative;
-      width: 100%;
-      height: 40px;
-      border-radius: 0.5em;
-      display: flex;
-      background-color: transparent;
-      border: 2px solid Variables.$light-gray;
-      &:focus-within {
-        border: 2px solid Variables.$gray;
+    & .uxverse-search-input {
+      --focus-color: #{Variables.$lighter-gray};
+      &::after {
+        @include Variables.themeGradient(to bottom right);
       }
-      & button {
-        height: 100%;
-        flex-shrink: 0;
-        aspect-ratio: 1/1;
-        @include Variables.center;
-        & svg {
-          width: 70%;
-          height: 70%;
-          stroke: Variables.$gray-text-secondary;
-        }
-      }
-      & input {
-        width: 100%;
-        height: 100%;
-        background-color: transparent;
-        padding-right: 1em;
-        outline: none;
-        border: none;
-        &::placeholder {
-          color: Variables.$gray-text-secondary;
-        }
+      &>button>svg:last-of-type {
+        stroke: url(#themeGradient);
       }
     }
   }
