@@ -1,8 +1,9 @@
 @use "Styles/Variables";
 
 .avatar {
-  width: 3em;
-  height: 3em;
+  --size: 3em;
+  width: var(--size);
+  height: var(--size);
   background-color: #fff;
   border-radius: 50%;
   overflow: hidden;

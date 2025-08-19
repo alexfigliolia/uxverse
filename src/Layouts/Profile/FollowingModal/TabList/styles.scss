@@ -1,0 +1,73 @@
+@use "Styles/Variables";
+
+.following-lists {
+  --header-height: 65px;
+  --padding: 1em;
+  height: 100%;
+  @include Variables.columnLayout;
+  @media(min-width: 670px) {
+    --padding: 1.5em;
+  }
+  &__header {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    left: 0;
+    padding: 0 var(--padding);
+    padding-top: 0.5em;
+    height: var(--header-height);
+    background-color: rgba(#fff, 0.85);
+    backdrop-filter: blur(2.5px);
+    z-index: 2;
+    display: flex;
+    align-items: flex-end;
+    box-shadow: 0em 0.05em 0.2em rgba(#000, 0.2);
+    & [role='tablist'] {
+      width: 100%;
+      height: 100%;
+      & button {
+        height: 100%;
+        @include Variables.reducedLetterSpacing;
+      }
+    }
+  }
+  & [role='tabpanel'] {
+    padding: 0;
+    flex-shrink: 1;
+    align-self: stretch;
+    height: calc(100% - var(--header-height) - 0.75em);
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+    gap: 1.5em;
+    & .user-list {
+      width: 100%;
+      flex-shrink: 0;
+      &:first-of-type {
+        transition: opacity 0.5s, translate 0.7s cubic-bezier(0.83, 0, 0.17, 1), visibility 0s 0s;
+      }
+      &:last-of-type {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.5s, translate 0.7s cubic-bezier(0.83, 0, 0.17, 1), visibility 0s 0.7s;
+      }
+      & [role='listbox'] {
+        padding: 0 var(--padding);
+      }
+    }
+    &.translate .user-list {
+      translate: calc(-100% - 1.5em);
+      &:first-of-type {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.5s, translate 0.7s cubic-bezier(0.83, 0, 0.17, 1), visibility 0s 0.7s;
+      }
+      &:last-of-type {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.5s, translate 0.7s cubic-bezier(0.83, 0, 0.17, 1), visibility 0s 0s;
+      }
+    }
+  }
+}
+    

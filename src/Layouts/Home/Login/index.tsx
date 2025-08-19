@@ -11,6 +11,7 @@ import "./styles.scss";
 
 export const Login = (_: Propless) => {
   const titleID = useId();
+  const descriptionID = useId();
   const router = useRouter();
   const { open, toggle } = use(LoginContext);
 
@@ -28,9 +29,10 @@ export const Login = (_: Propless) => {
       ref={cacheTrapNode}
       className="login-sheet"
       close={toggle.close}
+      aria-describedby={descriptionID}
       aria-labelledby={titleID}>
       <h2 id={titleID}>Login</h2>
-      <p>Join your community</p>
+      <p id={descriptionID}>Join your community</p>
       <div className="actions">
         <button onClick={toFeed} aria-label="Login with Apple">
           Apple <AppleIcon />

@@ -73,7 +73,11 @@ export const MenuProvider = <
         setFocusedID(data.nodeID);
         setFocusedIndex(data.index);
         if (menu.current && data.nodeID && data.scrollTo) {
-          menu.current.querySelector(`#${data.nodeID}`)!.scrollIntoView();
+          menu.current.querySelector(`#${data.nodeID}`)?.scrollIntoView?.({
+            block: "nearest",
+            inline: "nearest",
+            behavior: "smooth",
+          });
         }
       });
     });

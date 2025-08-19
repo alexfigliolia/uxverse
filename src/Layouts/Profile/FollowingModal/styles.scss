@@ -1,0 +1,21 @@
+.in-app-bottom-sheet.above-navigation-bottom-sheet.following-sheet {
+  & .sheet {
+    @media(min-width: 670px) {
+      max-width: 600px;
+    }
+  }
+  & .sheet-scroll-view {
+    padding: 0;
+    height: 90vh;
+    height: 90svh;
+    @media(min-width: 670px) {
+      height: min(80svh, 80vh);
+    }
+    & .pull-down {
+      z-index: 3;
+    }
+    & .sheet-content {
+      height: 100%;
+    }
+  }
+}

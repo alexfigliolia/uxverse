@@ -31,10 +31,12 @@
     }
     & .icon-link {
       --icon-size: 2em;
-      & .user-filled,
-      & .feed-filled,
-      & .bell-filled {
+      & svg {
         scale: 1.1;
+      }
+      &[href='/explore'] svg:last-of-type {
+        fill: none;
+        stroke: url(#themeGradient); 
       }
     }
     & .create-button {

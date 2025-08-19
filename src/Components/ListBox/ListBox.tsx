@@ -26,6 +26,7 @@ export function ListBoxComponent<
   onItemClick,
   onSelection,
   onItemFocused,
+  controller: _,
   orientation = "vertical",
   ...rest
 }: Props<T, I, M, E>) {
@@ -40,26 +41,22 @@ export function ListBoxComponent<
   } = useListBoxContext<T, I, M>();
 
   const onItemClickInternal = useCallback(
-    (id: string | number) => {
-      return (e: MouseEvent<HTMLLIElement>) => {
-        const eventTarget = e.target as HTMLElement;
-        const target =
-          eventTarget.tagName === "LI"
-            ? eventTarget
-            : eventTarget.closest("li");
-        if (!target) {
-          return;
-        }
-        const index = parseInt(target.getAttribute("aria-posinset") ?? "-1");
-        if (isNaN(index)) {
-          return;
-        }
-        onItemClick?.(id, e);
-        setFocusInside(true);
-        triggerRef?.current?.focus?.();
-        listController.enterAtIndex(index);
-        listController.toggleSelection(id);
-      };
+    (id: string | number, e: MouseEvent<HTMLLIElement>) => {
+      const eventTarget = e.target as HTMLElement;
+      const target =
+        eventTarget.tagName === "LI" ? eventTarget : eventTarget.closest("li");
+      if (!target) {
+        return;
+      }
+      const index = parseInt(target.getAttribute("aria-posinset") ?? "0") - 1;
+      if (isNaN(index)) {
+        return;
+      }
+      onItemClick?.(id, e);
+      setFocusInside(true);
+      triggerRef?.current?.focus?.();
+      listController.enterAtIndex(index);
+      listController.toggleSelection(id, "mouse");
     },
     [listController, onItemClick, triggerRef, setFocusInside],
   );
@@ -67,9 +64,9 @@ export function ListBoxComponent<
   useEffect(() => {
     const ID = listController.register(({ event, data }) => {
       if (event === "focus") {
-        queueTask(() => onItemFocused?.(data.nodeID));
+        queueTask(() => onItemFocused?.(data.nodeID, data.index));
       } else if (event === "selection") {
-        queueTask(() => onSelection(data));
+        queueTask(() => onSelection(data.selections, data.origin));
       }
     });
     return () => {
@@ -85,12 +82,13 @@ export function ListBoxComponent<
         return (
           <ListItem
             key={item.id}
-            aria-posinset={i}
+            aria-posinset={i + 1}
+            listItemID={item.id}
             // TODO handle unknown set sizes
             aria-setsize={items.length}
+            onClick={onItemClickInternal}
             ref={listController.cacheRef(i)}
             data-focused={i === focusedIndex}
-            onClick={onItemClickInternal(item.id)}
             selected={listController.isSelected(item.id, selections)}>
             {renderItem(item, i, items)}
           </ListItem>
@@ -109,7 +107,6 @@ export function ListBoxComponent<
   return (
     // @ts-ignore
     <Tag
-      tabIndex={-1}
       role="listbox"
       ref={mergedRefs}
       data-focused={focusInside}
@@ -122,11 +119,31 @@ export function ListBoxComponent<
   );
 }
 
-function ListItem({ ref, children, selected, ...rest }: ListBoxItemProps) {
+function ListItem({
+  ref,
+  children,
+  selected,
+  onClick,
+  listItemID,
+  ...rest
+}: ListBoxItemProps) {
   const ID = useId();
   useImperativeHandle(ref, () => ID, [ID]);
+
+  const onItemClick = useCallback(
+    (e: MouseEvent<HTMLLIElement>) => {
+      onClick(listItemID, e);
+    },
+    [listItemID, onClick],
+  );
+
   return (
-    <li id={ID} {...rest} role="option" tabIndex={-1} aria-selected={selected}>
+    <li
+      id={ID}
+      onClick={onItemClick}
+      role="option"
+      aria-selected={selected}
+      {...rest}>
       {children}
     </li>
   );

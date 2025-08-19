@@ -32,14 +32,14 @@ export const FeedBack = ({ ref, text, container, valid }: Props) => {
         aria-expanded={visible}
         aria-controls={popoverID}
         aria-hidden={valid !== "INVALID"}
-        className="visitor-input__feedback"
+        className="uxverse-input__feedback"
         tabIndex={valid === "INVALID" ? 0 : -1}>
         <CheckCircleStroked aria-hidden />
         <WarningStroked aria-hidden />
       </button>
       <Popover
         arrowPosition="right"
-        className="visitor-input__popover"
+        className="uxverse-input__popover"
         aria-live={visible ? "polite" : "off"}
         retainFocusNodes={popoverVisibilityRetainers}>
         {text}

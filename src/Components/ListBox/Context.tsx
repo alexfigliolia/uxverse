@@ -1,7 +1,6 @@
 import {
   createContext,
   createRef,
-  RefObject,
   use,
   useCallback,
   useEffect,
@@ -16,7 +15,7 @@ import { OptionalChildren } from "Types/React";
 import { ListBoxController } from "./ListBoxController";
 import {
   IListBoxContext,
-  ListBoxControls,
+  ListBoxControllerRef,
   ListBoxEvents,
   ListBoxFocusEvent,
   ListBoxItem,
@@ -80,7 +79,11 @@ export const ListBoxProvider = <
     setFocusedIndex(data.index);
     if (listbox.current && data.nodeID && data.scrollTo) {
       // TODO - visual bug when the listbox client height doesn't exceed scroll height
-      listbox.current.querySelector(`#${data.nodeID}`)!.scrollIntoView();
+      listbox.current.querySelector(`#${data.nodeID}`)?.scrollIntoView?.({
+        block: "center",
+        inline: "nearest",
+        behavior: "smooth",
+      });
     }
   }, []);
 
@@ -100,6 +103,8 @@ export const ListBoxProvider = <
     () => ({
       exit,
       enter,
+      isActive: listController.isActive,
+      getFocusIndex: listController.getFocusIndex,
       resetFocusIndex: listController.resetFocusIndex,
     }),
     [enter, exit, listController],
@@ -127,5 +132,5 @@ interface Props<I extends ListBoxItem = ListBoxItem, M extends boolean = false>
   multiple: M;
   selections: SelectionSet<M>;
   orientation: ListBoxOrientation;
-  controller: RefObject<ListBoxControls | null>;
+  controller: ListBoxControllerRef;
 }

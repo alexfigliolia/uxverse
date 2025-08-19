@@ -10,7 +10,7 @@ export const Visitor = ({
     <svg
       version="1.1"
       viewBox="0 0 512.001 512.001"
-      className={classnames("visitor-icon", className)}
+      className={classnames("uxverse-icon", className)}
       {...rest}>
       <g>
         <g>

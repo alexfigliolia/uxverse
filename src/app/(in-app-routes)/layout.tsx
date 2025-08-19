@@ -16,7 +16,7 @@ export default function InAppLayout({ children }: OptionalChildren) {
       <CreatePostProvider>
         <Gradients />
         <Navigation />
-        <main className="visitor-app">{children}</main>
+        <main className="uxverse-app">{children}</main>
         {/* TODO: lazy load */}
         <Notifications />
         <CreatePost />

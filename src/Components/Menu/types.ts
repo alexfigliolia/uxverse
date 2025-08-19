@@ -26,7 +26,7 @@ export interface Props<
   renderItem: ListBoxChildrenFN<I>;
   triggerRef?: RefObject<E | null>;
   controller: RefObject<ListBoxControls | null>;
-  onItemFocused?: Callback<[string | undefined]>;
+  onItemFocused?: Callback<[string | undefined, number]>;
   onItemClick?: Callback<[string | number, MouseEvent<HTMLLIElement>]>;
 }
 

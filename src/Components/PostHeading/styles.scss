@@ -7,8 +7,7 @@
   justify-content: flex-start;
   gap: 0.75em;
   & .avatar {
-    width: 2.5em;
-    height: 2.5em;
+    --size: 2.5em;
   }
   &>.meta {
     @include Variables.columnLayout(0.15em);

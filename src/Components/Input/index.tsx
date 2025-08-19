@@ -109,14 +109,14 @@ export const Input = withPopoverContext(
 
     const feedbackClass = useMemo(() => valid.toLowerCase(), [valid]);
 
-    const classes = useClassNames("visitor-input", className, feedbackClass, {
+    const classes = useClassNames("uxverse-input", className, feedbackClass, {
       focused,
     });
 
     // TODO - label containers with hidden text
     return (
       <div ref={container} className={classes}>
-        <div role="button" onClick={focusInput} className="visitor-input__icon">
+        <div role="button" onClick={focusInput} className="uxverse-input__icon">
           <IconStroked aria-hidden />
           <IconFilled aria-hidden />
         </div>

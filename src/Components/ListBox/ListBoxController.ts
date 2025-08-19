@@ -4,6 +4,7 @@ import {
   ListBoxEvents,
   ListBoxItem,
   ListBoxOrientation,
+  SelectionOrigin,
   SelectionSet,
 } from "./types";
 
@@ -49,6 +50,14 @@ export class ListBoxController<
     this.selections = selections;
     this.orientation = orientation;
   }
+
+  public getFocusIndex = () => {
+    return this.focusIndex;
+  };
+
+  public isActive = () => {
+    return this.active;
+  };
 
   public getMappedKeys() {
     return this.orientation === "horizontal"
@@ -138,7 +147,10 @@ export class ListBoxController<
     return id === selections;
   }
 
-  public toggleSelection = (ID: string | number | undefined) => {
+  public toggleSelection = (
+    ID: string | number | undefined,
+    origin: SelectionOrigin = "keyboard",
+  ) => {
     if (typeof ID === "undefined") {
       return;
     }
@@ -149,14 +161,15 @@ export class ListBoxController<
       } else {
         copy.add(ID);
       }
-      return this.onSelection(copy as SelectionSet<M>);
+      return this.onSelection(copy as SelectionSet<M>, origin);
     }
     return this.onSelection(
       (ID === this.selections ? undefined : ID) as SelectionSet<M>,
+      origin,
     );
   };
 
-  public selectInclusiveRange = (start: number, end: number) => {
+  private selectInclusiveRange = (start: number, end: number) => {
     const IDsSelected = [];
     for (let i = start; i <= end; i++) {
       IDsSelected.push(this.items[i].id);
@@ -164,7 +177,7 @@ export class ListBoxController<
     return this.onSelection(new Set(IDsSelected) as SelectionSet<M>);
   };
 
-  public readonly onKeyUp = (e: KeyboardEvent) => {
+  private readonly onKeyUp = (e: KeyboardEvent) => {
     switch (e.key) {
       case "Control":
         this.holdingControl = false;
@@ -177,7 +190,7 @@ export class ListBoxController<
     }
   };
 
-  public readonly onKeyDown = (e: KeyboardEvent) => {
+  private readonly onKeyDown = (e: KeyboardEvent) => {
     if (this.getMappedKeys().has(e.key)) {
       e.preventDefault();
     }
@@ -256,7 +269,7 @@ export class ListBoxController<
     const next =
       this.focusIndex + 1 >= this.items.length ? 0 : this.focusIndex + 1;
     if (this.shifting && this.multiple) {
-      this.toggleSelection(this.items[next].id);
+      this.toggleSelection(this.items[next].id, "keyboard");
     }
     return this.setFocusIndex(next);
   }
@@ -278,8 +291,11 @@ export class ListBoxController<
     });
   }
 
-  private onSelection(data: SelectionSet<M>) {
-    this.selections = data;
-    this.execute({ event: "selection", data });
+  private onSelection(
+    selections: SelectionSet<M>,
+    origin: SelectionOrigin = "keyboard",
+  ) {
+    this.selections = selections;
+    this.execute({ event: "selection", data: { selections, origin } });
   }
 }

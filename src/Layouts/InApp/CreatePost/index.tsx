@@ -1,25 +1,21 @@
 "use client";
 import { FormEvent, use, useCallback, useMemo, useRef, useState } from "react";
-import { CaptureTheMoment } from "Components/CaptureTheMoment";
+import { CaptureTheUX } from "Components/CaptureTheUX";
 import { GradientBorderButton } from "Components/GradientBorderButton";
 import { UserAvatarWithInfo } from "Components/UserAvatarWithInfo";
 import { createTrapNodeCache } from "Tools/CreateModalContext";
 import { Propless } from "Types/React";
 import { AboveNavigationBottomSheet } from "../AboveNavigationBottomSheet";
 import { CreatePostContext } from "./Context";
-import { PlaceInput } from "./PlaceInput";
 import { TextArea } from "./PostInput";
 import { PreviewMedia } from "./PreviewMedia";
 import { IMediaPreview } from "./PreviewMedia/PreviewItem";
-import { RatingInput } from "./RatingInput";
 import "./styles.scss";
 
 export const CreatePost = (_: Propless) => {
   const { toggle, open } = use(CreatePostContext);
   const fileUploader = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(0);
-  const [place, setPlace] = useState<string>();
-  const [rating, setRating] = useState<string>();
   const [_files, setFiles] = useState<File[]>([]);
   const [previews, setPreviews] = useState<IMediaPreview[]>([]);
 
@@ -73,9 +69,9 @@ export const CreatePost = (_: Propless) => {
           <TextArea
             name="story"
             className="story"
-            placeholder="Tell your story"
+            placeholder="Tell the story"
           />
-          <CaptureTheMoment
+          <CaptureTheUX
             ref={fileUploader}
             loading={!!loading}
             onChange={onFileUpload}
@@ -85,8 +81,6 @@ export const CreatePost = (_: Propless) => {
             remove={removeUploadedItem}
             onMediaLoaded={onMediaLoaded}
           />
-          <PlaceInput selectedID={place} setSelectedID={setPlace} />
-          <RatingInput selectedID={rating} setSelectedID={setRating} />
         </form>
       </div>
     </AboveNavigationBottomSheet>

@@ -7,7 +7,7 @@ import { BannerProps } from "../DefaultBanner";
 import "./styles.scss";
 
 export const BannerWithUploader = ({ ref }: BannerProps) => {
-  const [image, setImage] = useState("/place-1.jpg");
+  const [image, setImage] = useState("/ux-1.webp");
 
   const onFile = useCallback((file: File) => {
     setImage(URL.createObjectURL(file));

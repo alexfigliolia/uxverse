@@ -37,32 +37,28 @@ export function MenuComponent<
   } = useMenuContext<T, I>();
 
   const onItemClickInternal = useCallback(
-    (id: string | number) => {
-      return (e: MouseEvent<HTMLLIElement>) => {
-        const eventTarget = e.target as HTMLElement;
-        const target =
-          eventTarget.tagName === "LI"
-            ? eventTarget
-            : eventTarget.closest("li");
-        if (!target) {
-          return;
-        }
-        const index = parseInt(target.getAttribute("aria-posinset") ?? "-1");
-        if (isNaN(index)) {
-          return;
-        }
-        onItemClick?.(id, e);
-        setFocusInside(true);
-        triggerRef?.current?.focus?.();
-        menuController.enterAtIndex(index);
-      };
+    (id: string | number, e: MouseEvent<HTMLLIElement>) => {
+      const eventTarget = e.target as HTMLElement;
+      const target =
+        eventTarget.tagName === "LI" ? eventTarget : eventTarget.closest("li");
+      if (!target) {
+        return;
+      }
+      const index = parseInt(target.getAttribute("aria-posinset") ?? "-1");
+      if (isNaN(index)) {
+        return;
+      }
+      onItemClick?.(id, e);
+      setFocusInside(true);
+      triggerRef?.current?.focus?.();
+      menuController.enterAtIndex(index);
     },
     [menuController, onItemClick, triggerRef, setFocusInside],
   );
 
   useEffect(() => {
     const ID = menuController.register(({ data }) => {
-      queueTask(() => onItemFocused?.(data.nodeID));
+      queueTask(() => onItemFocused?.(data.nodeID, data.index));
     });
     return () => {
       menuController.remove(ID);
@@ -77,12 +73,13 @@ export function MenuComponent<
         return (
           <ListItem
             key={item.id}
-            aria-posinset={i}
+            aria-posinset={i + 1}
+            listItemID={item.id}
             // TODO handle unknown set sizes
             aria-setsize={items.length}
+            onClick={onItemClickInternal}
             ref={menuController.cacheRef(i)}
-            data-focused={i === focusedIndex}
-            onClick={onItemClickInternal(item.id)}>
+            data-focused={i === focusedIndex}>
             {renderItem(item, i, items)}
           </ListItem>
         );
@@ -108,12 +105,22 @@ export function MenuComponent<
 function ListItem({
   ref,
   children,
+  listItemID,
+  onClick,
   ...rest
 }: Omit<ListBoxItemProps, "selected">) {
   const ID = useId();
   useImperativeHandle(ref, () => ID, [ID]);
+
+  const onClickItem = useCallback(
+    (e: MouseEvent<HTMLLIElement>) => {
+      onClick(listItemID, e);
+    },
+    [listItemID, onClick],
+  );
+
   return (
-    <li id={ID} {...rest} role="menuitem" tabIndex={-1}>
+    <li id={ID} onClick={onClickItem} role="menuitem" tabIndex={-1} {...rest}>
       {children}
     </li>
   );

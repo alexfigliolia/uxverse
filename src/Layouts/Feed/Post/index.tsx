@@ -11,7 +11,7 @@ export const Post = ({ onClickComments }: Props) => {
     <article className="post">
       <PostHeading />
       <figure>
-        <FullBleedImage src="/place-1.jpg" alt="user-image" />
+        <FullBleedImage src="/ux-1.webp" alt="user-image" />
       </figure>
       <div className="post-content">
         <Reactions />

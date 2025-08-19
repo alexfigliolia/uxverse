@@ -13,10 +13,12 @@ import { ListBoxController } from "./ListBoxController";
 export interface ListBoxItemProps
   extends Omit<
     HTMLProps<HTMLLIElement>,
-    "id" | "role" | "ref" | "aria-selected"
+    "id" | "role" | "ref" | "aria-selected" | "onClick"
   > {
   ref: RefCallback<string>;
   selected: boolean;
+  listItemID: string | number;
+  onClick: Callback<[string | number, MouseEvent<HTMLLIElement>]>;
 }
 
 export interface Props<
@@ -33,13 +35,13 @@ export interface Props<
   renderItem: ListBoxChildrenFN<I>;
   triggerRef?: RefObject<E | null>;
   onSelection: OnListBoxSelectionFN<M>;
-  controller: RefObject<ListBoxControls | null>;
-  onItemFocused?: Callback<[string | undefined]>;
+  controller: ListBoxControllerRef;
+  onItemFocused?: Callback<[string | undefined, number]>;
   onItemClick?: Callback<[string | number, MouseEvent<HTMLLIElement>]>;
 }
 
 export type OnListBoxSelectionFN<M extends boolean = false> = Callback<
-  [SelectionSet<M>]
+  [SelectionSet<M>, SelectionOrigin]
 >;
 
 export type ListBoxChildrenFN<I extends ListBoxItem = ListBoxItem> = Callback<
@@ -59,6 +61,8 @@ export interface ListBoxControls {
   exit: Callback;
   enter: Callback;
   resetFocusIndex: Callback;
+  isActive: Callback<never[], boolean>;
+  getFocusIndex: Callback<never[], number>;
 }
 
 export interface ListBoxItem {
@@ -80,7 +84,10 @@ export interface ListBoxFocusEvent {
 
 export interface ListBoxSelectionEvent<M extends boolean = false> {
   event: "selection";
-  data: SelectionSet<M>;
+  data: {
+    selections: SelectionSet<M>;
+    origin: SelectionOrigin;
+  };
 }
 
 export type ListBoxOrientation = "horizontal" | "vertical";
@@ -98,3 +105,9 @@ export interface IListBoxContext<
   listController: ListBoxController<I, M>;
   setFocusInside: Dispatch<SetStateAction<boolean>>;
 }
+
+export type SelectionOrigin = "mouse" | "keyboard";
+
+export type ListBoxControllerRef =
+  | RefObject<ListBoxControls | null>
+  | RefCallback<ListBoxControls | null>;

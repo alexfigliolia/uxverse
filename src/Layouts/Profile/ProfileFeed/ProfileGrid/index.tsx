@@ -10,49 +10,49 @@ export const ProfileGrid = (_: Propless) => {
   return (
     <div id={panelID} role="tabpanel" className="profile-grid">
       <div>
-        <FullBleedImage src="/place-1.jpg" alt="photo" />
+        <FullBleedImage src="/ux-1.webp" alt="photo" />
       </div>
       <div>
-        <FullBleedImage src="/place-2.jpg" alt="photo" />
+        <FullBleedImage src="/ux-1.webp" alt="photo" />
       </div>
       <div>
-        <FullBleedImage src="/place-3.jpg" alt="photo" />
+        <FullBleedImage src="/ux-1.webp" alt="photo" />
       </div>
       <div>
-        <FullBleedImage src="/place-1.jpg" alt="photo" />
+        <FullBleedImage src="/ux-1.webp" alt="photo" />
       </div>
       <div>
-        <FullBleedImage src="/place-2.jpg" alt="photo" />
+        <FullBleedImage src="/ux-1.webp" alt="photo" />
       </div>
       <div>
-        <FullBleedImage src="/place-3.jpg" alt="photo" />
+        <FullBleedImage src="/ux-1.webp" alt="photo" />
       </div>
       <div>
-        <FullBleedImage src="/place-1.jpg" alt="photo" />
+        <FullBleedImage src="/ux-1.webp" alt="photo" />
       </div>
       <div>
-        <FullBleedImage src="/place-2.jpg" alt="photo" />
+        <FullBleedImage src="/ux-1.webp" alt="photo" />
       </div>
       <div>
-        <FullBleedImage src="/place-3.jpg" alt="photo" />
+        <FullBleedImage src="/ux-1.webp" alt="photo" />
       </div>
       <div>
-        <FullBleedImage src="/place-1.jpg" alt="photo" />
+        <FullBleedImage src="/ux-1.webp" alt="photo" />
       </div>
       <div>
-        <FullBleedImage src="/place-2.jpg" alt="photo" />
+        <FullBleedImage src="/ux-1.webp" alt="photo" />
       </div>
       <div>
-        <FullBleedImage src="/place-3.jpg" alt="photo" />
+        <FullBleedImage src="/ux-1.webp" alt="photo" />
       </div>
       <div>
-        <FullBleedImage src="/place-1.jpg" alt="photo" />
+        <FullBleedImage src="/ux-1.webp" alt="photo" />
       </div>
       <div>
-        <FullBleedImage src="/place-2.jpg" alt="photo" />
+        <FullBleedImage src="/ux-1.webp" alt="photo" />
       </div>
       <div>
-        <FullBleedImage src="/place-3.jpg" alt="photo" />
+        <FullBleedImage src="/ux-1.webp" alt="photo" />
       </div>
     </div>
   );

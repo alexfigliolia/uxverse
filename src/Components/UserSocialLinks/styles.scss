@@ -10,6 +10,9 @@
     &:hover > svg:last-of-type {
       opacity: 1;
     }
+    &:has(.youtube-icon) {
+      margin-left: 0.2em;
+    }
     &>svg {
       width: 1.35em;
       height: 1.35em;
@@ -28,7 +31,6 @@
         }
         &.youtube-icon {
           scale: 1.25;
-          margin-left: 0.15em;
         }
       }
       &:last-of-type {

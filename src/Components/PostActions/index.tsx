@@ -33,7 +33,7 @@ export const PostActions = ({
 
   const shareData = useMemo(
     () => ({
-      title: `Check out Erica Figliolia's ${type} on visitor`,
+      title: `Check out Erica Figliolia's ${type} on UXverse`,
       url: `${process.env.NEXT_PUBLIC_URL}/feed/${1}${type === "comment" ? `?comment=${commentId}` : ""}`,
     }),
     [type, commentId],

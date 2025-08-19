@@ -9,8 +9,8 @@ const TABS = [
     value: "feed",
   },
   {
-    value: "location",
-    label: "Near By",
+    value: "trending",
+    label: "Trending",
   },
 ];
 

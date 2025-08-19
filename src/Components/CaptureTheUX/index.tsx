@@ -6,12 +6,12 @@ import { ReducedLetterSpacing } from "Components/ReducedLetterSpacing";
 import { CameraIcon } from "Icons/Camera";
 import "./styles.scss";
 
-export const CaptureTheMoment = ({ loading, ...rest }: Props) => {
+export const CaptureTheUX = ({ loading, ...rest }: Props) => {
   return (
-    <label className={classnames("capture-the-moment", { loading })}>
+    <label className={classnames("capture-the-ux", { loading })}>
       <div>
         <ReducedLetterSpacing Tag="span">
-          Capture the Moment
+          Capture the Experience
         </ReducedLetterSpacing>
         <CameraIcon aria-hidden />
         <LoadingIndicator loading={loading} ariaLabel="Uploading Media" />

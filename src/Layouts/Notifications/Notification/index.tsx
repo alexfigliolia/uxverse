@@ -4,9 +4,9 @@ import "./styles.scss";
 
 export const Notification = ({ user, action, at }: Props) => {
   return (
-    <div className="visitor-notification">
+    <div className="uxverse-notification">
       <Avatar />
-      <div className="visitor-notification__action">
+      <div className="uxverse-notification__action">
         <ReducedLetterSpacing Tag="span">
           <strong>{user}</strong> {action}
         </ReducedLetterSpacing>

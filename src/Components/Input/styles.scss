@@ -1,6 +1,6 @@
 @use "Styles/Variables";
 
-.visitor-input {
+.uxverse-input {
   --height: 45px;
   width: 100%;
   position: relative;
@@ -12,7 +12,7 @@
   @include Variables.gradientUnderline;
   &.focused,
   &.valid {
-    &>.visitor-input__icon > svg {
+    &>.uxverse-input__icon > svg {
       &:first-of-type {
         opacity: 0;
       }
@@ -26,10 +26,10 @@
       scale: 1 1;
     }
   }
-  &.valid > .visitor-input__feedback > svg:first-of-type {
+  &.valid > .uxverse-input__feedback > svg:first-of-type {
     opacity: 1;
   }
-  &.invalid > .visitor-input__feedback {
+  &.invalid > .uxverse-input__feedback {
     pointer-events: auto;
     &> svg:last-of-type {
       opacity: 1;

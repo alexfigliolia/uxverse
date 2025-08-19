@@ -4,7 +4,7 @@ import { IconLink } from "Components/IconLink";
 import { BellFilled, BellStroked } from "Icons/Bell";
 import { CameraIcon } from "Icons/Camera";
 import { FeedFilled, FeedStroked } from "Icons/Feed";
-import { LocationFilled, LocationStroked } from "Icons/Location";
+import { SearchIcon } from "Icons/Search";
 import { UserFilled, UserStroked } from "Icons/User";
 import { Propless } from "Types/React";
 import { CreatePostContext } from "../CreatePost";
@@ -27,8 +27,8 @@ export const Navigation = (_: Propless) => {
           <IconLink
             href="/explore"
             ariaLabel="Navigate to the Explore page"
-            IconStroked={LocationStroked}
-            IconFilled={LocationFilled}
+            IconStroked={SearchIcon}
+            IconFilled={SearchIcon}
           />
         </li>
         <li>
