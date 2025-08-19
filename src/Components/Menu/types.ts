@@ -1,18 +1,12 @@
+import { HTMLProps, MouseEvent, RefObject } from "react";
+import { ListBoxChildrenFN } from "Components/ListBox";
 import {
-  Dispatch,
-  HTMLProps,
-  MouseEvent,
-  RefObject,
-  SetStateAction,
-} from "react";
-import {
-  ListBoxChildrenFN,
-  ListBoxControls,
+  KeyboardControllerRef,
   ListElement,
-} from "Components/ListBox";
-import { ListItem, ListOrientation } from "Tools/KeyboardNavigableList";
+  ListItem,
+  ListOrientation,
+} from "Tools/KeyboardNavigableList";
 import { Callback } from "Types/Generics";
-import { MenuController } from "./MenuController";
 
 export interface Props<
   T extends "ul" | "ol",
@@ -24,20 +18,7 @@ export interface Props<
   orientation?: ListOrientation;
   renderItem: ListBoxChildrenFN<I>;
   triggerRef?: RefObject<E | null>;
-  controller: RefObject<ListBoxControls | null>;
+  controllerRef: KeyboardControllerRef;
   onItemFocused?: Callback<[string | undefined, number]>;
   onItemClick?: Callback<[string | number, MouseEvent<HTMLLIElement>]>;
-}
-
-export interface IMenuContext<
-  T extends "ul" | "ol" = "ol",
-  I extends ListItem = ListItem,
-> {
-  focusInside: boolean;
-  focusedID: string | undefined;
-  focusedIndex: number;
-  queueTask: Callback<[Callback]>;
-  menu: RefObject<ListElement<T> | null>;
-  menuController: MenuController<I>;
-  setFocusInside: Dispatch<SetStateAction<boolean>>;
 }

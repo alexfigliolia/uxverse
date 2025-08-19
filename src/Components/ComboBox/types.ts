@@ -1,7 +1,7 @@
 import { Dispatch, RefObject, SetStateAction } from "react";
 import { PopoverToggle } from "@figliolia/modal-stack";
-import { ListBoxControls } from "Components/ListBox";
 import { IPopoverContext } from "Components/Popover";
+import { KeyboardNavigableListControls } from "Tools/KeyboardNavigableList";
 import { Callback } from "Types/Generics";
 
 export interface IComboBoxContext {
@@ -13,7 +13,7 @@ export interface IComboBoxContext {
   input: RefObject<HTMLInputElement | null>;
   popoverState: IPopoverContext<HTMLElement>;
   container: RefObject<HTMLLabelElement | null>;
-  controller: RefObject<ListBoxControls | null>;
+  controller: RefObject<KeyboardNavigableListControls | null>;
   setFocusedID: Dispatch<SetStateAction<string | undefined>>;
 }
 

@@ -115,7 +115,7 @@ function ComboBoxImpl<
         arrowPosition="left"
         aria-hidden={!visible}
         onScroll={onScroll}>
-        <ListBox
+        <ListBox<"ol", I, M, HTMLInputElement>
           Tag="ol"
           items={items}
           id={popoverID}
@@ -124,8 +124,8 @@ function ComboBoxImpl<
           onSelection={onSelect}
           renderItem={renderItem}
           selections={selections}
-          controller={controller}
           orientation={orientation}
+          controllerRef={controller}
           onItemFocused={setFocusedID}
         />
       </ToolTip>

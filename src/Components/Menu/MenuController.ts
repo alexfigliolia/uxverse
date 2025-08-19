@@ -2,6 +2,7 @@ import {
   KeyboardListFocusEvent,
   KeyboardNavigableList,
   ListItem,
+  ListOrientation,
 } from "Tools/KeyboardNavigableList";
 
 export class MenuController<I extends ListItem> extends KeyboardNavigableList<
@@ -28,6 +29,12 @@ export class MenuController<I extends ListItem> extends KeyboardNavigableList<
     this.setFocusIndex(0);
     this.addKeyBindings();
   };
+
+  public setScope(items: I[], orientation: ListOrientation) {
+    this.items = items;
+    this.orientation = orientation;
+    this.reorientFocusIndex();
+  }
 
   protected readonly onKeyDown = (e: KeyboardEvent) => {
     if (this.getMappedKeys().has(e.key)) {

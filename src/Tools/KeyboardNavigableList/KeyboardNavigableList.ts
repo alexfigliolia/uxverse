@@ -1,5 +1,11 @@
 import { Subscriptable } from "@figliolia/event-emitter";
 import { Callback } from "Types/Generics";
+import {
+  BaseEvent,
+  KeyboardListFocusEvent,
+  ListItem,
+  ListOrientation,
+} from "./types";
 
 export abstract class KeyboardNavigableList<
   I extends ListItem,
@@ -41,13 +47,7 @@ export abstract class KeyboardNavigableList<
     };
   }
 
-  public setScope(items: I[], orientation: ListOrientation) {
-    this.items = items;
-    this.orientation = orientation;
-    if (this.focusIndex > this.items.length) {
-      this.setFocusIndex(0);
-    }
-  }
+  public abstract setScope(items: I[], ...args: any[]): void;
 
   public addKeyBindings() {
     document.addEventListener("keydown", this.onKeyDown);
@@ -71,6 +71,12 @@ export abstract class KeyboardNavigableList<
     }
   };
 
+  protected reorientFocusIndex() {
+    if (this.focusIndex >= this.items.length) {
+      this.setFocusIndex(0);
+    }
+  }
+
   protected focusNext() {
     const next =
       this.focusIndex + 1 >= this.items.length ? 0 : this.focusIndex + 1;
@@ -92,24 +98,4 @@ export abstract class KeyboardNavigableList<
       data: { index, nodeID: this.nodeIds[index], scrollTo },
     });
   }
-}
-
-export interface KeyboardListFocusEvent {
-  event: "focus";
-  data: {
-    index: number;
-    nodeID: string | undefined;
-    scrollTo: boolean;
-  };
-}
-
-export interface BaseEvent {
-  event: string;
-  data: Record<string, any>;
-}
-
-export type ListOrientation = "horizontal" | "vertical";
-
-export interface ListItem {
-  id: string | number;
 }

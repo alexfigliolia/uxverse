@@ -1,6 +1,11 @@
-import { ListItem, ListOrientation } from "Tools/KeyboardNavigableList";
-import { MenuProvider } from "./Context";
+"use client";
+import { useCallback } from "react";
+import {
+  KeyboardNavigableListProvider,
+  ListItem,
+} from "Tools/KeyboardNavigableList";
 import { MenuComponent } from "./Menu";
+import { MenuController } from "./MenuController";
 import { Props } from "./types";
 
 export function Menu<
@@ -8,13 +13,23 @@ export function Menu<
   I extends ListItem = ListItem,
   E extends HTMLElement = HTMLElement,
 >(props: Props<T, I, E>) {
+  const createInstance = useCallback(
+    () => new MenuController<I>(props.orientation ?? "vertical"),
+    [props],
+  );
+  const setScope = useCallback(
+    (controller: MenuController<I>) => {
+      controller.setScope(props.items, props.orientation ?? "vertical");
+    },
+    [props],
+  );
   return (
-    <MenuProvider<T, I>
-      items={props.items}
-      controller={props.controller}
-      orientation={props.orientation as ListOrientation}>
+    <KeyboardNavigableListProvider<MenuController<I>>
+      setScope={setScope}
+      createInstance={createInstance}
+      controllerRef={props.controllerRef}>
       <MenuComponent {...props} />
-    </MenuProvider>
+    </KeyboardNavigableListProvider>
   );
 }
 

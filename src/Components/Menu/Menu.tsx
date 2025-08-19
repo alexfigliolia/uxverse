@@ -24,18 +24,19 @@ export function MenuComponent<
   renderItem,
   onItemClick,
   onItemFocused,
+  controllerRef: _,
   orientation = "vertical",
   ...rest
 }: Props<T, I, E>) {
   const {
-    menu,
     focusedID,
     queueTask,
+    controller,
+    listElement,
     focusInside,
     focusedIndex,
     setFocusInside,
-    menuController,
-  } = useMenuContext<T, I>();
+  } = useMenuContext<I>();
 
   const onItemClickInternal = useCallback(
     (id: string | number, e: MouseEvent<HTMLLIElement>) => {
@@ -52,21 +53,21 @@ export function MenuComponent<
       onItemClick?.(id, e);
       setFocusInside(true);
       triggerRef?.current?.focus?.();
-      menuController.enterAtIndex(index);
+      controller.enterAtIndex(index);
     },
-    [menuController, onItemClick, triggerRef, setFocusInside],
+    [controller, onItemClick, triggerRef, setFocusInside],
   );
 
   useEffect(() => {
-    const ID = menuController.register(({ data }) => {
+    const ID = controller.register(({ data }) => {
       queueTask(() => onItemFocused?.(data.nodeID, data.index));
     });
     return () => {
-      menuController.remove(ID);
+      controller.remove(ID);
     };
-  }, [menuController, onItemFocused, queueTask]);
+  }, [controller, onItemFocused, queueTask]);
 
-  const mergedRefs = useMergedRefs(menu, ref);
+  const mergedRefs = useMergedRefs(listElement, ref);
 
   const children = useMemo(
     () =>
@@ -79,20 +80,20 @@ export function MenuComponent<
             // TODO handle unknown set sizes
             aria-setsize={items.length}
             onClick={onItemClickInternal}
-            ref={menuController.cacheRef(i)}
+            ref={controller.cacheRef(i)}
             data-focused={i === focusedIndex}>
             {renderItem(item, i, items)}
           </MenuItem>
         );
       }),
-    [items, renderItem, focusedIndex, menuController, onItemClickInternal],
+    [items, renderItem, focusedIndex, controller, onItemClickInternal],
   );
 
   return (
     // @ts-ignore
     <Tag
-      tabIndex={-1}
       role="menu"
+      tabIndex={-1}
       ref={mergedRefs}
       data-focused={focusInside}
       aria-orientation={orientation}

@@ -1,13 +1,12 @@
 "use client";
 import { FocusEvent, useCallback, useRef } from "react";
-import {
-  ListBox,
-  ListBoxControls,
-  ListElement,
-  Props,
-} from "Components/ListBox";
+import { ListBox, Props } from "Components/ListBox";
 import { useMergedRefs } from "Hooks/useMergedRefs";
-import { ListItem } from "Tools/KeyboardNavigableList";
+import {
+  KeyboardNavigableListControls,
+  ListElement,
+  ListItem,
+} from "Tools/KeyboardNavigableList";
 
 export const FocusableListBox = <
   T extends "ul" | "ol",
@@ -17,11 +16,11 @@ export const FocusableListBox = <
 >({
   onBlur,
   onFocus,
-  controller,
+  controllerRef,
   ...rest
 }: Omit<Props<T, I, M, E>, "tabIndex">) => {
   const mousing = useRef(false);
-  const ctrl = useRef<ListBoxControls>(null);
+  const ctrl = useRef<KeyboardNavigableListControls>(null);
 
   const onMouseDown = useCallback(() => {
     mousing.current = true;
@@ -49,14 +48,14 @@ export const FocusableListBox = <
     [onBlur],
   );
 
-  const ctrlRef = useMergedRefs(ctrl, controller);
+  const ctrlRef = useMergedRefs(ctrl, controllerRef);
 
   return (
     <ListBox
       tabIndex={0}
       onMouseUp={onMouseUp}
       onMouseDown={onMouseDown}
-      controller={ctrlRef}
+      controllerRef={ctrlRef}
       onFocus={onFocusInternal}
       onBlur={onBlurInternal}
       {...rest}

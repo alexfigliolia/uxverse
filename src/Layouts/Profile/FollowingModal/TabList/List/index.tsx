@@ -7,13 +7,10 @@ import {
   useRef,
 } from "react";
 import { FocusableListBox } from "Components/FocusableListBox";
-import {
-  ListBoxChildrenFN,
-  ListBoxControls,
-  OnListBoxSelectionFN,
-} from "Components/ListBox";
+import { ListBoxChildrenFN, OnListBoxSelectionFN } from "Components/ListBox";
 import { SearchInput } from "Components/SearchInput";
 import { IUser } from "Layouts/Profile/FollowingContext";
+import { KeyboardNavigableListControls } from "Tools/KeyboardNavigableList";
 import { Callback } from "Types/Generics";
 import "./styles.scss";
 
@@ -24,7 +21,7 @@ export const List = ({
   ...rest
 }: Props) => {
   const node = useRef<HTMLOListElement>(null);
-  const controller = useRef<ListBoxControls>(null);
+  const controller = useRef<KeyboardNavigableListControls>(null);
 
   const scrollToTop = useCallback((behavior: "instant" | "smooth") => {
     requestAnimationFrame(() => {
@@ -60,7 +57,7 @@ export const List = ({
         items={items}
         onFocus={onFocus}
         aria-hidden={ariaHidden}
-        controller={controller}
+        controllerRef={controller}
         {...rest}
       />
       <search>

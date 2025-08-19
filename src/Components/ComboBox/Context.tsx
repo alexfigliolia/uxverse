@@ -8,12 +8,12 @@ import {
   useRef,
   useState,
 } from "react";
-import { ListBoxControls } from "Components/ListBox";
 import {
   defaultPopoverContextValue,
   PopoverContext,
   withPopoverContext,
 } from "Components/Popover";
+import { KeyboardNavigableListControls } from "Tools/KeyboardNavigableList";
 import { WithContextProvider } from "Tools/WithContextProvider";
 import { OptionalChildren } from "Types/React";
 import { IComboBoxContext } from "./types";
@@ -36,7 +36,7 @@ export const ComboBoxContextProvider = withPopoverContext(
     const popoverState = use(PopoverContext);
     const input = useRef<HTMLInputElement>(null);
     const container = useRef<HTMLLabelElement>(null);
-    const controller = useRef<ListBoxControls>(null);
+    const controller = useRef<KeyboardNavigableListControls>(null);
     const [focusedID, setFocusedID] = useState<string>();
     const [listBoxFocused, setListBoxFocused] = useState(false);
 

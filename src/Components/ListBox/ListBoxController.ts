@@ -42,18 +42,19 @@ export class ListBoxController<
     this.selections = selections;
   }
 
-  // @ts-ignore
-  public override setScope(
+  public setScope(
     items: I[],
     selections: SelectionSet<M>,
     orientation: ListOrientation,
   ) {
+    this.items = items;
     this.selections = selections;
-    super.setScope(items, orientation);
+    this.orientation = orientation;
+    this.reorientFocusIndex();
   }
 
   public override addKeyBindings() {
-    document.addEventListener("keydown", this.onKeyUp);
+    document.addEventListener("keyup", this.onKeyUp);
     super.addKeyBindings();
   }
 
@@ -217,7 +218,7 @@ export class ListBoxController<
     }
   };
 
-  private override focusNext() {
+  protected override focusNext() {
     const next = super.focusNext();
     if (this.shifting && this.multiple) {
       this.toggleSelection(this.items[next].id, "keyboard");
@@ -225,7 +226,7 @@ export class ListBoxController<
     return next;
   }
 
-  private override focusPrevious() {
+  protected override focusPrevious() {
     const next = super.focusPrevious();
     if (this.shifting && this.multiple) {
       this.toggleSelection(this.items[next].id);

@@ -27,19 +27,19 @@ export function ListBoxComponent<
   onItemClick,
   onSelection,
   onItemFocused,
-  controller: _,
+  controllerRef: _,
   orientation = "vertical",
   ...rest
 }: Props<T, I, M, E>) {
   const {
-    listbox,
     focusedID,
     queueTask,
+    controller,
     focusInside,
+    listElement,
     focusedIndex,
     setFocusInside,
-    listController,
-  } = useListBoxContext<T, I, M>();
+  } = useListBoxContext<I, M>();
 
   const onItemClickInternal = useCallback(
     (id: string | number, e: MouseEvent<HTMLLIElement>) => {
@@ -56,14 +56,14 @@ export function ListBoxComponent<
       onItemClick?.(id, e);
       setFocusInside(true);
       triggerRef?.current?.focus?.();
-      listController.enterAtIndex(index);
-      listController.toggleSelection(id, "mouse");
+      controller.enterAtIndex(index);
+      controller.toggleSelection(id, "mouse");
     },
-    [listController, onItemClick, triggerRef, setFocusInside],
+    [controller, onItemClick, triggerRef, setFocusInside],
   );
 
   useEffect(() => {
-    const ID = listController.register(({ event, data }) => {
+    const ID = controller.register(({ event, data }) => {
       if (event === "focus") {
         queueTask(() => onItemFocused?.(data.nodeID, data.index));
       } else if (event === "selection") {
@@ -71,11 +71,11 @@ export function ListBoxComponent<
       }
     });
     return () => {
-      listController.remove(ID);
+      controller.remove(ID);
     };
-  }, [listController, onItemFocused, onSelection, queueTask]);
+  }, [controller, onItemFocused, onSelection, queueTask]);
 
-  const mergedRefs = useMergedRefs(listbox, ref);
+  const mergedRefs = useMergedRefs(listElement, ref);
 
   const children = useMemo(
     () =>
@@ -87,20 +87,20 @@ export function ListBoxComponent<
             listItemID={item.id}
             // TODO handle unknown set sizes
             aria-setsize={items.length}
+            ref={controller.cacheRef(i)}
             onClick={onItemClickInternal}
-            ref={listController.cacheRef(i)}
             data-focused={i === focusedIndex}
-            selected={listController.isSelected(item.id, selections)}>
+            selected={controller.isSelected(item.id, selections)}>
             {renderItem(item, i, items)}
           </ListBoxItem>
         );
       }),
     [
       items,
+      controller,
       renderItem,
       selections,
       focusedIndex,
-      listController,
       onItemClickInternal,
     ],
   );
