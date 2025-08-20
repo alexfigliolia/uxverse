@@ -73,7 +73,7 @@ export abstract class KeyboardNavigableList<
 
   protected reorientFocusIndex() {
     if (this.focusIndex >= this.items.length) {
-      this.setFocusIndex(0);
+      this.setFocusIndex(this.items.length - 1);
     }
   }
 
