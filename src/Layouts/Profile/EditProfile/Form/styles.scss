@@ -1,63 +1,54 @@
 @use "Styles/Variables";
 
 .edit-profile-form {
-  display: flex;
-  gap: 1em;
-  justify-content: center;
-  flex-direction: row;
-  flex-wrap: wrap;
   width: 100%;
-  & fieldset {
+  &__fields {
+    padding: var(--layout-padding);
     @include Variables.columnLayout(1em);
-    border: none;
-    width: 100%;
-    position: relative;
     @media (min-width: 1400px) {
-      max-width: 500px;
+      flex-direction: row;
     }
-    & legend {
-      top: 0;
-      left: 0;
-      opacity: 0;
-      pointer-events: none;
-      position: absolute;
+    & fieldset {
+      @include Variables.columnLayout(1em);
+      border: none;
+      width: 100%;
+      position: relative;
+      & legend {
+        top: 0;
+        left: 0;
+        opacity: 0;
+        pointer-events: none;
+        position: absolute;
+      }
     }
   }
-  &>.form-actions {
+  &__actions {
     bottom: 0;
     left: 0;
     position: sticky;
-    flex: 0 0 100%;
     margin-top: 1em;
     background-color: rgba(#fff, 0.25);
     backdrop-filter: blur(5px);
-    padding: 1em;
-    min-width: calc(100% + 2em);
+    padding: 1em var(--layout-padding);
+    width: 100%;
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    justify-content: flex-end;
     border-top-right-radius: 0.5em;
     border-top-left-radius: 0.5em;
     box-shadow: 0em -0.1em 0.5em rgba(#000, 0.2);
-    @media (min-width: 670px) {
-      padding: 1em 1.5em;
-      min-width: calc(100% + 3em);
-    }
-    &>div {
-      width: 100%;
-      max-width: 1040px;
+    &>button {
       display: flex;
-      gap: 1em;
       justify-content: flex-end;
-      &>button {
-        display: flex;
-        justify-content: flex-end;
-        &.cancel-profile-update {
-          padding: 0.5em 1em;
-          border-radius: 0.5em;
-          text-transform: uppercase;
-          font-size: 0.9em;
-          font-weight: 500;
-          border: 2px solid Variables.$gray-text-secondary;
-          color: Variables.$gray-text;
-        }
+      &.cancel-profile-update {
+        padding: 0.5em 1em;
+        border-radius: 0.5em;
+        text-transform: uppercase;
+        font-size: 0.9em;
+        font-weight: 500;
+        border: 2px solid Variables.$gray-text-secondary;
+        color: Variables.$gray-text;
       }
     }
   }

@@ -12,7 +12,7 @@ export function UnfollowButton(props: Props) {
 
   return (
     <UserAction action={action} userType="following" {...props}>
-      {following ? "Following" : "Follow"}
+      {following ? "Unfollow" : "Follow"}
     </UserAction>
   );
 }

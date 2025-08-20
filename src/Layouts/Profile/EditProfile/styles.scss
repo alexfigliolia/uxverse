@@ -2,7 +2,9 @@
 
 .bottom-sheet.edit-profile.in-app-bottom-sheet.above-navigation-bottom-sheet {
   & .sheet {
+    --layout-padding: 1em;
     @media (min-width: 670px) {
+      --layout-padding: 1.5em;
       max-width: 600px;
     }
     @media (min-width: 1400px) {
@@ -18,48 +20,11 @@
   }
   & .closer-button {
     top: 1.75em;
-    right: 1em;
+    right: var(--layout-padding);
     position: fixed;
     z-index: 2;
-    @media(min-width: 670px) {
-      top: 1.75em;
-      right: 1.5em;
-    }
-    @media(min-width: 1400px) {
-      right: calc((100% - (1000px + 1em)) / 2);
-    }
-  }
-  & .edit-profile__heading {
-    @include Variables.columnLayout(1em);
-    align-items: center;
-    margin: 3em auto 0;
-    @media(min-width: 670px) {
-      margin: 2em auto 0;
-    }
-    & .edit-profile__avatar {
-      height: 7em;
-      width: 7em;
-      @media(min-width: 670px) {
-        width: 8em;
-        height: 8em;
-      }
-      & .avatar {
-        --size: 100%;
-      }
-    }
   }
   & .user-avatar-with-info {
-    width: calc(100% - 2em);
-    margin: 2em auto 0.5em;
-    @media(min-width: 670px) {
-      width: calc(100% - 3em);
-      max-width: calc(1000px + 1em);
-    }
-  }
-  & .edit-profile__inputs {
-    padding: 1em 1em 0em;
-    @media(min-width: 670px) {
-      padding: 1.5em 1.5em 0;
-    }
+    padding: 2em var(--layout-padding) 0.5em;
   }
 }

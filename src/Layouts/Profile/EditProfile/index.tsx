@@ -10,9 +10,7 @@ import "./styles.scss";
 
 export const EditProfile = (_: Propless) => {
   const { open, toggle } = use(EditProfileContext);
-
   const nodeCache = createTrapNodeCache(toggle);
-
   return (
     <AboveNavigationBottomSheet
       className="edit-profile"

@@ -50,17 +50,6 @@ export const TabList = (_: Propless) => {
         role="tabpanel"
         className={translate ? "translate" : undefined}>
         <List
-          items={followers}
-          onSearch={searchFollowers}
-          aria-hidden={translate}
-          onSelection={onSelectFollower}
-          renderItem={user => (
-            <ConnectedUser key={user.id} {...user}>
-              {editable && <BlockButton userID={user.id} emitter={emitter} />}
-            </ConnectedUser>
-          )}
-        />
-        <List
           items={following}
           onSearch={searchFollowing}
           aria-hidden={!translate}
@@ -70,6 +59,17 @@ export const TabList = (_: Propless) => {
               {editable && (
                 <UnfollowButton userID={user.id} emitter={emitter} />
               )}
+            </ConnectedUser>
+          )}
+        />
+        <List
+          items={followers}
+          onSearch={searchFollowers}
+          aria-hidden={translate}
+          onSelection={onSelectFollower}
+          renderItem={user => (
+            <ConnectedUser key={user.id} {...user}>
+              {editable && <BlockButton userID={user.id} emitter={emitter} />}
             </ConnectedUser>
           )}
         />

@@ -12,6 +12,11 @@
     pointer-events: none;
     font-weight: 500;
     color: Variables.$black-text-secondary;
+    &>.avatar {
+      @media (min-width: 670px) {
+        --size: 3.5em;
+      }
+    }
     &>div {
       @include Variables.columnLayout(0.1em);
       &>span {
@@ -23,7 +28,9 @@
         &:last-of-type {
           font-weight: 400;
           font-size: 0.9em;
-          color: Variables.$gray-text-secondary;
+          opacity: 0.85;
+          @include Variables.themeGradient(to bottom right);
+          @include Variables.clipText;
         }
       }
     }

@@ -40,41 +40,41 @@ export const EditProfileForm = (_: Propless) => {
 
   return (
     <form ref={form} className="edit-profile-form">
-      <fieldset>
-        <ReducedLetterSpacing Tag="legend">Your Info</ReducedLetterSpacing>
-        <FullNameInput
-          required
-          value={name}
-          name="full-name"
-          onChange={onChange}
-          placeholder="Your Name"
-        />
-        <VisitorHandleInput
-          required
-          name="handle"
-          value={handle}
-          onChange={onChange}
-          placeholder="Handle"
-        />
-        <ProfileBioEditor ref={taskRegister} />
-      </fieldset>
-      <fieldset>
-        <ReducedLetterSpacing Tag="legend">Social Links</ReducedLetterSpacing>
-        <InstagramHandleInput name="instagram" />
-        <TiktokHandleInput name="tiktok" />
-        <FacebookProfileURLInput name="facebook" />
-        <YoutubeHandleInput name="youtube" />
-      </fieldset>
-      <div className="form-actions">
-        <div>
-          <button
-            type="button"
-            className="cancel-profile-update"
-            onClick={clearAndClose}>
-            <ReducedLetterSpacing Tag="span">Cancel</ReducedLetterSpacing>
-          </button>
-          <GradientBorderButton text="Save" />
-        </div>
+      <div className="edit-profile-form__fields">
+        <fieldset>
+          <ReducedLetterSpacing Tag="legend">Your Info</ReducedLetterSpacing>
+          <FullNameInput
+            required
+            value={name}
+            name="full-name"
+            onChange={onChange}
+            placeholder="Your Name"
+          />
+          <VisitorHandleInput
+            required
+            name="handle"
+            value={handle}
+            onChange={onChange}
+            placeholder="Handle"
+          />
+          <ProfileBioEditor ref={taskRegister} />
+        </fieldset>
+        <fieldset>
+          <ReducedLetterSpacing Tag="legend">Social Links</ReducedLetterSpacing>
+          <InstagramHandleInput name="instagram" />
+          <TiktokHandleInput name="tiktok" />
+          <FacebookProfileURLInput name="facebook" />
+          <YoutubeHandleInput name="youtube" />
+        </fieldset>
+      </div>
+      <div className="edit-profile-form__actions">
+        <button
+          type="button"
+          className="cancel-profile-update"
+          onClick={clearAndClose}>
+          <ReducedLetterSpacing Tag="span">Cancel</ReducedLetterSpacing>
+        </button>
+        <GradientBorderButton text="Save" />
       </div>
     </form>
   );

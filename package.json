@@ -12,13 +12,13 @@
     "create-client": "tsx devtools/create-open-api-client/CLI.ts"
   },
   "dependencies": {
-    "@figliolia/bottom-sheet": "^1.7.0",
+    "@figliolia/bottom-sheet": "^1.8.3",
     "@figliolia/classnames": "^1.0.1",
-    "@figliolia/data-structures": "^1.1.1",
+    "@figliolia/data-structures": "^1.2.1",
     "@figliolia/event-emitter": "^1.1.6",
-    "@figliolia/modal-stack": "^2.8.0",
+    "@figliolia/modal-stack": "^2.8.1",
     "@figliolia/page-switch": "^1.0.8",
-    "@figliolia/react-hooks": "^1.7.0",
+    "@figliolia/react-hooks": "^1.7.3",
     "@figliolia/size-observer": "^2.2.0",
     "@serwist/next": "^9.0.14",
     "@tiptap/core": "^3.0.7",

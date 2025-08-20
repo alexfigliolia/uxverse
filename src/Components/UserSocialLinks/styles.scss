@@ -6,9 +6,13 @@
   gap: 1em;
   &>a {
     position: relative;
+    outline: none;
     @include Variables.center;
-    &:hover > svg:last-of-type {
-      opacity: 1;
+    &:hover,
+    &:focus {
+      &> svg:last-of-type {
+        opacity: 1;
+      }
     }
     &:has(.youtube-icon) {
       margin-left: 0.2em;

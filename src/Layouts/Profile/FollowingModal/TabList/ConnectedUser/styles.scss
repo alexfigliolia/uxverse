@@ -19,7 +19,9 @@
         }
         &:last-of-type {
           font-size: 0.8em;
-          color: Variables.$gray-text;
+          opacity: 0.85;
+          @include Variables.themeGradient(to bottom right);
+          @include Variables.clipText;
         }
       }
     }

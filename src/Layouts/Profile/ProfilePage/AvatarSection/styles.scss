@@ -53,6 +53,9 @@
         display: none;
       }
     }
+    &>.edit-profile-button {
+      margin-top: 0.3em;
+    }
     &>.profile-actions {
       gap: 0.75em;
       &>button {
